@@ -1,0 +1,520 @@
+Generation 1:
+Cheese eaten: 218
+Fire eaten: 161
+
+Generation 2:
+Cheese eaten: 291
+Fire eaten: 136
+
+Generation 3:
+Cheese eaten: 635
+Fire eaten: 311
+
+Generation 4:
+Cheese eaten: 220
+Fire eaten: 169
+
+Generation 5:
+Cheese eaten: 422
+Fire eaten: 226
+
+Generation 6:
+Cheese eaten: 637
+Fire eaten: 397
+
+Generation 7:
+Cheese eaten: 632
+Fire eaten: 308
+
+Generation 8:
+Cheese eaten: 597
+Fire eaten: 315
+
+Generation 9:
+Cheese eaten: 779
+Fire eaten: 309
+
+Generation 10:
+Cheese eaten: 667
+Fire eaten: 321
+
+Generation 11:
+Cheese eaten: 803
+Fire eaten: 336
+
+Generation 12:
+Cheese eaten: 791
+Fire eaten: 403
+
+Generation 13:
+Cheese eaten: 1105
+Fire eaten: 534
+
+Generation 14:
+Cheese eaten: 1143
+Fire eaten: 598
+
+Generation 15:
+Cheese eaten: 1246
+Fire eaten: 514
+
+Generation 16:
+Cheese eaten: 1080
+Fire eaten: 384
+
+Generation 17:
+Cheese eaten: 1187
+Fire eaten: 256
+
+Generation 18:
+Cheese eaten: 947
+Fire eaten: 213
+
+Generation 19:
+Cheese eaten: 904
+Fire eaten: 195
+
+Generation 20:
+Cheese eaten: 833
+Fire eaten: 155
+
+Generation 21:
+Cheese eaten: 886
+Fire eaten: 168
+
+Generation 22:
+Cheese eaten: 1105
+Fire eaten: 190
+
+Generation 23:
+Cheese eaten: 1065
+Fire eaten: 178
+
+Generation 24:
+Cheese eaten: 1049
+Fire eaten: 197
+
+Generation 25:
+Cheese eaten: 741
+Fire eaten: 137
+
+Generation 26:
+Cheese eaten: 506
+Fire eaten: 68
+
+Generation 27:
+Cheese eaten: 422
+Fire eaten: 68
+
+Generation 28:
+Cheese eaten: 494
+Fire eaten: 81
+
+Generation 29:
+Cheese eaten: 425
+Fire eaten: 73
+
+Generation 30:
+Cheese eaten: 364
+Fire eaten: 52
+
+Generation 31:
+Cheese eaten: 312
+Fire eaten: 47
+
+Generation 32:
+Cheese eaten: 615
+Fire eaten: 88
+
+Generation 33:
+Cheese eaten: 965
+Fire eaten: 147
+
+Generation 34:
+Cheese eaten: 1032
+Fire eaten: 179
+
+Generation 35:
+Cheese eaten: 1055
+Fire eaten: 182
+
+Generation 36:
+Cheese eaten: 1086
+Fire eaten: 179
+
+Generation 37:
+Cheese eaten: 935
+Fire eaten: 199
+
+Generation 38:
+Cheese eaten: 913
+Fire eaten: 140
+
+Generation 39:
+Cheese eaten: 957
+Fire eaten: 172
+
+Generation 40:
+Cheese eaten: 896
+Fire eaten: 160
+
+Generation 41:
+Cheese eaten: 778
+Fire eaten: 127
+
+Generation 42:
+Cheese eaten: 911
+Fire eaten: 125
+
+Generation 43:
+Cheese eaten: 867
+Fire eaten: 138
+
+Generation 44:
+Cheese eaten: 991
+Fire eaten: 141
+
+Generation 45:
+Cheese eaten: 903
+Fire eaten: 135
+
+Generation 46:
+Cheese eaten: 1081
+Fire eaten: 178
+
+Generation 47:
+Cheese eaten: 836
+Fire eaten: 118
+
+Generation 48:
+Cheese eaten: 782
+Fire eaten: 106
+
+Generation 49:
+Cheese eaten: 815
+Fire eaten: 107
+
+Generation 50:
+Cheese eaten: 793
+Fire eaten: 129
+
+Generation 51:
+Cheese eaten: 869
+Fire eaten: 140
+
+Generation 52:
+Cheese eaten: 897
+Fire eaten: 128
+
+Generation 53:
+Cheese eaten: 894
+Fire eaten: 145
+
+Generation 54:
+Cheese eaten: 800
+Fire eaten: 123
+
+Generation 55:
+Cheese eaten: 886
+Fire eaten: 127
+
+Generation 56:
+Cheese eaten: 665
+Fire eaten: 92
+
+Generation 57:
+Cheese eaten: 492
+Fire eaten: 65
+
+Generation 58:
+Cheese eaten: 931
+Fire eaten: 133
+
+Generation 59:
+Cheese eaten: 810
+Fire eaten: 119
+
+Generation 60:
+Cheese eaten: 838
+Fire eaten: 126
+
+Generation 61:
+Cheese eaten: 938
+Fire eaten: 138
+
+Generation 62:
+Cheese eaten: 717
+Fire eaten: 119
+
+Generation 63:
+Cheese eaten: 685
+Fire eaten: 80
+
+Generation 64:
+Cheese eaten: 642
+Fire eaten: 105
+
+Generation 65:
+Cheese eaten: 825
+Fire eaten: 129
+
+Generation 66:
+Cheese eaten: 656
+Fire eaten: 75
+
+Generation 67:
+Cheese eaten: 756
+Fire eaten: 95
+
+Generation 68:
+Cheese eaten: 794
+Fire eaten: 105
+
+Generation 69:
+Cheese eaten: 727
+Fire eaten: 71
+
+Generation 70:
+Cheese eaten: 812
+Fire eaten: 81
+
+Generation 71:
+Cheese eaten: 834
+Fire eaten: 92
+
+Generation 72:
+Cheese eaten: 685
+Fire eaten: 108
+
+Generation 73:
+Cheese eaten: 789
+Fire eaten: 100
+
+Generation 74:
+Cheese eaten: 733
+Fire eaten: 86
+
+Generation 75:
+Cheese eaten: 945
+Fire eaten: 117
+
+Generation 76:
+Cheese eaten: 933
+Fire eaten: 114
+
+Generation 77:
+Cheese eaten: 696
+Fire eaten: 90
+
+Generation 78:
+Cheese eaten: 938
+Fire eaten: 112
+
+Generation 79:
+Cheese eaten: 925
+Fire eaten: 118
+
+Generation 80:
+Cheese eaten: 787
+Fire eaten: 65
+
+Generation 81:
+Cheese eaten: 844
+Fire eaten: 84
+
+Generation 82:
+Cheese eaten: 833
+Fire eaten: 96
+
+Generation 83:
+Cheese eaten: 968
+Fire eaten: 100
+
+Generation 84:
+Cheese eaten: 879
+Fire eaten: 125
+
+Generation 85:
+Cheese eaten: 852
+Fire eaten: 112
+
+Generation 86:
+Cheese eaten: 817
+Fire eaten: 90
+
+Generation 87:
+Cheese eaten: 909
+Fire eaten: 123
+
+Generation 88:
+Cheese eaten: 982
+Fire eaten: 118
+
+Generation 89:
+Cheese eaten: 829
+Fire eaten: 92
+
+Generation 90:
+Cheese eaten: 985
+Fire eaten: 85
+
+Generation 91:
+Cheese eaten: 961
+Fire eaten: 94
+
+Generation 92:
+Cheese eaten: 827
+Fire eaten: 100
+
+Generation 93:
+Cheese eaten: 931
+Fire eaten: 67
+
+Generation 94:
+Cheese eaten: 897
+Fire eaten: 94
+
+Generation 95:
+Cheese eaten: 863
+Fire eaten: 80
+
+Generation 96:
+Cheese eaten: 815
+Fire eaten: 112
+
+Generation 97:
+Cheese eaten: 866
+Fire eaten: 104
+
+Generation 98:
+Cheese eaten: 828
+Fire eaten: 81
+
+Generation 99:
+Cheese eaten: 951
+Fire eaten: 93
+
+Generation 100:
+Cheese eaten: 952
+Fire eaten: 84
+
+Generation 101:
+Cheese eaten: 817
+Fire eaten: 78
+
+Generation 102:
+Cheese eaten: 744
+Fire eaten: 86
+
+Generation 103:
+Cheese eaten: 881
+Fire eaten: 102
+
+Generation 104:
+Cheese eaten: 735
+Fire eaten: 80
+
+Generation 105:
+Cheese eaten: 948
+Fire eaten: 100
+
+Generation 106:
+Cheese eaten: 951
+Fire eaten: 107
+
+Generation 107:
+Cheese eaten: 870
+Fire eaten: 91
+
+Generation 108:
+Cheese eaten: 833
+Fire eaten: 70
+
+Generation 109:
+Cheese eaten: 858
+Fire eaten: 105
+
+Generation 110:
+Cheese eaten: 782
+Fire eaten: 86
+
+Generation 111:
+Cheese eaten: 775
+Fire eaten: 70
+
+Generation 112:
+Cheese eaten: 901
+Fire eaten: 88
+
+Generation 113:
+Cheese eaten: 1048
+Fire eaten: 107
+
+Generation 114:
+Cheese eaten: 905
+Fire eaten: 94
+
+Generation 115:
+Cheese eaten: 932
+Fire eaten: 118
+
+Generation 116:
+Cheese eaten: 898
+Fire eaten: 101
+
+Generation 117:
+Cheese eaten: 912
+Fire eaten: 102
+
+Generation 118:
+Cheese eaten: 912
+Fire eaten: 80
+
+Generation 119:
+Cheese eaten: 810
+Fire eaten: 93
+
+Generation 120:
+Cheese eaten: 867
+Fire eaten: 110
+
+Generation 121:
+Cheese eaten: 1040
+Fire eaten: 111
+
+Generation 122:
+Cheese eaten: 990
+Fire eaten: 145
+
+Generation 123:
+Cheese eaten: 945
+Fire eaten: 97
+
+Generation 124:
+Cheese eaten: 883
+Fire eaten: 92
+
+Generation 125:
+Cheese eaten: 856
+Fire eaten: 90
+
+Generation 126:
+Cheese eaten: 908
+Fire eaten: 83
+
+Generation 127:
+Cheese eaten: 644
+Fire eaten: 37
+
+Generation 128:
+Cheese eaten: 627
+Fire eaten: 58
+
+Generation 129:
+Cheese eaten: 594
+Fire eaten: 57
+
+Generation 130:
+Cheese eaten: 621
+Fire eaten: 94
+
