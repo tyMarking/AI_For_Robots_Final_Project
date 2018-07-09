@@ -24,7 +24,9 @@ def main():
 		for toNode in graph[node]:
 			dijkGraph.add_edge(node,toNode,1)
 
-
+	dijkGraph.set_start(0)
+	dijkGraph.set_goal(size**2-1)
+	
 	display(graph,size)
 
 

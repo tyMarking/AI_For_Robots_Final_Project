@@ -11,13 +11,13 @@ class Network():
 		nodes = set()
 
 	def getNetworkFromFile(self, file):
-		"""
+		
 		file = open(file,"r")
 		netJson = file.read()
 		netList = json.loads(netJson)
-		"""
+		
 		#netList in form [fromNode, toNode, wieght]
-		netList = [[1,3,1],[2,3,1],[2,4,0.5],[3,3,10],[3,4,1]]
+		# netList = [[1,3,1],[2,3,1],[2,4,0.5],[3,3,10],[3,4,1]]
 		weightDict = {}
 		nodes = set()
 		for netItem in netList:
@@ -34,9 +34,8 @@ class Network():
 		self.nodes = nodes
 
 	def propagate(self, inputs):
-		NUM_INPUTS = 2
+		NUM_INPUTS = 3
 		nodeSum = {}
-		outputs = []
 		activations = {}
 		nodeDones = {}
 		for node in self.nodes:
@@ -54,7 +53,6 @@ class Network():
 			# print("Node: " + str(node)+"\tSum: " +str(nodeSum[node])+"\tA: " + str(activations[node]))
 			# nodeSum[node] = 0
 			if node not in self.weightDict.keys():
-				outputs.append(node)
 				continue
 			for edge in self.weightDict[node]:
 
@@ -64,22 +62,22 @@ class Network():
 
 
 		# print(activations)
-		ret = []
-		for node in outputs:
-			ret.append((node,activations[node]))
-		return ret
+		print("MAX NODE: "+str(max(self.nodes)))
+		return activations[max(self.nodes)]
+
 
 def sig(x):
-	print(x)
-	y = (1/(1+math.exp(-x)))
-	print(y)
+	# print(x)
+	# y = (1/(1+math.exp(-x)))
+	# print(y)
+	y = x
 	return y
 	# return x
 
 
 if __name__ == "__main__":
 	net = Network()
-	net.getNetworkFromFile("Test.json")
-	result = net.propagate([1,-2])
+	net.getNetworkFromFile("Network.json")
+	result = net.propagate([1,2,3])
 	print(result)
 
