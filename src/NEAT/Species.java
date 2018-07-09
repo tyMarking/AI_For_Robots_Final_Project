@@ -1,9 +1,12 @@
 package NEAT;
 
 import java.util.ArrayList;
+import java.awt.Color;
 
 public class Species {
 	private ArrayList<Organism> species = new ArrayList<Organism>();
+
+	public Color color = null;
 	
 	public int getSpeciesSize()
 	{

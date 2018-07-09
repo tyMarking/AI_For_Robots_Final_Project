@@ -7,7 +7,7 @@ public class Speciation {
 	public static double coefficient_Excess = 1.0;
 	public static double coefficient_Disjoint = 1.0;
 	public static double coefficient_Weight = 0.4;
-	public static double delta_threshold = 5.0;
+	public static double delta_threshold = 3;
 	
 	private double weightSum = 0;
 	private int matchCount = 0;
@@ -28,12 +28,15 @@ public class Speciation {
 	{
 		for(i=0;i<Population.getPopulationSize();i++)
 		{
-			if(deltaCompatible(Population.getPopulationElement(i).getSpeciesElement(0).getGenome(), organism.getGenome()) <= delta_threshold)
+		    double delta = deltaCompatible(Population.getPopulationElement(i).getSpeciesElement(0).getGenome(), organism.getGenome());
+            System.out.println("Delta Comparison: "+delta);
+		    if(deltaCompatible(Population.getPopulationElement(i).getSpeciesElement(0).getGenome(), organism.getGenome()) <= delta_threshold)
 			{
 				Population.getPopulationElement(i).addSpecies(organism);
 				organism.addSpecies(Population.getPopulationElement(i));
 				return;
 			}
+
 		}
 		
 		Species newSpecies = new Species();
@@ -50,7 +53,7 @@ public class Speciation {
 
 	public double deltaCompatible(Genome subject, Genome candidate)
 	{
-		//int i; //local i
+		int i; //local i
 		element_subject = 0;
 		element_candidate = 0;
 		
@@ -59,34 +62,29 @@ public class Speciation {
 		weightSum = 0.0;
 		excessCount = 0;
 		
-		//omegaSize = ((subject.getConnectionGenesSize()>candidate.getConnectionGenesSize())?subject.getConnectionGenesSize():candidate.getConnectionGenesSize()); //omega is considered to be genome with the greater number of genes than the other
-		
-		while(subject.getConnectionGenesSize() > element_subject || candidate.getConnectionGenesSize() > element_candidate)
+		omegaSize = ((subject.getConnectionGenesSize()>candidate.getConnectionGenesSize())?subject.getConnectionGenesSize():candidate.getConnectionGenesSize()); //omega is considered to be genome with the greater number of genes than the other
+
+        excessCount = Math.abs(subject.getConnectionGenesSize() - candidate.getConnectionGenesSize());
+		while(subject.getConnectionGenesSize()-1 != element_subject || candidate.getConnectionGenesSize()-1 != element_candidate)
 		{
-			if(element_subject >= subject.getConnectionGenesSize() || element_candidate >= candidate.getConnectionGenesSize())
-			{
-				excessCount++;
-				element_subject++;
-				element_candidate++;
-			}else {
-				innovation_subject = subject.getConnectionGeneElement(element_subject).getInnovation();
-				innovation_candidate = candidate.getConnectionGeneElement(element_candidate).getInnovation();
+		    innovation_subject = subject.getConnectionGeneElement(element_subject).getInnovation();
+		    innovation_candidate = candidate.getConnectionGeneElement(element_candidate).getInnovation();
 			
-				if(innovation_subject == innovation_candidate)
-				{
-					weightSum+=Math.abs(subject.getConnectionGeneElement(element_subject).getWeight() - candidate.getConnectionGeneElement(element_candidate).getWeight());
-					matchCount++;
-					element_subject++;
-					element_candidate++;
-					
-				}else if(innovation_subject > innovation_candidate){
-					disjointCount++;
-					element_candidate++;
-				}else {
-					disjointCount++;
-					element_subject++;
-				}
-			}
+			if(innovation_subject == innovation_candidate) {
+                weightSum+=Math.abs(subject.getConnectionGeneElement(element_subject).getWeight() - candidate.getConnectionGeneElement(element_candidate).getWeight());
+                matchCount++;
+            }else{
+			    disjointCount++;
+            }
+
+            if(element_subject < subject.getConnectionGenesSize()-1)
+            {
+                element_subject++;
+            }
+            if(element_candidate < candidate.getConnectionGenesSize()-1)
+            {
+                element_candidate++;
+            }
 			
 		}
 		
@@ -140,9 +138,9 @@ public class Speciation {
 				element_subject++;
 				
 			}
-		}
-		*/
-		return (((coefficient_Excess*excessCount) + (coefficient_Disjoint*disjointCount))/omegaSize) + (coefficient_Weight*(weightSum/matchCount));
+		}*/
+
+		return (((coefficient_Excess*excessCount)/omegaSize + (coefficient_Disjoint*disjointCount))/omegaSize) + (coefficient_Weight*(weightSum/matchCount));
 
 	}
 }

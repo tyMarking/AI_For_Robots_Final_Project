@@ -1,8 +1,23 @@
 package NEAT;
 
+import java.io.*;
 public class TestForwardProp {
 	Genome testGenome = new Genome();
-	
+
+
+	File testOutput;
+	FileWriter testWriter;
+	public TestForwardProp(){
+		try
+		{
+			testOutput = new File("testOutput.txt");
+			testWriter = new FileWriter(testOutput);
+		}catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args)
 	{
 		int i;
@@ -85,8 +100,48 @@ public class TestForwardProp {
 		Network network1 = new Network();
 		network1.constructNetwork(test.testGenome);
 
+		double[] inputs = {1.0,2.0,3.0};
+
+		int counter = 0;
+        for(double o : inputs)
+        {
+            counter++;
+            try {
+                test.testWriter.write("Input " + counter + ": " + o + "\n");
+                test.testWriter.flush();
+            }catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
 
 		network1.ForwardProp(1.0,2.0,3.0);
+
+		double[] out = network1.output();
+		counter = 0;
+		for(double o : out)
+		{
+			counter++;
+			try {
+				test.testWriter.write("Output " + counter + ": " + o + "\n");
+				test.testWriter.flush();
+			}catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+
+		NetworkJsonEncoder netJson = new NetworkJsonEncoder();
+		netJson.exportNetwork(test.testGenome);
+
+		try {
+			test.testWriter.flush();
+			test.testWriter.close();
+		}catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 		
 		//network.ForwardProp(1.0,2.0,3.0);
 
