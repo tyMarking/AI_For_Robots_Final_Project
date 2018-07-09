@@ -11,13 +11,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-import NEAT.Genome;
-import NEAT.NEAT_Toolchain;
-import NEAT.Organism;
-import NEAT.Population;
+import NEAT.*;
 import NEATImplementation.Cheese;
 import NEATImplementation.Fire;
 import NEATImplementation.Sprite;
+import org.json.*;
+import com.google.gson.*;
 
 public class Board extends JComponent implements ActionListener, KeyListener{
 
@@ -25,11 +24,24 @@ public class Board extends JComponent implements ActionListener, KeyListener{
 
     int population = 100;
 
+    int evaluationIteration = 40000;
+
     boolean toggle = false;
+
+    public int generationCap = 100;
+
+    public int iterationCount = 0;
+
+    private Organism bestFitOrganism;
 
     int x = 500;
     int y = 400;
     int timeSpeed = 1;
+
+    public boolean crunchMode = true;
+    public double starvationAmount = 3.0;
+
+    double InitTime;
 
     long tStart;
     long tEnd;
@@ -40,8 +52,10 @@ public class Board extends JComponent implements ActionListener, KeyListener{
     Fire[] fire = new Fire[30];
     Sprite[] sprite = new Sprite[0];
     int fitness;
-    File file = new File("NEAT.txt");
-    File file1 = new File("NEATProgress.txt");
+    File file = new File("NEATProgress.txt");
+    File file1 = new File("NEAT.txt");
+    File networkExport = new File("NEATFinalNetwork.json");
+    File iteration = new File("Iteration.txt");
 
     ArrayList<Long> cheeses = new ArrayList<Long>();
     ArrayList<Long> fires = new ArrayList<Long>();
@@ -50,11 +64,15 @@ public class Board extends JComponent implements ActionListener, KeyListener{
     int dimensionH = 1280;
     int dimensionV = 800;
 
+    int crunchCap = 10;
+
     double oldOut = 0;
     double foodTime = 0.1;
     double generationT = 0.5;
+    FileWriter iterationWriter;
     FileWriter writer;
     FileWriter writer1;
+    FileWriter writerNetwork;
 
     private final Timer timer = new Timer(1000, this);
 
@@ -101,11 +119,17 @@ public class Board extends JComponent implements ActionListener, KeyListener{
         }
         System.out.println("Initial Population Success");
 
+
+
         try {
             file.createNewFile();
             writer = new FileWriter(file);
             file1.createNewFile();
             writer1 = new FileWriter(file1);
+            networkExport.createNewFile();
+            writerNetwork = new FileWriter(networkExport);
+            iteration.createNewFile();
+            iterationWriter = new FileWriter(iteration);
             // creates a FileWriter Object
 
             // Writes the content to the file
@@ -121,9 +145,14 @@ public class Board extends JComponent implements ActionListener, KeyListener{
         //generationT = 1;
         tStart = System.currentTimeMillis();
         tp = System.currentTimeMillis();
+        while(nTool.getGeneration() < crunchCap)
+        {
+            func();
+        }
         Timer t = new Timer(1, this);
         t.setDelay(timeSpeed);
         t.start();
+
 
 
     }
@@ -149,6 +178,9 @@ public class Board extends JComponent implements ActionListener, KeyListener{
                     bord.writer.close();
                     bord.writer1.flush();
                     bord.writer1.close();
+                    bord.writerNetwork.flush();
+                    bord.writerNetwork.close();
+
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -183,35 +215,31 @@ public class Board extends JComponent implements ActionListener, KeyListener{
 
     protected void paintComponent(Graphics g)
     {
+        if(!crunchMode) {
+            for (i = 0; i < cheese.length; i++) {
+                g.setColor(Color.ORANGE);
+                g.fillRect(cheese[i].x, cheese[i].y, 8, 8);
 
-        for(i=0;i<cheese.length;i++)
-        {
-            g.setColor(Color.ORANGE);
-            g.fillRect(cheese[i].x, cheese[i].y, 8, 8);
-
-        }
-        for(i=0;i<fire.length;i++)
-        {
-            g.setColor(Color.RED);
-            g.fillRect(fire[i].x, fire[i].y, 8, 8);
-        }
-        for(i=0;i<sprite.length;i++)
-        {
-            if(i<=2)
-            {
-                g.setColor(Color.MAGENTA);
-                g.fillOval((int)Math.round(sprite[i].posX), (int)Math.round(sprite[i].posY), 10, 15);
-            }else{
-                g.setColor(Color.BLACK);
-                g.fillOval((int)Math.round(sprite[i].posX), (int)Math.round(sprite[i].posY), 10, 15);
             }
-        }
-        g.setColor(Color.BLACK);
-        if(toggle)
-        {
-            g.drawString("Observation MODE: ", 50, 60);
-        }else {
-            g.drawString("Generation: " + nTool.getGeneration(), 50, 60);
+            for (i = 0; i < fire.length; i++) {
+                g.setColor(Color.RED);
+                g.fillRect(fire[i].x, fire[i].y, 8, 8);
+            }
+            for (i = 0; i < sprite.length; i++) {
+                if (i <= 2) {
+                    g.setColor(Color.MAGENTA);
+                    g.fillOval((int) Math.round(sprite[i].posX), (int) Math.round(sprite[i].posY), 10, 15);
+                } else {
+                    g.setColor(Color.BLACK);
+                    g.fillOval((int) Math.round(sprite[i].posX), (int) Math.round(sprite[i].posY), 10, 15);
+                }
+            }
+            g.setColor(Color.BLACK);
+            if (toggle) {
+                g.drawString("Observation MODE: ", 50, 60);
+            } else {
+                g.drawString("Generation: " + nTool.getGeneration(), 50, 60);
+            }
         }
     }
 
@@ -262,43 +290,72 @@ public class Board extends JComponent implements ActionListener, KeyListener{
     public void func()
     {
 
-
-        int iteration = 10;
+        int iteration;
+        if(InitTime == 0) {
+            InitTime = System.currentTimeMillis();
+        }
         if(toggle)
         {
             //generationT += 10;
-            foodTime = 0.1;
+            foodTime = 0.5;
             iteration = 1;
         }else {
-            iteration = 10;
-            generationT = 10;
-            foodTime = 0.001;
+            iteration = 1;
+            generationT = 2;
+            foodTime = 1/(iteration);
         }
-        if(nTool.getGeneration() > 500)
+        /*if(nTool.getGeneration() > generationCap)
+        {
+            try{
+                Genome bestFitGenome = bestFitOrganism.getGenome();
+                for(ConnectionGene connectionGene: bestFitGenome.getConnectionGenes())
+                {
+                    writerNetwork.write(connectionGene.getOut_ID()+"-->"+connectionGene.getIn_ID()+"-"+connectionGene.getWeight());
+                }
+                writerNetwork.flush();
+                writerNetwork.close();
+                writer.flush();
+                writer.close();
+                writer.close();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }*/
+
+        if(crunchMode && nTool.getGeneration() > crunchCap)
+        {
+            crunchMode = false;
+        }
+
+        if(nTool.getGeneration() > generationCap)
         {
             //iteration = 1;
             //generationT = 10;
             //foodTime = 0.1;
 
+            System.out.println(System.currentTimeMillis() - InitTime);
+            InitTime = System.currentTimeMillis();
             try {
-                writer.write("\n\nCheeses through Generation:\n");
-                for(Long val : cheeses)
-                {
-                    writer.write(String.valueOf(val)+"\n");
-                }
-                writer.write("\n\nFires through Generation:\n");
-                for(Long val : fires)
-                {
-                    writer.write(String.valueOf(val)+"\n");
-                }
 
-                writer.write("\n\nFitnesses through Generation:\n");
-                for(Double val : fitnesses)
-                {
-                    writer.write(String.valueOf(val)+"\n");
-                }
+                Genome bestFitGenome = bestFitOrganism.getGenome();
 
+                ArrayList<ArrayList<Double>> encoder = new ArrayList<ArrayList<Double>>();
+                for(ConnectionGene connectionGene: bestFitGenome.getConnectionGenes())
+                {
+                    ArrayList<Double> tuple = new ArrayList<Double>();
+                    tuple.add((double)connectionGene.getIn_ID());
+                    tuple.add((double)connectionGene.getOut_ID());
+                    tuple.add(connectionGene.getWeight());
+                    encoder.add(tuple);
+                }
+                String json = new Gson().toJson(encoder);
+                writerNetwork.write(json);
+                writerNetwork.flush();
+                writerNetwork.close();
+                iterationWriter.flush();
+                iterationWriter.close();
                 writer.flush();
+                writer.close();
                 writer.close();
                 writer1.flush();
                 writer1.close();
@@ -311,7 +368,9 @@ public class Board extends JComponent implements ActionListener, KeyListener{
         }
 
         for(int count = 0; count < iteration; count++) {
-            if(!toggle) {
+            iterationCount++;
+            System.out.println(iterationCount);
+            if (!toggle && !crunchMode) {
                 tEnd = System.currentTimeMillis();
             }
             for (i = 0; i < sprite.length; i++) {
@@ -321,7 +380,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
                 double distance;
                 for (j = 0; j < cheese.length; j++) {
 
-                    distance = Math.sqrt(Math.pow(cheese[j].x - sprite[i].posX, 2)+Math.pow(cheese[j].y - sprite[i].posY,2));
+                    distance = Math.sqrt(Math.pow(cheese[j].x - sprite[i].posX, 2) + Math.pow(cheese[j].y - sprite[i].posY, 2));
 
                     if (distance < max) {
                         max = distance;
@@ -331,36 +390,34 @@ public class Board extends JComponent implements ActionListener, KeyListener{
 
                 double maxf = 100000;
                 for (j = 0; j < fire.length; j++) {
-                    distance = Math.sqrt(Math.pow(fire[j].x - sprite[i].posX, 2)+Math.pow(fire[j].y - sprite[i].posY,2));
+                    distance = Math.sqrt(Math.pow(fire[j].x - sprite[i].posX, 2) + Math.pow(fire[j].y - sprite[i].posY, 2));
                     if (distance < maxf) {
                         maxf = distance;
                         closestFire = j;
                     }
                 }
 
-                double distanceCheese = Math.sqrt(Math.pow(cheese[closestCheese].x - sprite[i].posX, 2)+Math.pow(cheese[closestCheese].y - sprite[i].posY,2));
-                double distanceFire = Math.sqrt(Math.pow(fire[closestFire].x - sprite[i].posX, 2)+Math.pow(fire[closestFire].y - sprite[i].posY,2));
+                double distanceCheese = Math.sqrt(Math.pow(cheese[closestCheese].x - sprite[i].posX, 2) + Math.pow(cheese[closestCheese].y - sprite[i].posY, 2));
+                double distanceFire = Math.sqrt(Math.pow(fire[closestFire].x - sprite[i].posX, 2) + Math.pow(fire[closestFire].y - sprite[i].posY, 2));
                 double smellSense = 0;
-                if(distanceFire <= distanceCheese) {
-                    smellSense -= 1-normalize(Math.abs(distanceCheese - distanceFire), 0, distanceCheese);
+                if (distanceFire <= distanceCheese) {
+                    smellSense -= 1 - normalize(Math.abs(distanceCheese - distanceFire), 0, distanceCheese);
                     double angle = (Math.toDegrees(Math.atan2(fire[closestFire].x - sprite[i].posX, fire[closestFire].y - sprite[i].posY)));
-                    if(angle<0)
-                    {
-                        angle = normalize(angle,-360, 0);
-                    }else{
-                        angle = normalize(angle,0, 360);
+                    if (angle < 0) {
+                        angle = normalize(angle, -360, 0);
+                    } else {
+                        angle = normalize(angle, 0, 360);
                     }
-                    sprite[i].sprite.getNetwork().ForwardProp(smellSense, angle ,1);
-                }else{
-                    smellSense += 1-normalize(Math.abs(distanceCheese - distanceFire), 0, distanceFire);
+                    sprite[i].sprite.getNetwork().ForwardProp(smellSense, angle, 1);
+                } else {
+                    smellSense += 1 - normalize(Math.abs(distanceCheese - distanceFire), 0, distanceFire);
                     double angle = (Math.toDegrees(Math.atan2(cheese[closestCheese].x - sprite[i].posX, cheese[closestCheese].y - sprite[i].posY)));
-                    if(angle<0)
-                    {
-                        angle = normalize(angle,-360, 0);
-                    }else{
-                        angle = normalize(angle,0, 360);
+                    if (angle < 0) {
+                        angle = normalize(angle, -360, 0);
+                    } else {
+                        angle = normalize(angle, 0, 360);
                     }
-                    sprite[i].sprite.getNetwork().ForwardProp(smellSense, angle ,-1);
+                    sprite[i].sprite.getNetwork().ForwardProp(smellSense, angle, -1);
                 }
 
 
@@ -372,8 +429,8 @@ public class Board extends JComponent implements ActionListener, KeyListener{
 			sprite[i].back.input[0][2] = 1;
 			//sprite[i].back.input[0][4] = 0;
 			sprite[i].back.Start();*/
-            }
-            for (i = 0; i < sprite.length; i++) {
+
+
                 //System.out.println(sprite[i].sprite.getNetwork().getFinalOutputList().length);
                 double rotforce = sprite[i].sprite.getNetwork().getFinalOutputListElement(0) - sprite[i].sprite.getNetwork().getFinalOutputListElement(1);
                 double speed = sprite[i].sprite.getNetwork().getFinalOutputListElement(0) + sprite[i].sprite.getNetwork().getFinalOutputListElement(1);
@@ -403,51 +460,56 @@ public class Board extends JComponent implements ActionListener, KeyListener{
                 if (sprite[i].posY <= 1) {
                     sprite[i].posY = dimensionV - 2;
                 }
-            }
 
-            if(!toggle) {
-                if ((tEnd - tp) / 1000 > foodTime) {
-                    for (i = 0; i < sprite.length; i++) {
-                        sprite[i].sprite.fitness -= 3;
+
+                if (!toggle) {
+                    if ((tEnd - tp) / 1000 > foodTime && !crunchMode) {
+                        for (j = 0; j < sprite.length; j++) {
+                            sprite[i].sprite.fitness -= 3;
+                        }
+                        tp = System.currentTimeMillis();
+                    } else if (crunchMode) {
+                        if (iterationCount % 5900 == 0) {
+                            for (j = 0; j < sprite.length; j++) {
+                                sprite[i].sprite.fitness -= starvationAmount;
+                            }
+                        }
                     }
-                    tp = System.currentTimeMillis();
                 }
-            }
 
-                for (i = 0; i < sprite.length; i++) {
+                for (j = 0; j < cheese.length; j++) {
+                    double imsi = Math.sqrt(((cheese[j].x - sprite[i].posX) * (cheese[j].x - sprite[i].posX)) + ((cheese[j].y - sprite[i].posY) * (cheese[j].y - sprite[i].posY)));
+                    if (imsi <= 10) {
 
-                    for (j = 0; j < cheese.length; j++) {
-                        double imsi = Math.sqrt(((cheese[j].x - sprite[i].posX) * (cheese[j].x - sprite[i].posX)) + ((cheese[j].y - sprite[i].posY) * (cheese[j].y - sprite[i].posY)));
-                        if (imsi <= 10) {
-
-                            PosCheese(j);
-                            if(!toggle) {
-                                ++eatC;
-                                sprite[i].sprite.fitness += 60;
-                            }
+                        PosCheese(j);
+                        if (!toggle) {
+                            ++eatC;
+                            sprite[i].sprite.fitness += 60;
                         }
                     }
+                }
 
-                    for (j = 0; j < fire.length; j++) {
-                        double imsi = Math.sqrt(((fire[j].x - sprite[i].posX) * (fire[j].x - sprite[i].posX)) + ((fire[j].y - sprite[i].posY) * (fire[j].y - sprite[i].posY)));
-                        if (imsi <= 10) {
-                            PosFire(j);
-                            if(!toggle) {
-                                ++eatF;
-                                sprite[i].sprite.fitness = -80;
-                            }
+                for (j = 0; j < fire.length; j++) {
+                    double imsi = Math.sqrt(((fire[j].x - sprite[i].posX) * (fire[j].x - sprite[i].posX)) + ((fire[j].y - sprite[i].posY) * (fire[j].y - sprite[i].posY)));
+                    if (imsi <= 10) {
+                        PosFire(j);
+                        if (!toggle) {
+                            ++eatF;
+                            sprite[i].sprite.fitness = -80;
                         }
                     }
+                }
 			/*if(sprite[i].fitness <=0)
 			{
 				sprite[i] = format(sprite[i]);
 				PosSprite(i);
 			}*/
-                }
 
+
+            }
         }
         //main.Selection(sprite);
-        if((tEnd - tStart)/1000 > generationT)
+        if((tEnd - tStart)/1000 > generationT || (crunchMode && iterationCount > evaluationIteration))
         {
 			/*Sprite[] spr = new Sprite[(int)(sprite.length*0.9)];
 			for(i=0;i<(int)sprite.length*0.9;i++)
@@ -455,6 +517,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
 				spr[i] = sprite[i];
 			}
 			sprite = spr;*/
+
             for(i=0;i<sprite.length;i++)
             {
                 if(sprite[i].sprite.fitness < 0)
@@ -462,7 +525,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
                     sprite[i].sprite.fitness = 0;
                 }
             }
-            nTool.EvaluateGeneration();
+            bestFitOrganism = nTool.EvaluateGeneration();
 
             int count = 0;
             for(i=0;i<Population.getPopulationSize();i++)
@@ -493,10 +556,13 @@ public class Board extends JComponent implements ActionListener, KeyListener{
                 cheese[i] = new Cheese();
                 PosCheese(i);
             }
-            tStart = System.currentTimeMillis();
+
+            if(!crunchMode) {
+                tStart = System.currentTimeMillis();
+            }
             //fitness=(int)main.fitSum;
             //sprite = main.ranking(sprite);
-            try {
+            /*try {
                 writer.write("Generation "+nTool.getGeneration()+":\n");
                 writer.write("Cheese eaten: "+eatC+"\n");
                 writer.write("Fire eaten: "+eatF+"\n\n");
@@ -507,7 +573,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
                 // TODO Auto-generated catch block
                 System.out.println("Cannot Print!");
                 e1.printStackTrace();
-            }
+            }*/
             for(i=0;i<sprite.length;i++)
             {
                 sprite[i].sprite.fitness = 0;
@@ -517,6 +583,21 @@ public class Board extends JComponent implements ActionListener, KeyListener{
             System.out.println("Cheese: "+eatC);
             System.out.println("Fire: "+eatF);
             System.out.println("Fitness: "+Population.getTotalFitness()+"\n\n\n");
+
+            System.out.println("Iteration Count in "+generationT+": "+iterationCount);
+            try{
+                iterationWriter.write(String.valueOf(iterationCount)+"\n");
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            iterationCount = 0;
+
+            try {
+                writer.write(String.valueOf(Population.getTotalFitness() / Population.getPopulationSize())+"\n");
+                writer.flush();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
             cheeses.add(eatC);
             fires.add(eatF);
             fitnesses.add(Population.getTotalFitness());
@@ -524,6 +605,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
             eatC = 0;
             eatF = 0;
         }
+
 
 
 		/*if(sprite[0].fitness > 1+main.generation && sprite[1].fitness > 1+main.generation)
@@ -536,7 +618,9 @@ public class Board extends JComponent implements ActionListener, KeyListener{
 			main.generation++;
 		}*/
 
-        repaint();
+		if(!crunchMode) {
+            repaint();
+        }
 
     }
     public void actionPerformed(ActionEvent e)

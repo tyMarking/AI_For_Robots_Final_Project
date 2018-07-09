@@ -57,7 +57,7 @@ public class Population {
 		}
 	}*/
 
-	public static void rankAllOrganisms()
+	public static Organism rankAllOrganisms()
 	{
 		int i;
 		int j;
@@ -130,6 +130,7 @@ public class Population {
 		System.out.println("\n\n");
 
 		sumTotalFitness += totalFitness;
+		return population.get(best).getSpeciesElement(0);
 	}
 	
 	public static Organism[] generateLocalPopulation(int amount, Organism organism)

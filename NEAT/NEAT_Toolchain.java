@@ -47,6 +47,7 @@ public class NEAT_Toolchain {
 		return network;
 	}
 
+
 	public Speciation getSpeciationComponent()
 	{
 		return speciation;
@@ -95,14 +96,14 @@ public class NEAT_Toolchain {
 		}
 	}
 
-	public void EvaluateGeneration()
+	public Organism EvaluateGeneration()
 	{
 		int i;
 
 		Organism[] offsprings;
 		//resetInnovationList();
 
-		Population.rankAllOrganisms();
+		Organism bestfit = Population.rankAllOrganisms();
 		offsprings = Population.generateNewPopulation();
 		Population.removePopulation();
 
@@ -112,6 +113,8 @@ public class NEAT_Toolchain {
 			offsprings[i].setNetwork(network.constructNetwork(offsprings[i].getGenome()));
 			speciation.speciation(offsprings[i]);
 		}
+
+		return bestfit;
 
 	}
 

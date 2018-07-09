@@ -17,6 +17,8 @@ public class Genome {
 	{
 		return nodeGenes;
 	}
+
+	public ArrayList<ConnectionGene> getConnectionGenes(){return connectionGenes;}
 	
 	public int getOutputCount()
 	{
