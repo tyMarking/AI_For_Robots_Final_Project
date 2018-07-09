@@ -51,6 +51,7 @@ class Network():
 			a = sig(nodeSum[node])
 			nodeSum[node] = 0
 			activations[node] = a
+			print("Node: " + str(node)+"\tSum: " +str(nodeSum[node])+"\tA: " + str(activations[node]))
 			# nodeSum[node] = 0
 			if node not in self.weightDict.keys():
 				outputs.append(node)
@@ -62,7 +63,7 @@ class Network():
 					activations[edge[0]] = sig(nodeSum[edge[0]])
 
 
-		print(nodeSum)
+		print(activations)
 
 def sig(x):
 	y = (1/(1+math.exp(-x)))
