@@ -17,7 +17,7 @@ def graphit(robotList):
             if robot:
                 count += 1
                 robot.set_wheel(0,10)
-                robot.set_wheel(1,12)
+                robot.set_wheel(1,11)
 
                 prox = (robot.get_proximity(0),robot.get_proximity(1))
                 print("Prox L: " + str(prox[0]) + "\tProx R: " + str(prox[1]))
@@ -35,6 +35,15 @@ def graphit(robotList):
                     plt.plot(proxR, label='Right Sensor')
                     plt.legend(loc=2)
                     fig.savefig("Fig: " + str(superCount))
+
+                     #sensorData = sensorData + superCount
+
+                    popJson = json.dumps(proxL)
+                    popJson = json.dumps(proxR)
+                    popJson = json.dumps(proxL, proxR)
+                    sensorData = open(file, "w")
+                    sensorData.truncate(0)
+                    sensorData.write(popJson)
                     # plt.show()
 
 def main():
