@@ -49,9 +49,11 @@ class Network():
 			nodeDones[node] = True
 			a = sig(nodeSum[node])
 			nodeSum[node] = 0
+
 			activations[node] = a
 			# print("Node: " + str(node)+"\tSum: " +str(nodeSum[node])+"\tA: " + str(activations[node]))
-			# nodeSum[node] = 0
+			# nodeSum[node] = 
+
 			if node not in self.weightDict.keys():
 				continue
 			for edge in self.weightDict[node]:
@@ -62,15 +64,14 @@ class Network():
 
 
 		# print(activations)
-		print("MAX NODE: "+str(max(self.nodes)))
-		return activations[max(self.nodes)]
+		return activations[max(self.nodes)]*2-1
 
 
 def sig(x):
 	# print(x)
-	# y = (1/(1+math.exp(-x)))
+	y = (1/(1+math.exp(-x)))
 	# print(y)
-	y = x
+	# y = x
 	return y
 	# return x
 
@@ -78,6 +79,6 @@ def sig(x):
 if __name__ == "__main__":
 	net = Network()
 	net.getNetworkFromFile("Network.json")
-	result = net.propagate([1,2,3])
+	result = net.propagate([4,4,3])
 	print(result)
 

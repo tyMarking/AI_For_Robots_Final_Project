@@ -3,6 +3,7 @@ import threading
 import time
 from HamsterAPI.comm_ble import *
 import sys
+import json
 import Tkinter as tk
 
 
@@ -38,9 +39,10 @@ def graphit(robotList):
 
                      #sensorData = sensorData + superCount
 
-                    popJson = json.dumps(proxL)
-                    popJson = json.dumps(proxR)
-                    popJson = json.dumps(proxL, proxR)
+                    # popJson = json.dumps(proxL)
+                    # popJson = json.dumps(proxR)
+                    popJson = json.dumps((proxL, proxR))
+                    file = "data.json"
                     sensorData = open(file, "w")
                     sensorData.truncate(0)
                     sensorData.write(popJson)
