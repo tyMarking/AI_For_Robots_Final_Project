@@ -1,0 +1,15 @@
+/ConnectionGene.class
+/Crossover.class
+/Genome.class
+/Mutation.class
+/NEAT_Toolchain.class
+/Network.class
+/Node.class
+/NodeGene.class
+/Organism.class
+/PhenotypeEncoder.class
+/Population.class
+/Speciation.class
+/Species.class
+/TestForwardProp.class
+/Testrandom.class
