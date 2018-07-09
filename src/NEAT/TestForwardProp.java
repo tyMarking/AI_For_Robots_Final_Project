@@ -30,13 +30,22 @@ public class TestForwardProp {
 			test.testGenome.addNodeGene(new NodeGene());
 		}
 		
-		for(i=0;i<5;i++)
+		for(i=0;i<3;i++)
 		{
 			test.testGenome.addNodeGene(new NodeGene());
 		}
+
+
+		test.addConnection(4,1,1,true,test);
+		test.addConnection(5,1,1,true,test);
+		test.addConnection(4,2,1,true,test);
+		test.addConnection(5,2,1,true,test);
+		test.addConnection(5,3,1,true,test);
+		test.addConnection(7,4,1,true,test);
+		test.addConnection(6,4,1,true,test);
+		test.addConnection(7,6,1,true,test);
 		
-		
-		test.addConnection(5, 1, 0.1, true, test);
+		/*test.addConnection(5, 1, 0.1, true, test);
 		test.addConnection(1, 5, 0.1, true, test);
 		test.addConnection(6, 1, 0.2, true, test);
 		test.addConnection(4, 1, 0.3, true, test);
@@ -57,7 +66,7 @@ public class TestForwardProp {
 		test.addConnection(6, 8, 0.1, true, test);
 		test.addConnection(5, 8, 0.1, true, test);
 		test.addConnection(7, 9, 0.1, true, test);
-		test.addConnection(4, 9, 0.1, true, test);
+		test.addConnection(4, 9, 0.1, true, test);*/
 		
 		
 		
@@ -100,7 +109,7 @@ public class TestForwardProp {
 		Network network1 = new Network();
 		network1.constructNetwork(test.testGenome);
 
-		double[] inputs = {1.0,2.0,3.0};
+		double[] inputs = {4.0,4.0,3.0};
 
 		int counter = 0;
         for(double o : inputs)
@@ -116,12 +125,12 @@ public class TestForwardProp {
         }
 
 
-		network1.ForwardProp(1.0,2.0,3.0);
+		network1.ForwardProp(4.0,4.0,3.0);
 
-		double[] out = network1.output();
 		counter = 0;
-		for(double o : out)
+		for(double o : network1.output())
 		{
+			System.out.println(o);
 			counter++;
 			try {
 				test.testWriter.write("Output " + counter + ": " + o + "\n");
