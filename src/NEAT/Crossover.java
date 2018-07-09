@@ -85,9 +85,14 @@ public class Crossover {
 		
 		int omegaSize_connection = ((organism_1.getGenome().getConnectionGenesSize()>organism_2.getGenome().getConnectionGenesSize())?organism_1.getGenome().getConnectionGenesSize():organism_2.getGenome().getConnectionGenesSize());
 		int i;
+
+		int connectionDifference = Math.abs(organism_1.getGenome().getConnectionGenesSize() - organism_2.getGenome().getConnectionGenesSize());
+
+		//for(i=omegaSize_connection - connectionDifference;i<omegaSize_connection)
+
+		//while(organism_1)
 		
-		
-		for(i=0;i<omegaSize_connection;i++)
+		/*for(i=0;i<omegaSize_connection;i++)
 		{
 			innovation_1 = genome_1.getConnectionGeneElement(element_genome_1).getInnovation();
 			innovation_2 = genome_2.getConnectionGeneElement(element_genome_2).getInnovation();
@@ -179,7 +184,7 @@ public class Crossover {
 				element_genome_2++;
 			}
 			
-		}
+		}*/
 		addNodes(offspring);
 		return offspring;
 		
