@@ -9,9 +9,6 @@ public class Network {
 	private int outputCount = 0;
 	private int inputCount = 0;
 	private double[] final_output_list = null;
-	protected boolean[] isRecurrentList = null;
-
-	protected ArrayList<ArrayList<Integer>> recurrentElements = new ArrayList<ArrayList<Integer>>();
 
 	public void addNode(int ID, int Layer)
 	{
@@ -31,6 +28,10 @@ public class Network {
 		for(i=0;i<genome.getNodeGeneSize();i++)
 		{
 			this.addNode(genome.getNodeGeneElement(i).getID(), genome.getNodeGeneElement(i).getLayer());
+			if(i >= genome.getNodeGeneSize() - genome.getOutputCount())
+			{
+				nodes.get(i).ifOutput = true;
+			}
 		}
 		for(i=0;i<genome.getConnectionGenesSize();i++)
 		{
