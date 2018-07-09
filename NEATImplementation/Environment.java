@@ -20,7 +20,8 @@ class Agent extends JComponent{
 	double speed = 1;
 	double angle = 0;
 	int size = 100;
-	double x = 100, y = -100;
+	double x = 100, y = 100;
+	double x1, x2, x3, x4, y1, y2, y3, y4;
 	long currentTime =  System.currentTimeMillis();
 
 	//Hamster Parameters
@@ -35,7 +36,9 @@ class Agent extends JComponent{
 	boolean updateAngle = true;
 	double deltaAngle = 0;
 	
-	public Agent() {
+	public Agent(int x, int y) {
+		this.x = x;
+		this.y = -y;
 		setSize(width, height);
 	}
 	
@@ -50,15 +53,15 @@ class Agent extends JComponent{
         double a3 = angle + 5*pi4;
         double a4 = angle + 7*pi4;
 
-        double x1 = 20*Math.sqrt(2) * Math.cos(a1) + x;
-        double x2 = 20*Math.sqrt(2) * Math.cos(a2) + x;
-        double x3 = 20*Math.sqrt(2) * Math.cos(a3) + x;       
-        double x4 = 20*Math.sqrt(2) * Math.cos(a4) + x;
+        x1 =20*Math.sqrt(2) * Math.cos(a1) + x;
+        x2 =20*Math.sqrt(2) * Math.cos(a2) + x;
+        x3 =20*Math.sqrt(2) * Math.cos(a3) + x;       
+        x4 =20*Math.sqrt(2) * Math.cos(a4) + x;
 
-        double y1 = 20*Math.sqrt(2) * Math.sin(a1) - y;
-        double y2 = 20*Math.sqrt(2) * Math.sin(a2) - y;
-        double y3 = 20*Math.sqrt(2) * Math.sin(a3) - y;
-        double y4 = 20*Math.sqrt(2) * Math.sin(a4) - y;
+        y1 = 20*Math.sqrt(2) * Math.sin(a1) - y;
+        y2 = 20*Math.sqrt(2) * Math.sin(a2) - y;
+        y3 = 20*Math.sqrt(2) * Math.sin(a3) - y;
+        y4 = 20*Math.sqrt(2) * Math.sin(a4) - y;
         
         Polygon robot = new Polygon();
         
@@ -67,7 +70,7 @@ class Agent extends JComponent{
         robot.addPoint((int)x2, (int)y2);
         robot.addPoint((int)x1, (int)y1);
         
-        g2d.draw(robot);
+        g2d.fillPolygon(robot);
 	}
 	public void update(long time) {
 		double deltaT = currentTime/1000.0 - time/1000.0;
@@ -84,8 +87,8 @@ class Agent extends JComponent{
 		x = newX;
 		y = newY;
 		angle = newAngle;
-		System.out.println(x + " - " +  y);
 		currentTime = time;
+		System.out.println(x + " - " + y);
 	}
 	
 	public double distance(double x1, double y1, double x2, double y2) {
@@ -97,13 +100,14 @@ class Agent extends JComponent{
 	    double angle = Math.toDegrees(Math.atan2(x2 - x1, y2 - y1));
 	    // Keep angle between 0 and 360
 	    angle = angle + Math.ceil( -angle / 360 ) * 360;
-
 	    return angle;
 	}
 }
+
 class Object extends JComponent{
 	int x = 0;
 	int y = 0;
+	double x1, x2, x3, x4, y1, y2, y3, y4;
 	
 	int size = 100;
 	double facing = 45;
@@ -122,16 +126,24 @@ class Object extends JComponent{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(c);
-		g.fillOval(x + (int)(size/2.0), y + (int)(size/2.0), size, size);
+		x1 = x + size/2.0;
+        x2 = x - size/2.0;
+        x3 = x + size/2.0;   
+        x4 = x - size/2.0;
+
+        y1 = y + size/2.0;
+        y2 = y - size/2.0;
+        y3 = y + size/2.0;
+        y4 = y - size/2.0;
+        
+		g.fillRect(x + (int)(size/2.0), y + (int)(size/2.0), size, size);
 	}
 	public void update() {
 		//x += Math.sin(Math.toRadians(facing))*speed;
 		//y += Math.cos(Math.toRadians(facing))*speed;
 	}
 	public boolean checkCol(Agent a) {
-		if(distance(x,y,a.x,a.y) < size) {
-			return true;
-		}
+		
 		return false;
 	}
 	public double distance(double x1, double y1, double x2, double y2) {
@@ -185,29 +197,28 @@ class Environment extends JFrame {
     public static void main(String[] args) {
     	Environment envi = new Environment();
     	
-    	Agent a = new Agent();
+    	Agent a = new Agent(450,450);
     	Object o = new Object(100,100);
     	envi.add(a);
     	a.add(o);
     	int counter = 0;
-    	
+
+		a.rightSpeed = 30;
+		a.leftSpeed = 50;
     	while(true) {
     		//Repaints GUI, triggering refresh of all jComp's
     		envi.getContentPane().validate();
     		envi.getContentPane().repaint();
     		
     		// Calls agents update function
-    		a.rightSpeed = 30;
-    		a.leftSpeed = 50;
+    		
     		a.update(System.currentTimeMillis());
     		
-    		
-    		counter += 1;
-    		try {
+    		/*try {
 				Thread.sleep(1);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
-			}
+			}*/
     	}
     }
     public static void print(String input) {
