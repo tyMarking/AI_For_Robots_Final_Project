@@ -1,31 +1,30 @@
 import Tkinter as tk
 import random
 import time
-from graph_with_edge_cost as Dijk
+import starter_bfs as Bfs
 def main():
 	#Num to generate
 	size = 4
 	graph = {}
 	for i in range(size**2):
-		graph[i] = set()
+		graph[i] = []
 	for node in range(size**2):
 		if node % size != size-1 and random.random() < 0.5:
-			graph[node].add(node+1)
-			graph[node+1].add(node)
+			graph[node].append(node+1)
+			graph[node+1].append(node)
 		if node < size**2-size and random.random() < 0.5:
-			graph[node].add(node+size)
-			graph[node+size].add(node)
+			graph[node].append(node+size)
+			graph[node+size].append(node)
 
 	print graph
-	dijkGraph = Dijk.Graph()
-	for node in graph.keys():
-		dijkGraph.add_node(node,None)
-	for node in graph.keys():
-		for toNode in graph[node]:
-			dijkGraph.add_edge(node,toNode,1)
+	
+	bfs = Bfs.BFS(graph)
+	numPaths = len(bfs.bfs_paths(0,size**2-1))
+	print(numPaths)
 
 
 	display(graph,size)
+
 
 
 def display(graph, size):
