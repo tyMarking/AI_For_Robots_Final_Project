@@ -11,7 +11,10 @@ public class Node {
 	public boolean isWaiting = false;
 	public boolean ifOutput = false;
 	public int ID = 0;
+	public boolean activated = false;
 	public boolean hasBeen = false;
+
+	public double priority = 0;
 
 	private ArrayList<Node> input_nodes = new ArrayList<Node>();
 	private ArrayList<Node> output_nodes = new ArrayList<Node>();

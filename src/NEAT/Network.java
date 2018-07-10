@@ -10,6 +10,7 @@ public class Network {
 	private int outputCount = 0;
 	private int inputCount = 0;
 	private double[] final_output_list = null;
+	ArrayList<Node> computeOrder = new ArrayList<Node>();
 
 	public void addNode(int ID, int Layer)
 	{
@@ -46,12 +47,52 @@ public class Network {
 		{
 			if(i<inputCount)
 			{
+                this.getNodeElement(i).activated = true;
 				this.getNodeElement(i).ifInput = true;
+                computeOrder.add(nodes.get(i));
 			}
 		}
-
+		computeOrder();
 		return this;
 	}
+
+	public void computeOrder(){
+        while(computeOrder.size() < nodes.size()-1)
+        {
+            double max = Double.MIN_VALUE;
+            Node highPriority = null;
+
+            for(Node node : nodes)
+            {
+                if(!node.ifInput && !node.activated)
+                {
+                    int activated = 0;
+                    for(int j=0;j<node.getInputSize();j++)
+                    {
+                        if(node.getInputElement(j).activated)
+                        {
+                            activated++;
+                        }
+                    }
+                    node.priority = (double)(activated)/(node.getInputSize());
+                }
+            }
+
+            for(Node node :nodes) {
+                if (node.priority > max) {
+
+                    max = node.priority;
+                    highPriority = node;
+                }
+            }
+            highPriority.activated = true;
+            computeOrder.add(highPriority);
+            System.out.println(computeOrder);
+            for(Node node :nodes) {
+                node.priority = 0;
+            }
+        }
+    }
 
 	public int getInputCount()
 	{
@@ -152,6 +193,11 @@ public class Network {
 			System.out.println("All inputs not defined (NULL)");
 		}
 
+		for(Node node : computeOrder)
+        {
+            System.out.println(node.ID);
+        }
+
   /*int i;
   double[] memoi = null;
   final_output_list = new double[outputCount];
@@ -167,7 +213,7 @@ public class Network {
 
 		//Order to Forward Propagate
 
-		ArrayList<Node> qeue = new ArrayList<Node>();
+		/*ArrayList<Node> qeue = new ArrayList<Node>();
 		int currentSize = 0;
 
 		for(i=0;i<inputCount;i++)
@@ -271,7 +317,7 @@ public class Network {
 			this.getNodeElement(i).sethasBeen(false);
 			this.getNodeElement(i).isWaiting = false;
 		}
-		formatFinalOutputList(output());
+		formatFinalOutputList(output());*/
 	}
 
 

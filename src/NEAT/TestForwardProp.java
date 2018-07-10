@@ -36,7 +36,7 @@ public class TestForwardProp {
 		}
 
 
-		test.addConnection(4,1,1,true,test);
+		/*test.addConnection(4,1,1,true,test);
 		test.addConnection(5,1,1,true,test);
 		test.addConnection(4,2,1,true,test);
 		test.addConnection(5,2,1,true,test);
@@ -45,7 +45,7 @@ public class TestForwardProp {
 		test.addConnection(5,3,1,true,test);
 		test.addConnection(7,4,1,true,test);
 		test.addConnection(6,4,1,true,test);
-		test.addConnection(7,6,1,true,test);
+		test.addConnection(7,6,1,true,test);*/
 		
 		/*test.addConnection(5, 1, 0.1, true, test);
 		test.addConnection(1, 5, 0.1, true, test);
