@@ -88,9 +88,21 @@ public class Crossover {
 
 		int connectionDifference = Math.abs(organism_1.getGenome().getConnectionGenesSize() - organism_2.getGenome().getConnectionGenesSize());
 
-		//for(i=omegaSize_connection - connectionDifference;i<omegaSize_connection)
+		for(i=omegaSize_connection - connectionDifference;i<omegaSize_connection;i++)
+        {
+            if(alpha.getConnectionGenesSize() == omegaSize_connection)
+            {
+                offspring.addConnectionGene(alpha.getConnectionGeneElement(i));
+            }
+        } //Puts excess elements into the offspring network
 
-		//while(organism_1)
+		while(genome_1.getConnectionGenesSize()-1 > element_genome_1 || genome_2.getConnectionGenesSize()-1 > element_genome_2)
+        {
+            innovation_1 = genome_1.getConnectionGeneElement(element_genome_1).getInnovation();
+            innovation_2 = genome_2.getConnectionGeneElement(element_genome_2).getInnovation();
+
+            //if(innovation_1)
+        }
 		
 		/*for(i=0;i<omegaSize_connection;i++)
 		{

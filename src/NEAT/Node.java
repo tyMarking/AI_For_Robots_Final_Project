@@ -8,9 +8,10 @@ public class Node {
 	private double output = 0;
 	//public int Layer = 0;
 	public boolean ifInput = false;
+	public boolean isWaiting = false;
 	public boolean ifOutput = false;
 	public int ID = 0;
-	private boolean hasBeen = false;
+	public boolean hasBeen = false;
 
 	private ArrayList<Node> input_nodes = new ArrayList<Node>();
 	private ArrayList<Node> output_nodes = new ArrayList<Node>();
@@ -117,5 +118,7 @@ public class Node {
 	{
 		return (1/(1+Math.exp(-x)));
 	}
-	private double negSigmoid(double x){return (1/1+Math.exp(-x))*2-1;}
+	private double negSigmoid(double x){
+		return (1/(1+Math.exp(-x)))*2-1;
+	}
 }

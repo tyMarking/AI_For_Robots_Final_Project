@@ -1,5 +1,6 @@
 package NEAT;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class Network {
@@ -134,12 +135,9 @@ public class Network {
 
 	public void ForwardProp(double... inputs) //Assuming that nodes list is stored in consecutive order by ID, hence also the Layers
 	{
-
 		int i;
 		int j;
 		int k;
-
-		System.out.println(inputCount);
 
 		if(inputs.length == inputCount)
 		{
@@ -170,7 +168,7 @@ public class Network {
 
 		ArrayList<Node> qeue = new ArrayList<Node>();
 		int currentSize = 0;
-		
+
 		for(i=0;i<inputCount;i++)
 		{
 			qeue.add(this.getNodeElement(i));
@@ -179,21 +177,57 @@ public class Network {
 		for(i=0;i<qeue.size();)
 		{
 			currentSize = qeue.size();
-
 			for(j=0;j<currentSize;j++)
 			{
-				if(!qeue.get(j).ifInput) {
+				ArrayList<Node> waitList = new ArrayList<Node>();
+				for(k=0;k<qeue.get(j).getInputSize();k++)
+				{
+					if(!qeue.get(j).getInputElement(k).isWaiting && qeue.get(j).getInputElement(k).getNodeOutput() == 0)
+					{
+						qeue.get(j).isWaiting = true;
+						waitList.add(qeue.get(j));
+					}
+				}
+
+
+				for(int count = 0;count<waitList.size();count++)
+				{
+					for(k=0;k<waitList.get(count).getInputSize();k++)
+					{
+						if(!waitList.get(count).getInputElement(k).isWaiting && waitList.get(count).getInputElement(k).getNodeOutput() == 0)
+						{
+							waitList.get(count).getInputElement(k).isWaiting = true;
+							waitList.add(waitList.get(count).getInputElement(k));
+						}
+					}
+				}
+
+				for(int count=waitList.size()-1;count>=0;count--)
+				{
+					Node node = waitList.get(count);
+					node.activate();
+					for(k=0;k<node.getOutputSize();k++)
+					{
+						double sum = node.getOutputElement(k).getSum() + (node.getNodeOutput() * node.getWeightElement(k));
+						node.getOutputElement(k).setSum(sum);
+						System.out.println("Node "+node.ID+" has value "+node.getNodeOutput()+" WEIGHT "+node.getWeightElement(k)+"Total output: "+(node.getNodeOutput() * node.getWeightElement(k))+" Passing to Node "+node.getOutputElement(k).ID);
+
+						node.sethasBeen(true);
+					}
+				}
+				if(!qeue.get(j).ifInput && !qeue.get(j).isWaiting)
+				{
 					qeue.get(j).activate();
 				}
-				if(!qeue.get(j).hasBeen())
+
+				if(!qeue.get(j).hasBeen() && !qeue.get(j).isWaiting)
 				{
 					for(k=0;k<qeue.get(j).getOutputSize();k++)
 					{
 						double sum = qeue.get(j).getOutputElement(k).getSum() + (qeue.get(j).getNodeOutput() * qeue.get(j).getWeightElement(k));
 						qeue.get(j).getOutputElement(k).setSum(sum);
-						System.out.println(qeue.get(j).getOutputElement(k).getSum());
-						//System.out.println("Node "+qeue.get(j).ID+" has value "+qeue.get(j).getNodeOutput()+" WEIGHT "+qeue.get(j).getWeightElement(k)+"Total output: "+(qeue.get(j).getNodeOutput() * qeue.get(j).getWeightElement(k))+" Passing to Node "+qeue.get(j).getOutputElement(k).ID);
-						if(!qeue.get(j).getOutputElement(k).hasBeen())
+						System.out.println("Node "+qeue.get(j).ID+" has value "+qeue.get(j).getNodeOutput()+" WEIGHT "+qeue.get(j).getWeightElement(k)+"Total output: "+(qeue.get(j).getNodeOutput() * qeue.get(j).getWeightElement(k))+" Passing to Node "+qeue.get(j).getOutputElement(k).ID);
+						if(!qeue.get(j).getOutputElement(k).hasBeen() && !qeue.get(j).isWaiting)
 						{
 							qeue.add(qeue.get(j).getOutputElement(k));
 						}
