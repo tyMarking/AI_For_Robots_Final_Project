@@ -30,7 +30,7 @@ public class TestForwardProp {
 			test.testGenome.addNodeGene(new NodeGene());
 		}
 		
-		for(i=0;i<3;i++)
+		for(i=0;i<4;i++)
 		{
 			test.testGenome.addNodeGene(new NodeGene());
 		}
@@ -46,6 +46,23 @@ public class TestForwardProp {
 		test.addConnection(7,4,1,true,test);
 		test.addConnection(6,4,1,true,test);
 		test.addConnection(7,6,1,true,test);*/
+
+		test.addConnection(4,1,1,true,test);
+        test.addConnection(5,1,1,true,test);
+        test.addConnection(4,2,1,true,test);
+        test.addConnection(5,2,1,true,test);
+        test.addConnection(5,3,1,true,test);
+        test.addConnection(7,4,1,true,test);
+        test.addConnection(6,4,1,true,test);
+        test.addConnection(5,4,1,true,test);
+        test.addConnection(6,5,1,true,test);
+        test.addConnection(7,6,1,true,test);
+        test.addConnection(4,6,1,true,test);
+        test.addConnection(5,6,1,true,test);
+        test.addConnection(3,7,1,true,test);
+        test.addConnection(7,8,1,true,test);
+        test.addConnection(8,6,1,true,test);
+
 		
 		/*test.addConnection(5, 1, 0.1, true, test);
 		test.addConnection(1, 5, 0.1, true, test);
