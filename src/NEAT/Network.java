@@ -143,7 +143,8 @@ public class Network {
 		{
 			for(i=0;i<inputs.length;i++)
 			{
-				nodes.get(i).setNodeOutput(inputs[i]);
+				nodes.get(i).setSum(inputs[i]);
+				nodes.get(i).activate();
 			}
 
 		}else {
@@ -210,11 +211,13 @@ public class Network {
 					{
 						double sum = node.getOutputElement(k).getSum() + (node.getNodeOutput() * node.getWeightElement(k));
 						node.getOutputElement(k).setSum(sum);
-						System.out.println("Node "+node.ID+" has value "+node.getNodeOutput()+" WEIGHT "+node.getWeightElement(k)+"Total output: "+(node.getNodeOutput() * node.getWeightElement(k))+" Passing to Node "+node.getOutputElement(k).ID);
-
+						System.out.println("Node "+node.ID+" has value "+node.getNodeOutput()+" WEIGHT "+node.getWeightElement(k)+" Total output: "+(node.getNodeOutput() * node.getWeightElement(k))+" Passing to Node "+node.getOutputElement(k).ID);
+						System.out.println("Node "+node.getOutputElement(k).ID+" Current Sum: "+node.getOutputElement(k).getSum()+"\n------\n");
 						node.sethasBeen(true);
 					}
 				}
+
+				waitList.removeAll(waitList);
 				if(!qeue.get(j).ifInput && !qeue.get(j).isWaiting)
 				{
 					qeue.get(j).activate();
@@ -226,7 +229,8 @@ public class Network {
 					{
 						double sum = qeue.get(j).getOutputElement(k).getSum() + (qeue.get(j).getNodeOutput() * qeue.get(j).getWeightElement(k));
 						qeue.get(j).getOutputElement(k).setSum(sum);
-						System.out.println("Node "+qeue.get(j).ID+" has value "+qeue.get(j).getNodeOutput()+" WEIGHT "+qeue.get(j).getWeightElement(k)+"Total output: "+(qeue.get(j).getNodeOutput() * qeue.get(j).getWeightElement(k))+" Passing to Node "+qeue.get(j).getOutputElement(k).ID);
+						System.out.println("Node "+qeue.get(j).ID+" has value "+qeue.get(j).getNodeOutput()+" WEIGHT "+qeue.get(j).getWeightElement(k)+" Total output: "+(qeue.get(j).getNodeOutput() * qeue.get(j).getWeightElement(k))+" Passing to Node "+qeue.get(j).getOutputElement(k).ID);
+						System.out.println("Node "+qeue.get(j).getOutputElement(k).ID+" Current Sum: "+qeue.get(j).getOutputElement(k).getSum()+"\n-------\n");
 						if(!qeue.get(j).getOutputElement(k).hasBeen() && !qeue.get(j).isWaiting)
 						{
 							qeue.add(qeue.get(j).getOutputElement(k));
