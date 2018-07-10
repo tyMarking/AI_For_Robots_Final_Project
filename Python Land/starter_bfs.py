@@ -17,6 +17,9 @@ class BFS(object):
         self.graph = graph
         return
 
+
+    def changeGraph(self,graph):
+        self.graph = graph
     ######################################################
     # this function returns the shortest path for given start and goal nodes
     ######################################################
@@ -59,6 +62,54 @@ class BFS(object):
         return path
 
 
+
+    def bfs_maze(self,start,goal):
+        parents = {}
+
+        q = Queue.Queue()
+
+        q.put(goal)
+        closed = set()
+        while not q.empty():
+            node = q.get()
+            closed.add(node)
+            if node in self.graph.keys():
+                for child in self.graph[node]:
+                    if child not in closed:
+                        closed.add(child)
+                        q.put(child)
+                    if child in parents.keys():
+                        parents[child].add(node)
+                    else:
+                        parents[child] = set([node])
+
+        # print("PARENTS: ")
+        # print(parents)
+        pNode = goal
+        if goal not in parents.keys():
+            print("GOAL NOT IN PARENTS")
+            return []
+
+        paths = []
+        pQ = Queue.Queue()
+        pQ.put([goal])
+        while not pQ.empty():
+            # print("PATH WHILE LOOP")
+            possPath = pQ.get()
+            cNode = possPath[0]
+            # print(possPath)
+            if cNode == start:
+                paths.append(possPath)
+                continue
+
+            for ppNode in parents[cNode]:
+                # print("PPNODE LOOP")
+                if ppNode not in possPath:
+                    pQ.put([ppNode] + possPath)
+
+        return paths
+
+
     ######################################################
     # this function returns all paths for given start and goal nodes
     ######################################################
@@ -71,7 +122,7 @@ class BFS(object):
         depth = 0
         counter = 0
         
-        while (not q.empty()) and counter < 500:
+        while (not q.empty() or counter < 1) and counter < 500:
             
             counter += 1
             # print("Doing node: " + str(node))
@@ -98,6 +149,7 @@ class BFS(object):
             # print("Node: " + str(node) + '\t'+ "Parent: " + str(parent))
             # parents[node] = parent
         # print(parents)
+        print("PARENTS: ")
         print(parents)
         pNode = goal
         path.append(pNode)
@@ -160,6 +212,8 @@ class BFS(object):
                         self.graph[cNode].remove(node)
         
         return path
+
+
 
 def main():
     graph = {'A': set(['B', 'C']),
