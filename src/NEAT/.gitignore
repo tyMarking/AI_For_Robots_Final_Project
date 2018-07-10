@@ -4,6 +4,7 @@
 /Mutation.class
 /NEAT_Toolchain.class
 /Network.class
+/NetworkJsonEncoder.class
 /Node.class
 /NodeGene.class
 /Organism.class

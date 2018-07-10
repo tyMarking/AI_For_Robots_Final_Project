@@ -8,6 +8,7 @@ public class Node {
 	private double output = 0;
 	//public int Layer = 0;
 	public boolean ifInput = false;
+	public boolean ifOutput = false;
 	public int ID = 0;
 	private boolean hasBeen = false;
 
@@ -102,13 +103,19 @@ public class Node {
 
 	public double activate ()
 	{
-		output = sigmoid(sum);
+		if(ifOutput)
+		{
+			output = negSigmoid(sum);
+		}else {
+			output = sigmoid(sum);
+		}
 		sum = 0;
 		return output;
 	}
 
 	private double sigmoid(double x)
 	{
-		return (1/(1+Math.exp(x)));
+		return (1/(1+Math.exp(-x)));
 	}
+	private double negSigmoid(double x){return (1/1+Math.exp(-x))*2-1;}
 }

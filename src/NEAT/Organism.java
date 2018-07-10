@@ -26,5 +26,6 @@ public class Organism {
 	}
 	public Species getSpecies(){return species;}
 	public void addSpecies(Species s){species = s;}
+	public Species getSpecies(Species s){return species;}
 
 }

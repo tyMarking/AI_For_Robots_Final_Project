@@ -1,8 +1,23 @@
 package NEAT;
 
+import java.io.*;
 public class TestForwardProp {
 	Genome testGenome = new Genome();
-	
+
+
+	File testOutput;
+	FileWriter testWriter;
+	public TestForwardProp(){
+		try
+		{
+			testOutput = new File("testOutput.txt");
+			testWriter = new FileWriter(testOutput);
+		}catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args)
 	{
 		int i;
@@ -15,13 +30,22 @@ public class TestForwardProp {
 			test.testGenome.addNodeGene(new NodeGene());
 		}
 		
-		for(i=0;i<5;i++)
+		for(i=0;i<3;i++)
 		{
 			test.testGenome.addNodeGene(new NodeGene());
 		}
+
+
+		test.addConnection(4,1,1,true,test);
+		test.addConnection(5,1,1,true,test);
+		test.addConnection(4,2,1,true,test);
+		test.addConnection(5,2,1,true,test);
+		test.addConnection(5,3,1,true,test);
+		test.addConnection(7,4,1,true,test);
+		test.addConnection(6,4,1,true,test);
+		test.addConnection(7,6,1,true,test);
 		
-		
-		test.addConnection(5, 1, 0.1, true, test);
+		/*test.addConnection(5, 1, 0.1, true, test);
 		test.addConnection(1, 5, 0.1, true, test);
 		test.addConnection(6, 1, 0.2, true, test);
 		test.addConnection(4, 1, 0.3, true, test);
@@ -42,7 +66,7 @@ public class TestForwardProp {
 		test.addConnection(6, 8, 0.1, true, test);
 		test.addConnection(5, 8, 0.1, true, test);
 		test.addConnection(7, 9, 0.1, true, test);
-		test.addConnection(4, 9, 0.1, true, test);
+		test.addConnection(4, 9, 0.1, true, test);*/
 		
 		
 		
@@ -85,8 +109,48 @@ public class TestForwardProp {
 		Network network1 = new Network();
 		network1.constructNetwork(test.testGenome);
 
+		double[] inputs = {4.0,4.0,3.0};
 
-		network1.ForwardProp(1.0,2.0,3.0);
+		int counter = 0;
+        for(double o : inputs)
+        {
+            counter++;
+            try {
+                test.testWriter.write("Input " + counter + ": " + o + "\n");
+                test.testWriter.flush();
+            }catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+
+		network1.ForwardProp(4.0,4.0,3.0);
+
+		counter = 0;
+		for(double o : network1.output())
+		{
+			System.out.println(o);
+			counter++;
+			try {
+				test.testWriter.write("Output " + counter + ": " + o + "\n");
+				test.testWriter.flush();
+			}catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+
+		NetworkJsonEncoder netJson = new NetworkJsonEncoder();
+		netJson.exportNetwork(test.testGenome);
+
+		try {
+			test.testWriter.flush();
+			test.testWriter.close();
+		}catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 		
 		//network.ForwardProp(1.0,2.0,3.0);
 

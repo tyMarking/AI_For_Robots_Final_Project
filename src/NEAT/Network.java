@@ -9,9 +9,6 @@ public class Network {
 	private int outputCount = 0;
 	private int inputCount = 0;
 	private double[] final_output_list = null;
-	protected boolean[] isRecurrentList = null;
-
-	protected ArrayList<ArrayList<Integer>> recurrentElements = new ArrayList<ArrayList<Integer>>();
 
 	public void addNode(int ID, int Layer)
 	{
@@ -31,6 +28,10 @@ public class Network {
 		for(i=0;i<genome.getNodeGeneSize();i++)
 		{
 			this.addNode(genome.getNodeGeneElement(i).getID(), genome.getNodeGeneElement(i).getLayer());
+			if(i >= genome.getNodeGeneSize() - genome.getOutputCount())
+			{
+				nodes.get(i).ifOutput = true;
+			}
 		}
 		for(i=0;i<genome.getConnectionGenesSize();i++)
 		{
@@ -138,6 +139,8 @@ public class Network {
 		int j;
 		int k;
 
+		System.out.println(inputCount);
+
 		if(inputs.length == inputCount)
 		{
 			for(i=0;i<inputs.length;i++)
@@ -177,20 +180,18 @@ public class Network {
 		{
 			currentSize = qeue.size();
 
-
 			for(j=0;j<currentSize;j++)
 			{
-				if(!qeue.get(j).ifInput)
-				{
+				if(!qeue.get(j).ifInput) {
 					qeue.get(j).activate();
 				}
-
 				if(!qeue.get(j).hasBeen())
 				{
 					for(k=0;k<qeue.get(j).getOutputSize();k++)
 					{
 						double sum = qeue.get(j).getOutputElement(k).getSum() + (qeue.get(j).getNodeOutput() * qeue.get(j).getWeightElement(k));
 						qeue.get(j).getOutputElement(k).setSum(sum);
+						System.out.println(qeue.get(j).getOutputElement(k).getSum());
 						//System.out.println("Node "+qeue.get(j).ID+" has value "+qeue.get(j).getNodeOutput()+" WEIGHT "+qeue.get(j).getWeightElement(k)+"Total output: "+(qeue.get(j).getNodeOutput() * qeue.get(j).getWeightElement(k))+" Passing to Node "+qeue.get(j).getOutputElement(k).ID);
 						if(!qeue.get(j).getOutputElement(k).hasBeen())
 						{
