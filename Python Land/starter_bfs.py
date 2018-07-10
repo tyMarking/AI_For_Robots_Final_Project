@@ -71,7 +71,7 @@ class BFS(object):
         depth = 0
         counter = 0
         
-        while (not q.empty() or counter < 4) and counter < 500:
+        while (not q.empty()) and counter < 500:
             
             counter += 1
             # print("Doing node: " + str(node))
@@ -83,7 +83,12 @@ class BFS(object):
                 for cNode in self.graph[node]:
                     if cNode not in closed:
                         q.put(cNode)
-                    self.graph[node] = self.graph[node] - set(node)
+                    print(self.graph)
+                    print(self.graph[node])
+                    self.graph[cNode].remove(node)
+                    self.graph[node].remove(cNode)
+                    self.graph[cNode].remove(cNode)
+                    self.graph[node].remove(node)
                     if cNode in parents.keys():
                         parents[cNode].append(node)
                     else:

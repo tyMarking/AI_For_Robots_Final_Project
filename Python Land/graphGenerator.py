@@ -9,10 +9,10 @@ def main():
 	for i in range(size**2):
 		graph[i] = []
 	for node in range(size**2):
-		if node % size != size-1 and random.random() < 0.5:
+		if node % size != size-1 and random.random() < 0.9:
 			graph[node].append(node+1)
 			graph[node+1].append(node)
-		if node < size**2-size and random.random() < 0.5:
+		if node < size**2-size and random.random() < 0.9:
 			graph[node].append(node+size)
 			graph[node+size].append(node)
 
@@ -22,7 +22,51 @@ def main():
 	numPaths = len(bfs.bfs_paths(0,size**2-1))
 	print(numPaths)
 
+	# while(numPaths > 3):
+	# 	key = random.choice(graph.keys())
+	# 	if len(graph[key]) > 0:
+	# 		graph[key].remove(random.choice(graph[key]))
+	# 		print("Removed a connection")
+	# 	numPaths = len(bfs.bfs_paths(0,size**2-1))
+	while numPaths < 1:
+		print(numPaths)
+		key = random.choice(graph.keys())
+		print("key loop start")
+		while len(graph[key]) >= 4:
+			key = random.choice(graph.keys())
+		print("key loop end")
 
+		options = [key+1,key-1,key+size,key-size]
+		# if key == size**2-1:
+		# 	options.remove(key+1)
+		if key < size:
+			options.remove(key-size)
+		if key > size**2-1-size:
+			options.remove(key+size)
+		if key%size == 0:
+			options.remove(key-1)
+		if key%size == size-1:
+			options.remove(key+1)
+
+		if len(options) == 0:
+			continue
+		choice = random.choice(options)
+		print("Choice loop start")
+		counter = 0
+		while choice in graph[key] and counter < 100:
+			counter += 1
+			choice = random.choice(options)
+		if counter > 100:
+			print("COUNTER TERMINATED LOOP")
+		print("choice loop end")
+		print("Node: " + str(key)+"\tChoice: %s" % choice)
+		print("Added a connection")
+		graph[key].append(choice)
+		graph[choice].append(key)
+		numPaths = len(bfs.bfs_paths(0,size**2-1))
+		print(numPaths)
+		display(graph,size)
+	print("###################\nFINAL LOOP EXITED\n#################")
 	display(graph,size)
 
 
@@ -56,6 +100,7 @@ def display(graph, size):
 			p2 = [x+dx,y+dy]
 			canvas.create_line(p1,p2,width=2)
 
+	# time.sleep(2)
 	root.mainloop()
 
 
