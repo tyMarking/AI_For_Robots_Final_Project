@@ -23,7 +23,7 @@ public class TestForwardProp {
 		int i;
 		TestForwardProp test = new TestForwardProp();
 		test.testGenome.setInputCount(3);
-		test.testGenome.setOutputCount(1);
+		test.testGenome.setOutputCount(2);
 		
 		for(i=0;i<test.testGenome.getInputCount()+test.testGenome.getOutputCount();i++)
 		{
@@ -40,6 +40,7 @@ public class TestForwardProp {
 		test.addConnection(5,1,1,true,test);
 		test.addConnection(4,2,1,true,test);
 		test.addConnection(5,2,1,true,test);
+		test.addConnection(4,5,1,true,test);
 		test.addConnection(6,5,1,true,test);
 		test.addConnection(5,3,1,true,test);
 		test.addConnection(7,4,1,true,test);

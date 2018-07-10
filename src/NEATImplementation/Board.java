@@ -239,8 +239,8 @@ public class Board extends JComponent implements ActionListener, KeyListener{
             }
 
             for (i = 0; i < sprite.length; i++) {
-                    g.setColor(sprite[i].sprite.getSpecies().color);
-                    g.fillOval((int) Math.round(sprite[i].posX), (int) Math.round(sprite[i].posY), 10, 15);
+                g.setColor(sprite[i].sprite.getSpecies().color);
+                g.fillOval((int) Math.round(sprite[i].posX), (int) Math.round(sprite[i].posY), 10, 15);
 
             }
             g.setColor(Color.BLACK);

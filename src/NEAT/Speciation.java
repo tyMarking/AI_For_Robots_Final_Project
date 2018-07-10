@@ -65,8 +65,9 @@ public class Speciation {
 		omegaSize = ((subject.getConnectionGenesSize()>candidate.getConnectionGenesSize())?subject.getConnectionGenesSize():candidate.getConnectionGenesSize()); //omega is considered to be genome with the greater number of genes than the other
 
         excessCount = Math.abs(subject.getConnectionGenesSize() - candidate.getConnectionGenesSize());
-		while(subject.getConnectionGenesSize()-1 != element_subject || candidate.getConnectionGenesSize()-1 != element_candidate)
+		while(subject.getConnectionGenesSize()-1 != element_subject && candidate.getConnectionGenesSize()-1 != element_candidate)
 		{
+			//System.out.println("Evaluating");
 		    innovation_subject = subject.getConnectionGeneElement(element_subject).getInnovation();
 		    innovation_candidate = candidate.getConnectionGeneElement(element_candidate).getInnovation();
 			
@@ -78,11 +79,13 @@ public class Speciation {
 				if(element_candidate < candidate.getConnectionGenesSize()-1)
 				{
 					element_candidate++;
-				}else{
-					element_subject++;
 				}
             }else{
 				disjointCount++;
+				if(element_subject < candidate.getConnectionGenesSize()-1)
+				{
+					element_subject++;
+				}
 			}
 
             if(element_subject < subject.getConnectionGenesSize()-1)

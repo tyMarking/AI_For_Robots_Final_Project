@@ -152,18 +152,18 @@ public class Network {
 			System.out.println("All inputs not defined (NULL)");
 		}
 
-		/*int i;
-		double[] memoi = null;
-		final_output_list = new double[outputCount];
+  /*int i;
+  double[] memoi = null;
+  final_output_list = new double[outputCount];
 
 
 
-		for(i=0;i<outputCount;i++)
-		{
-			memoi = nodes.get(inputCount+i).Summation(this, nodes.get(inputCount+i), memoi);
-			final_output_list[i] = memoi[inputCount+i];
-		}
-		nodes.get(0).evaluateRecursion(this, memoi);*/
+  for(i=0;i<outputCount;i++)
+  {
+     memoi = nodes.get(inputCount+i).Summation(this, nodes.get(inputCount+i), memoi);
+     final_output_list[i] = memoi[inputCount+i];
+  }
+  nodes.get(0).evaluateRecursion(this, memoi);*/
 
 		//Order to Forward Propagate
 
@@ -173,11 +173,13 @@ public class Network {
 		for(i=0;i<inputCount;i++)
 		{
 			qeue.add(this.getNodeElement(i));
+			this.getNodeElement(i).sethasBeen(true);
 		}
 
 		for(i=0;i<qeue.size();)
 		{
 			currentSize = qeue.size();
+
 			for(j=0;j<currentSize;j++)
 			{
 				ArrayList<Node> waitList = new ArrayList<Node>();
@@ -203,27 +205,41 @@ public class Network {
 					}
 				}
 
+				System.out.println("WaitList!");
+				for(Node node : waitList)
+				{
+					System.out.print(node.ID+", ");
+				}
+				System.out.println();
+
 				for(int count=waitList.size()-1;count>=0;count--)
 				{
 					Node node = waitList.get(count);
 					node.activate();
+					node.isWaiting = false;
+					node.sethasBeen(true                                                                                                                                                                                                                );
 					for(k=0;k<node.getOutputSize();k++)
 					{
 						double sum = node.getOutputElement(k).getSum() + (node.getNodeOutput() * node.getWeightElement(k));
 						node.getOutputElement(k).setSum(sum);
-						System.out.println("Node "+node.ID+" has value "+node.getNodeOutput()+" WEIGHT "+node.getWeightElement(k)+" Total output: "+(node.getNodeOutput() * node.getWeightElement(k))+" Passing to Node "+node.getOutputElement(k).ID);
+						System.out.println("WaitList Node "+node.ID+" has value "+node.getNodeOutput()+" WEIGHT "+node.getWeightElement(k)+" Total output: "+(node.getNodeOutput() * node.getWeightElement(k))+" Passing to Node "+node.getOutputElement(k).ID);
 						System.out.println("Node "+node.getOutputElement(k).ID+" Current Sum: "+node.getOutputElement(k).getSum()+"\n------\n");
-						node.sethasBeen(true);
+						if(!node.getOutputElement(k).hasBeen)
+						{
+							qeue.add(node.getOutputElement(k));
+							node.getOutputElement(k).hasBeen = true;
+						}
 					}
+
 				}
 
 				waitList.removeAll(waitList);
-				if(!qeue.get(j).ifInput && !qeue.get(j).isWaiting)
+				if(!qeue.get(j).ifInput && !qeue.get(j).hasBeen)
 				{
 					qeue.get(j).activate();
 				}
 
-				if(!qeue.get(j).hasBeen() && !qeue.get(j).isWaiting)
+				if(!qeue.get(j).isWaiting)
 				{
 					for(k=0;k<qeue.get(j).getOutputSize();k++)
 					{
@@ -234,11 +250,12 @@ public class Network {
 						if(!qeue.get(j).getOutputElement(k).hasBeen() && !qeue.get(j).isWaiting)
 						{
 							qeue.add(qeue.get(j).getOutputElement(k));
+							qeue.get(j).getOutputElement(k).sethasBeen(true);
 						}
 					}
 				}
 
-				qeue.get(j).sethasBeen(true);
+
 			}
 
 			for(j=0;j<currentSize;j++)
@@ -252,9 +269,13 @@ public class Network {
 		for(i=0;i<this.getNodeSize();i++)
 		{
 			this.getNodeElement(i).sethasBeen(false);
+			this.getNodeElement(i).isWaiting = false;
 		}
 		formatFinalOutputList(output());
 	}
+
+
+
 
 
 
@@ -267,6 +288,8 @@ public class Network {
 		{
 			outputs[nodes.size()-i-1] = nodes.get(i).getNodeOutput(); //We are filling outputs in backward order i.e. output[3] --> output[2] --> output[1]
 		}
+
+		//System.out.println(outputs[0]+","+outputs[1]);
 
 		return outputs;
 	}
