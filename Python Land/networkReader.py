@@ -47,6 +47,8 @@ class Network():
 		activations = {}
 		nodeDones = set()
 		isWaiting = set()
+
+		#Inintializing Node Sums and setting inputs
 		for node in self.nodes:
 			nodeSum[node] = 0
 		#nodes start at 1, Thanks Brian
@@ -56,6 +58,7 @@ class Network():
 
 
 		q = Q.Queue()
+		wQ = []
 		for i in range(len(inputs)):
 			q.put(i+1)
 
@@ -65,49 +68,90 @@ class Network():
 		while not q.empty():
 			# print(q.qsize())
 			node = q.get()
-			# print("Got Node %s from Queue" % str(node))
+			print("\n#######################\nGot Node %s from Queue" % str(node))
 			if node in nodeDones:
-				# print("NODE IS IN NODES DONE")
+				print("NODE IS IN NODES DONE")
 				# print("Node is done")
 				continue
 			if node in isWaiting:
-				# print("NODE WAS IN isWaiting")
-				# print("Node was in isWaiting")
+				print("NODE WAS IN isWaiting")
+				print("Node was in isWaiting")
 				isWaiting.remove(node)
-				# print("NODE WAS REMOVED FROM WAITING")
+				print("NODE WAS REMOVED FROM WAITING")
 			
 			# node = q.get()
 			# print()
 			waiting = False
+			canBeActivated = False
+			fullyWaiting = True
 			for parent in self.reverseWeightDict[node]:
-				# print("Looking at parnt: " + str(parent))
-				if parent not in nodeDones and parent not in isWaiting:
+				if parent in nodeDones:
+					canBeWaited = True
+				print("Looking at parent: " + str(parent))
+				if parent not in nodeDones and parent not in isWaiting and parent != node:
+					print("ADDING PARENT %s FROW WAITING TO Q" % str(parent))
+					q.put(parent)
+					if parent not in wQ:
+						wQ.append(parent)
 					waiting = True
-			if waiting:
-				# print("IS WAITING")
-				isWaiting.add(node)
-				q.put(node)
-				# nodeDones.remove(node)
+				if parent not in wQ:
+					fullyWaiting = False
+					
+			if fullyWaiting:
+				print("\n################\nfullyWaiting Queue Running")
+				for node in wQ:
+					print("\nDoing Node %s inside fullyWaiting" % str(node))
+					print("Activating")
+					a = sig(nodeSum[node])
+					activations[node] = a
+					nodeSum[node] = 0
+					if node not in self.weightDict.keys():
+						print("Node not in weightDict")
+						continue
+					print("EVALUATING NODE: " +str(node))
+					print("NODE ACTIVATION: " + str(a))
+					for edge in self.weightDict[node]:
+						if edge[0] == node:
+							continue
+						print("Edge: "+str(edge[0])+", current sum: " + str(nodeSum[edge[0]]))
+
+						nodeSum[edge[0]] += a * edge[1]
+						if edge[0] in nodeDones:
+							activations[edge[0]] = sig(nodeSum[edge[0]])	
+						else:
+							print("PUT EDGE %s INTO Q" % str(edge[0]))
+							q.put(edge[0])
+
+						print("Edge: "+str(edge)+", after sum: " + str(nodeSum[edge[0]]))
+
+					if waiting or not canBeActivated:
+						print("IS WAITING")
+						isWaiting.add(node)
+						q.put(node)
+						# nodeDones.remove(node)
+						continue
+					else:
+						nodeDones.add(node)
 				continue
-			else:
-				nodeDones.add(node)
-			# print("Activating")
+			print("Activating")
 			a = sig(nodeSum[node])
 			activations[node] = a
 			nodeSum[node] = 0
 			if node not in self.weightDict.keys():
-				# print("Node not in weightDict")
+				print("Node not in weightDict")
 				continue
 			print("EVALUATING NODE: " +str(node))
 			print("NODE ACTIVATION: " + str(a))
 			for edge in self.weightDict[node]:
-				print("Edge: "+str(edge)+", current sum: " + str(nodeSum[edge[0]]))
+				if edge[0] == node:
+					continue
+				print("Edge: "+str(edge[0])+", current sum: " + str(nodeSum[edge[0]]))
 
 				nodeSum[edge[0]] += a * edge[1]
 				if edge[0] in nodeDones:
 					activations[edge[0]] = sig(nodeSum[edge[0]])	
 				else:
-					# print("PUT EDGE")
+					print("PUT EDGE %s INTO Q" % str(edge[0]))
 					q.put(edge[0])
 
 				print("Edge: "+str(edge)+", after sum: " + str(nodeSum[edge[0]]))
@@ -117,7 +161,7 @@ class Network():
 
 		print("OUT OF WHILE LOOP")
 		# print(activations)
-		return activations[max(self.nodes)]*2-1
+		return (activations[max(self.nodes)]*2-1,activations[max(self.nodes)]*2-2)
 
 
 def sig(x):
