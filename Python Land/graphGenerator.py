@@ -2,6 +2,7 @@ import Tkinter as tk
 import random
 import time
 import starter_bfs as Bfs
+import Queue as Q
 def main():
 	#Num to generate
 	size = 5
@@ -123,11 +124,30 @@ def main():
 	"""
 		
 	print("##################\nFINAL LOOP EXITED\n##################")
-	display(graph,size)
+	values = bushfire(graph, size**2-1)
+	display(graph,size,values)
 
 
+def bushfire(graph, goal):
+	values = {}
+	values[goal] = 0
+	q = Q.Queue()
+	q.put(goal)
+	done = set()
+	done.add(goal)
+	while not q.empty():
+		node = q.get()
+		val = values[node] + 1
+		for cNode in graph[node]:
+			if cNode not in values.keys() or val < values[cNode]:
+				values[cNode] = val
+			if cNode not in done:
+				done.add(cNode)
+				q.put(cNode)
 
-def display(graph, size):
+	return values
+
+def display(graph, size, values):
 	root = tk.Tk()
 	geoSize = 700
 	root.geometry=str(geoSize)+"x"+str(geoSize)
@@ -147,7 +167,11 @@ def display(graph, size):
 	for y in pointYs:
 		for x in pointXs:
 			tempCount += 1
-			canvas.create_text(x,y,text=str(tempCount))
+			if tempCount in values:
+				posStr = str(tempCount)+": " + str(values[tempCount])
+			else:
+				posStr = str(tempCount)+": " + "NONE"
+			canvas.create_text(x,y,text=posStr)
 	for node in graph.keys():
 		x = pointXs[node%size]
 		y = pointYs[int(node/size)]
