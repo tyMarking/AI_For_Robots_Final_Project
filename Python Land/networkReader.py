@@ -61,8 +61,9 @@ class Network():
 
 
 		while not q.empty():
-			print(q.qsize())
+			# print(q.qsize())
 			node = q.get()
+			print("Got Node %s from Queue" % str(node))
 			if node in nodeDones:
 				# print("NODE IS IN NODES DONE")
 				continue
@@ -91,6 +92,7 @@ class Network():
 				continue
 			print("EVALUATING NODE: " +str(node))
 			for edge in self.weightDict[node]:
+				print("Edge: " + str(edge))
 				nodeSum[edge[0]] += a * edge[1]
 				if edge[0] in nodeDones:
 					activations[edge[0]] = sig(nodeSum[edge[0]])	
