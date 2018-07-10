@@ -131,7 +131,7 @@ public class TestForwardProp {
 		counter = 0;
 		for(double o : network1.output())
 		{
-			System.out.println(o);
+			System.out.println("Output: "+o);
 			counter++;
 			try {
 				test.testWriter.write("Output " + counter + ": " + o + "\n");
