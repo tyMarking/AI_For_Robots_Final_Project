@@ -13,6 +13,7 @@ public class Crossover {
 
 		Genome genome_1 = organism_1.getGenome();
 		Genome genome_2 = organism_2.getGenome();
+
 		Genome alpha = null;
 
 		double inheritanceProb = 0.6;
@@ -32,6 +33,69 @@ public class Crossover {
 		offspring.setInputCount(organism_1.getGenome().getInputCount());
 		offspring.setOutputCount(organism_2.getGenome().getOutputCount());
 
+		
+
+		while(genome_1.getConnectionGenesSize() > element_genome_1 && genome_2.getConnectionGenesSize() > element_genome_2)
+        {
+            innovation_1 = genome_1.getConnectionGeneElement(element_genome_1).getInnovation();
+            innovation_2 = genome_2.getConnectionGeneElement(element_genome_2).getInnovation();
+
+            if(innovation_1 == innovation_2)
+            {
+                if(randomDouble(0,1)<inheritanceProb)
+                {
+                    if(alpha.equals(genome_1))
+                    {
+                        offspring.addConnectionGene(genome_1.getConnectionGeneElement(element_genome_1));
+                    }else{
+                        offspring.addConnectionGene(genome_2.getConnectionGeneElement(element_genome_2));
+                    }
+                }else{
+                    if(!alpha.equals(genome_1))
+                    {
+                        offspring.addConnectionGene(genome_1.getConnectionGeneElement(element_genome_1));
+                    }else{
+                        offspring.addConnectionGene(genome_2.getConnectionGeneElement(element_genome_2));
+                    }
+                }
+
+                if(element_genome_1 < genome_1.getConnectionGenesSize()-1)
+                {
+                    element_genome_1++;
+                }
+                if(element_genome_2<genome_2.getConnectionGenesSize()-1)
+                {
+                    element_genome_2++;
+                }
+            }else if(innovation_1 > innovation_2)
+            {
+                if(randomDouble(0,1)<inheritanceProb)
+                {
+                    if(alpha.equals(genome_2))
+                    {
+                        offspring.addConnectionGene(genome_1.getConnectionGeneElement(element_genome_2));
+                    }
+                }
+
+                if(element_genome_2<genome_2.getConnectionGenesSize()-1)
+                {
+                    element_genome_2++;
+                }
+            }else{
+                if(randomDouble(0,1)<inheritanceProb)
+                {
+                    if(alpha.equals(genome_1))
+                    {
+                        offspring.addConnectionGene(genome_1.getConnectionGeneElement(element_genome_1));
+                    }
+                }
+
+                if(element_genome_1<genome_1.getConnectionGenesSize()-1)
+                {
+                    element_genome_1++;
+                }
+            }
+        }
 		/*while(genome_1.getConnectionGenesSize() > element_genome_1 || genome_2.getConnectionGenesSize() > element_genome_2)
 		{
 			System.out.println("Iteration");
