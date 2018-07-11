@@ -1,0 +1,336 @@
+[33mcommit bfe8822d74a423da79f1442cef2189a5f9d24184[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: admin <tymarking@gmail.com>
+Date:   Tue Jul 10 15:25:08 2018 -0700
+
+    Readded python netwrokReader2
+
+[33mcommit b615477d000dadca90d245a6733db877b6a62665[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Wed Jul 11 07:20:35 2018 +0900
+
+    pushing test networks
+
+[33mcommit 99fdfd156ab3d27bbf88794b93285e6e7d97bfa1[m
+Merge: d324c6b d0be9a7
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Wed Jul 11 07:15:28 2018 +0900
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Projecty
+
+[33mcommit d324c6b5deccdb0aff7d84a079a8a29a806597d0[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Wed Jul 11 07:15:18 2018 +0900
+
+    reupdating NEAT Implementation
+
+[33mcommit d0be9a76c46657888e22688cc6eeccad9c615156[m
+Merge: 923f373 8ff135f
+Author: PTDavies <ptdavies@icloud.com>
+Date:   Tue Jul 10 15:07:43 2018 -0700
+
+    Testing push
+
+[33mcommit 923f373e0baf6f62b7e5a80fbb5d09a337879aca[m
+Merge: 6cbe7bc b266857
+Author: PTDavies <ptdavies@icloud.com>
+Date:   Tue Jul 10 15:06:09 2018 -0700
+
+    testing push
+
+[33mcommit 8ff135fa7a5fa7d7856d60d80c7c2394f4982baa[m
+Author: admin <tymarking@gmail.com>
+Date:   Tue Jul 10 14:54:26 2018 -0700
+
+    fixed some bugs
+
+[33mcommit 920d176f567e10032785964bdfa356d0473fa9b0[m
+Author: admin <tymarking@gmail.com>
+Date:   Tue Jul 10 14:04:04 2018 -0700
+
+    New prop method
+
+[33mcommit ea29cf2336649ac407282a0fab0ebb5981f61366[m
+Merge: 4c1e5b1 133858e
+Author: Brian <gim-yeonghun@gim-yeonghun-ui-MacBook-Pro.local>
+Date:   Wed Jul 11 03:04:40 2018 +0900
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Projecty
+
+[33mcommit 4c1e5b1d9e1e571dc0f19a87c408698ee013d63d[m
+Author: Brian <gim-yeonghun@gim-yeonghun-ui-MacBook-Pro.local>
+Date:   Wed Jul 11 03:04:36 2018 +0900
+
+    testing with more complex neural networks
+
+[33mcommit 133858ec6608aa8ee7ac29c7866cc3012a9ddf58[m
+Author: admin <tymarking@gmail.com>
+Date:   Tue Jul 10 10:41:08 2018 -0700
+
+    Finished graph gnereation (Still need to export as JSON)
+
+[33mcommit 3461c70eb09c553d466a5c43bf9cd5f9b949673f[m
+Merge: 72a3a0e 0b5e076
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 21:15:23 2018 -0700
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Project
+
+[33mcommit 72a3a0e65433ce57a05bbec04564db589112aabf[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 21:15:17 2018 -0700
+
+    PROP IS WORKING BABY
+
+[33mcommit 0b5e0764d85e179066d9f69890fce72dd4c426a5[m
+Merge: e20b0a1 536d115
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 13:15:12 2018 +0900
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Projecty
+
+[33mcommit e20b0a1368f7772a736045e13b4d4fde0db4ce8d[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 13:15:06 2018 +0900
+
+    Network forwardpropagate synchronized with python
+
+[33mcommit 536d115231d218560f016a7b78458c3db824ee58[m
+Merge: 962ce33 6693a98
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 20:47:34 2018 -0700
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Project
+
+[33mcommit 962ce3317c1e9610bd7e542a554caaafc4551b49[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 20:47:31 2018 -0700
+
+    Working on graph and network
+
+[33mcommit 6693a98c7ac1c7b5646eb7ebb4e9bf37a4e8c333[m
+Merge: 5393665 6e143f0
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 12:46:49 2018 +0900
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Projecty
+
+[33mcommit 5393665ca300f91acce5200b0420aa6a42cae428[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 12:46:43 2018 +0900
+
+    Edited Network forward propagation
+
+[33mcommit 6e143f0784dc47b7300f12ae5705dacfa4004df7[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 19:54:48 2018 -0700
+
+    Updated Propigation
+
+[33mcommit 6cbe7bc5c7d57c404176ecca48cca7762c84ed5a[m
+Author: PTDavies <ptdavies@icloud.com>
+Date:   Mon Jul 9 15:32:38 2018 -0700
+
+    Verry Buggy Proximity, Maze Working
+
+[33mcommit b266857ce02d01bec15a4db9aae1657018511212[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 14:40:07 2018 -0700
+
+    Generated sensor data
+
+[33mcommit e42d09bd4d01e162fefdb0bc345569a40e8b22fb[m
+Merge: c612be7 db8b920
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 14:33:23 2018 -0700
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Project
+
+[33mcommit db8b920f6a12bd47260fb46376dc02f8f312dc07[m
+Merge: 563863a f9fda53
+Author: System Administrator <suyash.kothari4@gmail.com>
+Date:   Mon Jul 9 14:29:49 2018 -0700
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Project
+
+[33mcommit 563863a5a0de03102ac3d3ad057f10d98571c694[m
+Author: System Administrator <suyash.kothari4@gmail.com>
+Date:   Mon Jul 9 14:29:35 2018 -0700
+
+    update
+
+[33mcommit c612be709d18032f1d815333a1d886e3d6aa7c7b[m
+Merge: c8996f8 f9fda53
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 13:45:47 2018 -0700
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Project
+
+[33mcommit f9fda53294554347c4af27a22956e3187b0a4593[m
+Merge: 2cee5fa 44dbf8a
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 05:45:28 2018 +0900
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Projecty
+
+[33mcommit 2cee5fa3e93125669c7c1cd1617a70bcd0368f8f[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 05:45:23 2018 +0900
+
+    Network.json configured. Test should proceed to Python
+
+[33mcommit c8996f8489852fd75604c18d18fad496215cbec1[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 13:44:56 2018 -0700
+
+    Nothing to see here
+
+[33mcommit 44dbf8a8c5204ce107ef054403468adc3f403d63[m
+Merge: 0f1ee9e 12ff4fb
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 13:12:53 2018 -0700
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Project
+
+[33mcommit 0f1ee9e240f57e167ead5f5e82c04c10c41b2ff2[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 13:12:50 2018 -0700
+
+    More work on maze
+
+[33mcommit 12ff4fb03ce299924f36fef8f19dbfc239922f56[m
+Merge: 88972a1 35597d6
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 05:11:33 2018 +0900
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Projecty
+
+[33mcommit 88972a1b961713ef191abb3845d82ad7935e7296[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 05:11:23 2018 +0900
+
+    added
+
+[33mcommit 35597d65d0f8aa26493da34f61bf2b2656e7711d[m
+Merge: c756172 804dd5d
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 12:57:00 2018 -0700
+
+    Working on graph generation
+
+[33mcommit c7561726f6fb0e4f5512eb99cfa0f4b0914a56ef[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 12:55:07 2018 -0700
+
+    WOrking on graph genertion
+
+[33mcommit 804dd5d06304d1542586732966acfdc3b9bbce14[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 04:47:06 2018 +0900
+
+    added
+
+[33mcommit f9f690720e313d5881b34b233d75acde3e843752[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Tue Jul 10 04:44:35 2018 +0900
+
+    added
+
+[33mcommit 9becbd31d4591854d8cb641258d66e988dde59cb[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 08:44:51 2018 -0700
+
+    Fixed python network propagator
+
+[33mcommit c240693d381b1e7246d4754f9eb785f0eca18884[m
+Author: PTDavies <ptdavies@icloud.com>
+Date:   Mon Jul 9 02:16:49 2018 -0700
+
+    Updated Kinimatics Part 3
+
+[33mcommit 1b2d288bf97dbdf2d9ad3c79853edcef88d8460b[m
+Merge: 798a40d 5f44c52
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Mon Jul 9 18:16:16 2018 +0900
+
+    added
+
+[33mcommit 798a40d2eb492d248f1fad05ab282f4d89f22f01[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Mon Jul 9 18:15:32 2018 +0900
+
+    added
+
+[33mcommit 5f44c5204cfe3dedd7923706ebbab33a22436457[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 02:14:50 2018 -0700
+
+    WOrking on python stuf
+
+[33mcommit 4bd6f3822bd9a5d0bbc467346e541ea3b22a7f0d[m
+Author: PTDavies <ptdavies@icloud.com>
+Date:   Mon Jul 9 00:50:52 2018 -0700
+
+    Working Kin With Direction P2
+
+[33mcommit cbecc96a2055d87edbf6c0fd55266cd25a5d4741[m
+Merge: 203316b 8693a1b
+Author: PTDavies <ptdavies@icloud.com>
+Date:   Mon Jul 9 00:50:33 2018 -0700
+
+    Merge branch 'master' of https://github.com/tyMarking/AI_For_Robots_Final_Projecty
+
+[33mcommit 203316b4a04b19d2c60ac8a6a1a50a079bca0244[m
+Author: PTDavies <ptdavies@icloud.com>
+Date:   Mon Jul 9 00:48:54 2018 -0700
+
+    Working Kin With Direction P2
+
+[33mcommit 8693a1bc54640df12f885271f3468c2028a78f2e[m
+Merge: 3362a6b 4201c8d
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 00:47:22 2018 -0700
+
+    Working on python implementation of the network
+
+[33mcommit 3362a6b712539d8a3323178dcf7bf7ffa1c49e9e[m
+Author: admin <tymarking@gmail.com>
+Date:   Mon Jul 9 00:46:21 2018 -0700
+
+    Working on python implementation of the network
+
+[33mcommit 4201c8d59215c4112cbea73b25e32de0b7465585[m
+Merge: 83d582d b6d580c
+Author: PTDavies <ptdavies@icloud.com>
+Date:   Mon Jul 9 00:45:44 2018 -0700
+
+    Updated Kinimatics With Direction
+
+[33mcommit 83d582d01192133b23ba9845bd987631d76ec210[m
+Author: PTDavies <ptdavies@icloud.com>
+Date:   Sun Jul 8 23:48:02 2018 -0700
+
+    Simulation With Kinimatics
+
+[33mcommit b6d580ce96a6a4ddcfa634856a8dd9d7ed08108c[m
+Author: admin <tymarking@gmail.com>
+Date:   Sun Jul 8 23:31:55 2018 -0700
+
+    Worked on python
+
+[33mcommit bdc5ecb01e54ce4c7c0f091e6de3485656159718[m
+Author: Ty Marking <30440916+tyMarking@users.noreply.github.com>
+Date:   Sun Jul 8 23:10:11 2018 -0700
+
+    STarted sensor work
+
+[33mcommit 31684b796dffd46decf3ba6c8f27c0fa493235ae[m
+Author: Ty Marking <30440916+tyMarking@users.noreply.github.com>
+Date:   Sun Jul 8 22:52:44 2018 -0700
+
+    Created pyhton land
+
+[33mcommit da8c2a1f409e6883377e8e4bd23f05ae50e3b2be[m
+Author: Brian <gim-yeonghun@DN0a0fe734.SUNet>
+Date:   Mon Jul 9 14:18:54 2018 +0900
+
+    added
