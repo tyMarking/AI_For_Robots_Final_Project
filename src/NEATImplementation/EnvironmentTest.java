@@ -3,7 +3,6 @@ package NEATImplementation;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +19,6 @@ import javax.swing.Timer;
 class Agent extends JComponent{
 	
 	//Agent Parameters
-	int proxLength = 100;
 	double speed = 1;
 	double angle = 2* Math.PI;
 	int size = 100;
@@ -62,16 +60,16 @@ class Agent extends JComponent{
 	     x2 = 20*Math.sqrt(2) * Math.cos(a2) + x;
 	     x3 = 20*Math.sqrt(2) * Math.cos(a3) + x;       
 	     x4 = 20*Math.sqrt(2) * Math.cos(a4) + x;
-	     xp0 = 100 * Math.cos(angle) + x1;
-	     xp1 = 100 * Math.cos(angle) + x4;
+	     xp0 = 100 * Math.cos(angle) + x;
+	     xp1 = 100 * Math.cos(angle) + x1;
 	     
 	     y1 = 20*Math.sqrt(2) * Math.sin(a1) - y;
 	     y2 = 20*Math.sqrt(2) * Math.sin(a2) - y;
 	     y3 = 20*Math.sqrt(2) * Math.sin(a3) - y;
 	     y4 = 20*Math.sqrt(2) * Math.sin(a4) - y;
 
-	     yp0 = 100 * Math.sin(angle) - -y1;
-	     yp1 = 100 * Math.sin(angle) - -y4;
+	     yp0 = 100 * Math.sin(angle) - y1;
+	     yp1 = 100 * Math.sin(angle) - y;
 	     
 	     Polygon robot = new Polygon();
 	     
@@ -85,37 +83,17 @@ class Agent extends JComponent{
 	     
 	     g.setColor(Color.red);
 	     g2d.fillOval((int)x1-5, (int)y1-5, 10, 10);
-	     g.setColor(Color.cyan);
 	     g2d.fillOval((int)x4-5, (int)y4-5, 10, 10);
-
-	     g.setColor(Color.black);
+	     
 	     g.drawLine((int)x1, (int)y1, (int)xp0, (int)yp0);
 	     g.drawLine((int)x4, (int)y4, (int)xp1, (int)yp1);
 	     
-	    // for(int i = 1; i < 10; i ++) {
-	    // 	g2d.fillOval((int)i*100,(int)i*100,10, 10);
-	    // 	g2d.fillOval((int)i*100,(int)i*100, 10, 10);
-	    // }
+	     for(int i = 1; i < 10; i ++) {
+	     	g2d.fillOval((int)i*100,(int)i*100,10, 10);
+	     	g2d.fillOval((int)i*100,(int)i*100, 10, 10);
+	     }
 	     //System.out.println((int)((20*Math.sqrt(2)-2) * Math.sin(angle) + (int)((x1 + x3)/2.0)-5) + " - " + (int)((20*Math.sqrt(2)-2) * Math.cos(angle) - ((y1 + y3)/2.0)-5));
 		
-	}
-	public Point getProx(int side, double[][] obs){
-		Point p = new Point();
-		for(int i = 0; i < obs.length; i ++) {
-			for(int k = 0 ; k < proxLength; k += 1) {
-			     double checkP0X = k * Math.cos(angle) + x1;
-			     double checkP0Y = k * Math.sin(angle) + y1;
-			     
-			     if(checkP0X > obs[i][0] && checkP0X < obs[i][3] && checkP0Y < obs[i][2] && checkP0Y > obs[i][4]) {
-			    	
-			    	 p.setLocation(checkP0X,checkP0Y);
-			    	 return p;
-			     }
-			}
-		}
-		
-		
-		return p;
 	}
 	public void update(long time) {
 		double deltaT = currentTime/1000.0 - time/1000.0;
@@ -130,7 +108,12 @@ class Agent extends JComponent{
 		double newAngle = angle + (leftSpeed-rightSpeed)*deltaT/35;
 		double newX = x + newPos * Math.sin(angle) * 1.25;
 		double newY = y + newPos * Math.cos(angle) * 1.25;
-		
+		double[][] myObs = new double[1][4];
+		myObs[0][0] = 0;
+		myObs[0][1] = 0;
+		myObs[0][2] = 0;
+		myObs[0][3] = 0;
+		//if isCollided()
 		x = newX;
 		y = newY;
 		angle = newAngle;
@@ -151,7 +134,87 @@ class Agent extends JComponent{
 		return false;
 	}
 	public boolean isCollided(double[][] obs) {
-		return false;
+		boolean ret = false;
+		
+		int NUM_POINTS = 10;
+		double[][] fullPoints = new double[NUM_POINTS*4][2];
+		
+		double dx12 = (x1-x2)/(NUM_POINTS+1);
+		double dx23 = (x2-x3)/(NUM_POINTS+1);
+		double dx34 = (x3-x4)/(NUM_POINTS+1);
+		double dx41 = (x4-x1)/(NUM_POINTS+1);
+		double dy12 = (y1-y2)/(NUM_POINTS+1);
+		double dy23 = (y2-y3)/(NUM_POINTS+1);
+		double dy34 = (y3-y4)/(NUM_POINTS+1);
+		double dy41 = (y4-y1)/(NUM_POINTS+1);
+		
+		for (int i = 1; i < 11; i++) {
+			fullPoints[i][0] = dx12*i+x1;
+			fullPoints[i+NUM_POINTS][0] = dx23*i+x2;
+			fullPoints[i+2*NUM_POINTS][0] = dx34*i+x3;
+			fullPoints[i+3*NUM_POINTS][0] = dx41*i+x4;
+			
+			fullPoints[i][1] = dy12*i+y1;
+			fullPoints[i+NUM_POINTS][1] = dy23*i+y2;
+			fullPoints[i+2*NUM_POINTS][1] = dy34*i+y3;
+			fullPoints[i+3*NUM_POINTS][1] = dy41*i+y4;
+		}
+		
+		System.out.print(fullPoints);
+				
+				
+		collisionLoop:
+		for (double[] object : obs) {
+			double minX = object[0];
+			double minY = object[1];
+			double maxX = object[2];
+			double maxY = object[3];
+			if (object[2] < object[0]) {
+				minX = object[2];
+				maxX = object[0];
+			}
+			if (object[3] < object[1]) {
+				minY = object[3];
+				maxY = object[1];
+			}
+			
+			double dist = Math.pow((this.x - (minX+maxX)/2),2) + Math.pow((this.y - (minY+maxY)/2),2);
+			//Max dist to consider squared
+			if (dist < 2500) {
+				
+				double[][] points = new double[4][2];
+				points[0][0] = x1;
+				points[0][1] = y1;
+				points[1][0] = x2;
+				points[1][1] = y2;
+				points[2][0] = x3;
+				points[2][1] = y3;
+				points[3][0] = x4;
+				points[3][1] = y4;
+						
+				for (double[] point : points) {
+					
+					if (point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY) {
+						ret = true;
+						break collisionLoop;
+					}
+				}
+				
+				for (double[] point : fullPoints) {
+					if (point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY) {
+						ret = true;
+						break collisionLoop;
+					}
+				}
+			}
+			
+			
+			
+			
+		}
+		
+		
+		return ret;
 	}
 	public double calculateAngle(double x1, double y1, double x2, double y2)
 	{
@@ -182,15 +245,15 @@ class Object extends JComponent{
 		y = yPos;
 
 		x1 = x;
-	    x2 = x + size;
-	    x3 = x - size/2.0;   
-	    x4 = x + size/2.0;
-	
-	    y1 = y;
-	    y2 = y + size;
-	     
-	    y3 = y - size/2.0;
-	    y4 = y + size/2.0;
+     x2 = x + size;
+     x3 = x - size/2.0;   
+     x4 = x + size/2.0;
+
+     y1 = y;
+     y2 = y + size;
+     
+     y3 = y - size/2.0;
+     y4 = y + size/2.0;
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -321,6 +384,7 @@ class EnvironmentTest extends JFrame {
  		a.update(System.currentTimeMillis());
  		m.update();
      	right(a);
+     	//left(a);
      	
 
 
