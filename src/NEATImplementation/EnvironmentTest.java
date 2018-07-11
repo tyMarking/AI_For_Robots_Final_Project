@@ -1,8 +1,9 @@
-package NEATImplementation;
+package src.NEATImplementation;
 //package NEATImplementation;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,8 +20,9 @@ import javax.swing.Timer;
 class Agent extends JComponent{
 	
 	//Agent Parameters
+	double proxLength = 200;
 	double speed = 1;
-	double angle = 2* Math.PI;
+	double angle = Math.PI*3/2;
 	int size = 100;
 	double x = 100, y = 100;
 	double x1, x2, x3, x4, y1, y2, y3, y4, xp0, xp1, yp0, yp1;
@@ -60,16 +62,17 @@ class Agent extends JComponent{
 	     x2 = 20*Math.sqrt(2) * Math.cos(a2) + x;
 	     x3 = 20*Math.sqrt(2) * Math.cos(a3) + x;       
 	     x4 = 20*Math.sqrt(2) * Math.cos(a4) + x;
-	     xp0 = 100 * Math.cos(angle) + x;
-	     xp1 = 100 * Math.cos(angle) + x1;
+	     
+	     xp0 = proxLength * Math.cos(angle + Math.toRadians(45)) + x1;
+	     xp1 = proxLength * Math.cos(angle) + x2;
 	     
 	     y1 = 20*Math.sqrt(2) * Math.sin(a1) - y;
 	     y2 = 20*Math.sqrt(2) * Math.sin(a2) - y;
 	     y3 = 20*Math.sqrt(2) * Math.sin(a3) - y;
 	     y4 = 20*Math.sqrt(2) * Math.sin(a4) - y;
 
-	     yp0 = 100 * Math.sin(angle) - y1;
-	     yp1 = 100 * Math.sin(angle) - y;
+	     yp0 = proxLength * Math.sin(angle) + y1;
+	     yp1 = proxLength * Math.sin(angle) + y2;
 	     
 	     Polygon robot = new Polygon();
 	     
@@ -83,15 +86,11 @@ class Agent extends JComponent{
 	     
 	     g.setColor(Color.red);
 	     g2d.fillOval((int)x1-5, (int)y1-5, 10, 10);
-	     g2d.fillOval((int)x4-5, (int)y4-5, 10, 10);
+	     g2d.fillOval((int)x2-5, (int)y2-5, 10, 10);
 	     
 	     g.drawLine((int)x1, (int)y1, (int)xp0, (int)yp0);
-	     g.drawLine((int)x4, (int)y4, (int)xp1, (int)yp1);
+	     g.drawLine((int)x2, (int)y2, (int)xp1, (int)yp1);
 	     
-	     for(int i = 1; i < 10; i ++) {
-	     	g2d.fillOval((int)i*100,(int)i*100,10, 10);
-	     	g2d.fillOval((int)i*100,(int)i*100, 10, 10);
-	     }
 	     //System.out.println((int)((20*Math.sqrt(2)-2) * Math.sin(angle) + (int)((x1 + x3)/2.0)-5) + " - " + (int)((20*Math.sqrt(2)-2) * Math.cos(angle) - ((y1 + y3)/2.0)-5));
 		
 	}
@@ -120,7 +119,38 @@ class Agent extends JComponent{
 		currentTime = time;
 		//System.out.println(x + " - " + y);
 	}
-	
+	public Point getProx(int side, double obs [][]) {
+		Point p = new Point();
+		if(side == 0) {
+			for(int i =0; i < obs.length; i ++) {
+				if(distance((x1 + x2)/2,(y1+y3)/2,(obs[i][0]+obs[i][2]/2),(obs[i][1] + obs[i][3])/2)< proxLength + size*2) {
+					for(int k = 0; k < proxLength; k ++) {
+					     double cx0 = k * Math.cos(angle) + x1;
+					     double cy0 = k * Math.sin(angle) + y1;
+					     if(cx0 > obs[i][0] && cx0 < obs[i][2] && cy0 > obs[i][1] && cy0 < obs[i][3]) {
+					    	 p.setLocation(cx0, cy0);
+					    	 return p;
+					     }
+					}
+				}
+			}
+		}
+		else {
+			for(int i =0; i < obs.length; i ++) {
+				if(distance((x1 + x2)/2,(y1+y3)/2,(obs[i][0]+obs[i][2]/2),(obs[i][1] + obs[i][3])/2)< proxLength + size*2) {
+					for(int k = 0; k < proxLength; k ++) {
+					     double cx1 = k * Math.cos(angle) + x4;
+					     double cy1 = k * Math.sin(angle) + y4;
+					     if(cx1 > obs[i][0] && cx1 < obs[i][2] && cy1 > obs[i][1] && cy1 < obs[i][3]) {
+					    	 p.setLocation(cx1, cy1);
+					    	 return p;
+					     }
+					}
+				}
+			}
+		}
+		return p;
+	}
 	public double distance(double x1, double y1, double x2, double y2) {
 		return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
 	}
@@ -228,6 +258,7 @@ class Agent extends JComponent{
 class Object extends JComponent{
 	int x = 0;
 	int y = 0;
+	
 	double x1, x2, x3, x4, y1, y2, y3, y4;
 	
 	int size = 100;
@@ -239,28 +270,25 @@ class Object extends JComponent{
 	
 	Color c = new Color((int)(Math.random()*200),(int)(Math.random()*200),(int)(Math.random()*200));
 	public Object(int xPos, int yPos) {//does work
-		System.out.print("test");
-		setSize(width, height);
-		x = xPos;
-		y = yPos;
+		 System.out.print("test");
+		 setSize(width, height);
+		 x = xPos + (int)(size/2.0);
+		 y = yPos + (int)(size/2.0);
 
-		x1 = x;
-     x2 = x + size;
-     x3 = x - size/2.0;   
-     x4 = x + size/2.0;
-
-     y1 = y;
-     y2 = y + size;
-     
-     y3 = y - size/2.0;
-     y4 = y + size/2.0;
+		 
+	     x1 = x;   
+	     x2 = x + size;
+	     
+	     y1 = y;
+	     y2 = y + size;
+	     
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(c);
      
-		g.fillRect(x + (int)(size/2.0), y + (int)(size/2.0), size, size);
+		g.fillRect(x, y, size, size);
 	}
 	public void update() {//does not get called
 		System.out.print("update function");
@@ -270,9 +298,9 @@ class Object extends JComponent{
 	public double[] getPos() {
 		System.out.println(x1 + " - " + y1 + " --------- " + x2 + " - " + y2);//does print
 		double corners [] = new double[4];
+		
 		corners[0] = (double)x1;
 		corners[1] = (double)y1;
-
 		corners[2] = (double)x2;
 		corners[3] = (double)y2;
 		
@@ -334,6 +362,7 @@ class GUI extends JPanel implements ActionListener {
      revalidate();
  } 
 }
+
 class EnvironmentTest extends JFrame {
 	boolean toggle = false;
 	static int key;
@@ -360,12 +389,20 @@ class EnvironmentTest extends JFrame {
  public static void main(String[] args) {
  	EnvironmentTest envi = new EnvironmentTest();
  	
- 	Agent a = new Agent(300,300);
+ 	Agent a0 = new Agent(300,300);
+
+ 	Agent a1 = new Agent(400,400);
+
+ 	Agent a2 = new Agent(500,500);
+ 	
  	Maze m = new Maze(5,5);
  	Object o = new Object(100,100);
- 	envi.add(a);
- 	a.add(m);
- 	a.add(o);
+ 	envi.add(a0);
+ 	
+ 	a0.add(a1);
+ 	a0.add(a2);
+ 	a0.add(m);
+ 	a0.add(o);
  	
  	int counter = 0;
  	double obs[][] = new double[1][4];
@@ -381,9 +418,30 @@ class EnvironmentTest extends JFrame {
  		
  		// Calls agents update function
  		
- 		a.update(System.currentTimeMillis());
+ 		a0.update(System.currentTimeMillis());
+
+ 		a1.update(System.currentTimeMillis());
+
+ 		a2.update(System.currentTimeMillis());
+ 		
+ 		Point intersect = new Point();
+ 		
+ 		intersect = a0.getProx(0, obs);
+ 		System.out.println(intersect.getX() + "," +intersect.getY());
+ 		
+ 		intersect = a1.getProx(0, obs);
+ 		System.out.println(intersect.getX() + "," +intersect.getY());
+ 		
+ 		intersect = a2.getProx(0, obs);
+ 		System.out.println(intersect.getX() + "," +intersect.getY());
+ 		
  		m.update();
-     	right(a);
+ 		
+     	forward(a0);
+
+     	right(a1);
+
+     	right(a2);
      	//left(a);
      	
 
@@ -391,21 +449,21 @@ class EnvironmentTest extends JFrame {
  		counter ++;
  		
  		//System.out.println(counter);
- 		/*
+ 		
  		try {
-				Thread.sleep(1);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}*/
+			Thread.sleep(1);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
  	}
  }
  public static void right(Agent a) {
- 	a.rightSpeed = -60;
-		a.leftSpeed = 60;
+ 	a.rightSpeed = -10;
+		a.leftSpeed = 10;
  }
  public static void left(Agent a) {
- 	a.rightSpeed = 60;
-		a.leftSpeed = -60;
+ 	a.rightSpeed = 10;
+		a.leftSpeed = -10;
  }
  public static void forward(Agent a) {
  	a.rightSpeed = 60;

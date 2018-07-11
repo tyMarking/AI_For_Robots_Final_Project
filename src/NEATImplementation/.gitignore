@@ -1,9 +1,13 @@
+/Agent.class
 /Backpropagation.class
 /Board.class
 /Cheese.class
+/EnvironmentTest.class
 /Fire.class
+/GUI.class
+/Maze.class
 /NetworkRecognition.class
 /Node.class
+/Object.class
 /Sprite.class
-/EnvironmentTest.class
 /EnvironmentTest$1.class
