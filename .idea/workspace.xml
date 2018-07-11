@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="14724d5f-81d9-483d-b3bc-705e3c199b2b" name="Default" comment="" />
+    <list default="true" id="14724d5f-81d9-483d-b3bc-705e3c199b2b" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/NEATImplementation/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NEATImplementation/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NEATImplementation/Environment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NEATImplementation/bin/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python Land/Network.json" beforeDir="false" afterPath="$PROJECT_DIR$/Python Land/Network.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python Land/networkReader2.py" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -294,7 +301,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="773" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="7" />
