@@ -310,7 +310,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
             iteration = 1;
         }else {
             iteration = 100;
-            generationT = 10;
+            generationT = 3;
             foodTime = 1/(iteration);
         }
         /*if(nTool.getGeneration() > generationCap)

@@ -51,16 +51,67 @@ public class Genome {
 	{
 		return connectionGenes.size();
 	}
+
+	public void addNodeGene(NodeGene nodeGene)
+    {
+        nodeGenes.add(nodeGene);
+    }
 	
-	public void addNodeGene(NodeGene gene)
+	public void addNodeGene(ConnectionGene connectionGene)
 	{
-		if(getNodeGeneSize() > 0)
-		{
-			gene.setID(nodeGenes.get(getNodeGeneSize()-1).getID()+1);
-		}else {
-			gene.setID(1);
-		}
-		nodeGenes.add(gene);
+	    NodeGene receiveNode = new NodeGene();
+        NodeGene submitNode = new NodeGene();
+
+        boolean addSubmit = true;
+        boolean addReceive = true;
+
+        submitNode.setID(connectionGene.getOut_ID());
+        receiveNode.setID(connectionGene.getIn_ID());
+
+        if(submitNode.getID() <= inputCount)
+        {
+            submitNode.isInput = true;
+        }
+
+        if(submitNode.getID() > inputCount && submitNode.getID() <= inputCount+outputCount)
+        {
+            submitNode.isOutput = true;
+        }
+
+        if(receiveNode.getID() <= inputCount)
+        {
+            receiveNode.isInput = true;
+        }
+
+        if(receiveNode.getID() > inputCount && receiveNode.getID() <= inputCount+outputCount)
+        {
+            receiveNode.isOutput = true;
+        }
+
+        for(NodeGene nodeGene : nodeGenes)
+        {
+            if(nodeGene.getID() == submitNode.getID())
+            {
+                addSubmit = false;
+            }
+            if(nodeGene.getID() == receiveNode.getID())
+            {
+                addReceive = false;
+            }
+            if(!addSubmit && !addReceive)
+            {
+                break;
+            }
+        }
+
+        if(addSubmit)
+        {
+            nodeGenes.add(submitNode);
+        }
+        if(addReceive)
+        {
+            nodeGenes.add(receiveNode);
+        }
 	}
 	public void checkConnectionOverlap(ConnectionGene gene)
 	{
@@ -104,5 +155,29 @@ public class Genome {
 		}else {
 			System.out.println("Error! Invalid index of removeConnectionGene");
 		}
+	}
+
+	public static void checkInnovationOverlaps(Genome genome, ConnectionGene gene_connection)
+	{
+		int i; //In case this function runs within another for loop
+
+		for(i=0;i<Genome.innovationList.size();i++)
+		{
+			if(gene_connection != null)
+			{
+				if(Genome.innovationList.get(i).getIn_ID() == gene_connection.getIn_ID() && Genome.innovationList.get(i).getOut_ID() == gene_connection.getOut_ID())
+				{
+					gene_connection.setInnovation(Genome.innovationList.get(i).getInnovation());
+					return;
+				}
+			}else {
+				System.out.println("Error! ConnectionGene is null!");
+				return;
+			}
+		}
+
+		gene_connection.setInnovation(ConnectionGene.incrementGlobalInnovation());
+		Genome.innovationList.add(gene_connection);
+		return;
 	}
 }

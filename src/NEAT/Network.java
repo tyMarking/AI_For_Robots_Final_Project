@@ -13,7 +13,7 @@ public class Network {
 	private Node[] outputNode;
 	ArrayList<Node> computeOrder = new ArrayList<Node>();
 
-	public void addNode(int ID, int Layer)
+	public void addNode(int ID)
 	{
 		Node node = new Node();
 		node.ID = ID; //ID is global
@@ -31,14 +31,51 @@ public class Network {
         int count = 0;
 		for(i=0;i<genome.getNodeGeneSize();i++)
 		{
-			this.addNode(genome.getNodeGeneElement(i).getID(), genome.getNodeGeneElement(i).getLayer());
+			for(NodeGene nodeGene : genome.getNodeGeneList())
+			{
+				System.out.println("Node Gene: "+nodeGene.getID());
+			}
+			System.out.println("----------------");
+			this.addNode(genome.getNodeGeneElement(i).getID());
             if(genome.getNodeGeneElement(i).isOutput)
 			{
-				nodes.get(i).ifOutput = true;
+				for(Node node : nodes)
+				{
+					if(node.ID == genome.getNodeGeneElement(i).getID())
+					{
+						node.ifOutput = true;
+						outputNode[count] = node;
+						count++;
+						break;
+					}
+				}
+				/*nodes.get(i).ifOutput = true;
 				System.out.println("Construct node "+nodes.get(i).ID);
-				outputNode[count] = nodes.get(i);
-				count++;
+				outputNode[count] = nodes.get(i);*/
+				//count++;
 			}
+			if(genome.getNodeGeneElement(i).isInput)
+			{
+				for(Node node : nodes)
+				{
+					if(node.ID == genome.getNodeGeneElement(i).getID())
+					{
+						node.ifInput = true;
+						node.activated = true;
+						computeOrder.add(node);
+						break;
+					}
+				}
+				/*nodes.get(i).ifOutput = true;
+				System.out.println("Construct node "+nodes.get(i).ID);
+				outputNode[count] = nodes.get(i);*/
+
+			}
+
+		}
+		for(i=0;i<genome.getConnectionGenesSize();i++)
+		{
+			System.out.println("Connection Gene: - out_ID: "+genome.getConnectionGeneElement(i).getOut_ID()+" -- in_ID: "+genome.getConnectionGeneElement(i).getIn_ID());
 		}
 		for(i=0;i<genome.getConnectionGenesSize();i++)
 		{
@@ -48,7 +85,7 @@ public class Network {
 			}
 		}
 
-		for(i=0;i<inputCount;i++)
+		/*for(i=0;i<inputCount;i++)
 		{
 			if(i<inputCount)
 			{
@@ -56,7 +93,7 @@ public class Network {
 				this.getNodeElement(i).ifInput = true;
 				computeOrder.add(nodes.get(i));
 			}
-		}
+		}*/
 		computeOrder();
 		return this;
 	}
@@ -79,17 +116,20 @@ public class Network {
 							activated++;
 						}
 					}
+					System.out.println("Node "+node.ID+"  Activated: "+activated+"  InputSize: "+node.getInputSize());
 					node.priority = (double)(activated)/(node.getInputSize());
 				}
 			}
 
 			for(Node node :nodes) {
+				System.out.println(node.priority + " "+max);
 				if (node.priority > max) {
 
 					max = node.priority;
 					highPriority = node;
 				}
 			}
+			System.out.println(nodes);
 			highPriority.activated = true;
 			computeOrder.add(highPriority);
 			for(Node node :nodes) {
@@ -150,17 +190,41 @@ public class Network {
 
 	public void addConnection(int ID_sender, int ID_receiver, double weight)
 	{
-		ID_sender--; //Node ID starts from 1
-		ID_receiver--;
 
-		if(ID_sender != -1 && ID_receiver != -1)
+
+		Node senderNode = null;
+		Node receiverNode = null;
+
+		for(Node node : nodes)
+		{
+			if(node.ID == ID_sender)
+			{
+				senderNode = node;
+			}
+
+			if(node.ID == ID_receiver)
+			{
+				receiverNode = node;
+			}
+
+			if(senderNode != null && receiverNode != null)
+			{
+				break;
+			}
+		}
+
+		receiverNode.addInput(senderNode);
+		senderNode.addOutput(receiverNode);
+		senderNode.addWeight(weight);
+
+		/*if(ID_sender != -1 && ID_receiver != -1)
 		{
 			nodes.get(ID_receiver).addInput(nodes.get(ID_sender));
 			nodes.get(ID_sender).addOutput(nodes.get(ID_receiver));
 			nodes.get(ID_sender).addWeight(weight);
 		}else {
 			System.out.println("Error in adding Connection\nEither specified node does not exist");
-		}
+		}*/
 
 	}
 
@@ -188,7 +252,7 @@ public class Network {
 		int i;
 		int j;
 		int k;
-
+        //System.out.println("Propagate");
 		if(inputs.length == inputCount)
 		{
 			for(i=0;i<inputs.length;i++)
