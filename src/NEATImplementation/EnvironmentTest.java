@@ -63,16 +63,16 @@ class Agent extends JComponent{
 	     x3 = 20*Math.sqrt(2) * Math.cos(a3) + x;       
 	     x4 = 20*Math.sqrt(2) * Math.cos(a4) + x;
 	     
-	     xp0 = proxLength * Math.cos(angle + Math.toRadians(45)) + x1;
-	     xp1 = proxLength * Math.cos(angle) + x2;
+	     xp0 = proxLength * Math.cos(angle + Math.PI/2.0) + x1;
+	     xp1 = proxLength * Math.cos(angle + Math.PI/2.0) + x2;
 	     
 	     y1 = 20*Math.sqrt(2) * Math.sin(a1) - y;
 	     y2 = 20*Math.sqrt(2) * Math.sin(a2) - y;
 	     y3 = 20*Math.sqrt(2) * Math.sin(a3) - y;
 	     y4 = 20*Math.sqrt(2) * Math.sin(a4) - y;
 
-	     yp0 = proxLength * Math.sin(angle) + y1;
-	     yp1 = proxLength * Math.sin(angle) + y2;
+	     yp0 = proxLength * Math.sin(angle + Math.PI/2.0) + y1;
+	     yp1 = proxLength * Math.sin(angle + Math.PI/2.0) + y2;
 	     
 	     Polygon robot = new Polygon();
 	     
@@ -125,8 +125,8 @@ class Agent extends JComponent{
 			for(int i =0; i < obs.length; i ++) {
 				if(distance((x1 + x2)/2,(y1+y3)/2,(obs[i][0]+obs[i][2]/2),(obs[i][1] + obs[i][3])/2)< proxLength + size*2) {
 					for(int k = 0; k < proxLength; k ++) {
-					     double cx0 = k * Math.cos(angle) + x1;
-					     double cy0 = k * Math.sin(angle) + y1;
+					     double cx0 = k * Math.cos(angle + Math.PI/2.0) + x1;
+					     double cy0 = k * Math.sin(angle + Math.PI/2.0) + y1;
 					     if(cx0 > obs[i][0] && cx0 < obs[i][2] && cy0 > obs[i][1] && cy0 < obs[i][3]) {
 					    	 p.setLocation(cx0, cy0);
 					    	 return p;
@@ -139,8 +139,8 @@ class Agent extends JComponent{
 			for(int i =0; i < obs.length; i ++) {
 				if(distance((x1 + x2)/2,(y1+y3)/2,(obs[i][0]+obs[i][2]/2),(obs[i][1] + obs[i][3])/2)< proxLength + size*2) {
 					for(int k = 0; k < proxLength; k ++) {
-					     double cx1 = k * Math.cos(angle) + x4;
-					     double cy1 = k * Math.sin(angle) + y4;
+					     double cx1 = k * Math.cos(angle + Math.PI/2.0) + x4;
+					     double cy1 = k * Math.sin(angle + Math.PI/2.0) + y4;
 					     if(cx1 > obs[i][0] && cx1 < obs[i][2] && cy1 > obs[i][1] && cy1 < obs[i][3]) {
 					    	 p.setLocation(cx1, cy1);
 					    	 return p;
@@ -427,17 +427,17 @@ class EnvironmentTest extends JFrame {
  		Point intersect = new Point();
  		
  		intersect = a0.getProx(0, obs);
- 		System.out.println(intersect.getX() + "," +intersect.getY());
- 		
+ 		double prox0 = a0.distance((int)(a0.x1 + a0.x2)/2.0,(int)(a0.y1+a0.y3)/2.0,(int)intersect.getX(), (int)intersect.getY());
+ 		if(intersect.getX() > 0 && intersect.getY() > 0) {
+ 			System.out.println(prox0);
+ 		}
  		intersect = a1.getProx(0, obs);
- 		System.out.println(intersect.getX() + "," +intersect.getY());
  		
  		intersect = a2.getProx(0, obs);
- 		System.out.println(intersect.getX() + "," +intersect.getY());
  		
  		m.update();
  		
-     	forward(a0);
+     	right(a0);
 
      	right(a1);
 
