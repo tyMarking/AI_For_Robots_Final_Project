@@ -47,9 +47,9 @@ public class Network {
 		{
 			if(i<inputCount)
 			{
-                this.getNodeElement(i).activated = true;
+				this.getNodeElement(i).activated = true;
 				this.getNodeElement(i).ifInput = true;
-                computeOrder.add(nodes.get(i));
+				computeOrder.add(nodes.get(i));
 			}
 		}
 		computeOrder();
@@ -57,48 +57,52 @@ public class Network {
 	}
 
 	public void computeOrder(){
-        while(computeOrder.size() < nodes.size()-1)
-        {
-            double max = Double.MIN_VALUE;
-            Node highPriority = null;
+		while(computeOrder.size() < nodes.size())
+		{
+			double max = Double.MIN_VALUE;
+			Node highPriority = null;
 
-            for(Node node : nodes)
-            {
-                if(!node.ifInput && !node.activated)
-                {
-                    int activated = 0;
-                    for(int j=0;j<node.getInputSize();j++)
-                    {
-                        if(node.getInputElement(j).activated)
-                        {
-                            activated++;
-                        }
-                    }
-                    node.priority = (double)(activated)/(node.getInputSize());
-                }
-            }
+			for(Node node : nodes)
+			{
+				if(!node.ifInput && !node.activated)
+				{
+					int activated = 0;
+					for(int j=0;j<node.getInputSize();j++)
+					{
+						if(node.getInputElement(j).activated)
+						{
+							activated++;
+						}
+					}
+					node.priority = (double)(activated)/(node.getInputSize());
+				}
+			}
 
-            for(Node node :nodes) {
-                if (node.priority > max) {
+			for(Node node :nodes) {
+				if (node.priority > max) {
 
-                    max = node.priority;
-                    highPriority = node;
-                }
-            }
-            highPriority.activated = true;
-            computeOrder.add(highPriority);
-            System.out.println(computeOrder);
-            for(Node node :nodes) {
-                node.priority = 0;
-            }
-        }
-    }
+					max = node.priority;
+					highPriority = node;
+				}
+			}
+			highPriority.activated = true;
+			computeOrder.add(highPriority);
+			for(Node node :nodes) {
+				node.priority = 0;
+			}
+		}
+
+		for(Node node : computeOrder)
+		{
+			System.out.println(node.ID);
+		}
+	}
 
 	public int getInputCount()
 	{
 		return inputCount;
 	}
-	public void setInputCount(int value) 
+	public void setInputCount(int value)
 	{
 		inputCount = value;
 	}
@@ -129,7 +133,7 @@ public class Network {
 		return nodes.get(index);
 	}
 
-	public int getOutputCount() 
+	public int getOutputCount()
 	{
 		return outputCount;
 	}
@@ -156,7 +160,7 @@ public class Network {
 	}
 
 
-	public void removeConnection(int ID_sender, int ID_receiver) 
+	public void removeConnection(int ID_sender, int ID_receiver)
 	{
 		ID_sender--; //Node ID starts from 1
 		ID_receiver--;
@@ -185,7 +189,7 @@ public class Network {
 			for(i=0;i<inputs.length;i++)
 			{
 				nodes.get(i).setSum(inputs[i]);
-				nodes.get(i).activate();
+				//nodes.get(i).activate();
 			}
 
 		}else {
@@ -194,9 +198,16 @@ public class Network {
 		}
 
 		for(Node node : computeOrder)
-        {
-            System.out.println(node.ID);
-        }
+		{
+			node.activate();
+			for(i=0;i<node.getOutputSize();i++)
+			{
+				node.getOutputElement(i).setSum(node.getOutputElement(i).getSum()+node.getNodeOutput()*node.getWeightElement(i));
+				System.out.println("Node "+node.ID+" has output "+node.getNodeOutput()+" passing value to Node "+node.getOutputElement(i).ID);
+				System.out.println("Node "+node.getOutputElement(i).ID+" sum: "+node.getOutputElement(i).getSum());
+			}
+			System.out.println("Node "+node.ID+" output: "+node.getNodeOutput());
+		}
 
   /*int i;
   double[] memoi = null;
@@ -333,7 +344,9 @@ public class Network {
 		for(i=nodes.size()-outputCount;i<nodes.size();i++)
 		{
 			outputs[nodes.size()-i-1] = nodes.get(i).getNodeOutput(); //We are filling outputs in backward order i.e. output[3] --> output[2] --> output[1]
+			System.out.println("Export Node "+nodes.get(i).ID+" Output: "+nodes.get(i).getNodeOutput());
 		}
+
 
 		//System.out.println(outputs[0]+","+outputs[1]);
 

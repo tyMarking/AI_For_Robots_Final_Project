@@ -29,8 +29,8 @@ public class NetworkJsonEncoder {
         for(ConnectionGene connectionGene: genome.getConnectionGenes())
         {
             ArrayList<Double> tuple = new ArrayList<Double>();
-            tuple.add((double)connectionGene.getOut_ID());
             tuple.add((double)connectionGene.getIn_ID());
+            tuple.add((double)connectionGene.getOut_ID());
             tuple.add(connectionGene.getWeight());
             encoder.add(tuple);
         }
