@@ -23,6 +23,17 @@ public class NetworkJsonEncoder {
 
     }
 
+    public void endProcess()
+    {
+        try {
+            encodeWriter.flush();
+            encodeWriter.close();
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public boolean exportNetwork(Genome genome)
     {
         ArrayList<ArrayList<Double>> encoder = new ArrayList<ArrayList<Double>>();

@@ -75,7 +75,7 @@ public class Network {
 		}
 		for(i=0;i<genome.getConnectionGenesSize();i++)
 		{
-			System.out.println("Connection Gene: - out_ID: "+genome.getConnectionGeneElement(i).getOut_ID()+" -- in_ID: "+genome.getConnectionGeneElement(i).getIn_ID());
+			System.out.println("Connection Gene: - out_ID: "+genome.getConnectionGeneElement(i).getOut_ID()+" -- in_ID: "+genome.getConnectionGeneElement(i).getIn_ID()+" isActive: "+genome.getConnectionGeneElement(i).ifActive());
 		}
 		for(i=0;i<genome.getConnectionGenesSize();i++)
 		{

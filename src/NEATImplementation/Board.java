@@ -41,7 +41,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
     int y = 400;
     int timeSpeed = 1;
 
-    public boolean crunchMode = false;
+    public boolean crunchMode = true;
     public double starvationAmount = 3.0;
 
     double InitTime;
@@ -190,6 +190,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
                     bord.writer.close();
                     bord.writer1.flush();
                     bord.writer1.close();
+                    bord.jsonEncode.endProcess();
                     //bord.writerNetwork.flush();
                     //bord.writerNetwork.close();
 

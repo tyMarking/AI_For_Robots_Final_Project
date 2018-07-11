@@ -1,5 +1,6 @@
 package NEAT;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class Mutation {
@@ -32,16 +33,26 @@ public class Mutation {
 		
 		System.out.println("Added Node \n\n");
 
-		int newID = genome.getNodeGeneElement(genome.getNodeGeneSize()-1).getID()+1;
+		int max = Integer.MIN_VALUE;
+		NodeGene maxNodeGene = null;
+		for(NodeGene nodeGene : genome.getNodeGeneList())
+        {
+            if(nodeGene.getID() > max)
+            {
+                max = nodeGene.getID();
+                maxNodeGene = nodeGene;
+            }
+        }
+		int newID = maxNodeGene.getID()+1;
 		
 		ConnectionGene gene1 = new ConnectionGene(newID, nodeID_out, 1.0d, true, 0);
 		Genome.checkInnovationOverlaps(genome,gene1);
 		ConnectionGene gene2 = new ConnectionGene(nodeID_in,newID, randomDouble(1.0, -1.0), true, 0);
 		Genome.checkInnovationOverlaps(genome,gene1);
 		
-		genome.addConnectionGene(gene1);
+		genome.checkConnectionOverlap(gene1);
 		System.out.println("Added Connection\n\nIN: "+gene1.getIn_ID()+"\nOUT: "+gene1.getOut_ID()+"\nWEIGHT: "+gene1.getWeight());
-		genome.addConnectionGene(gene2);
+		genome.checkConnectionOverlap(gene2);
 		System.out.println("Added Connection\n\nIN: "+gene2.getIn_ID()+"\nOUT: "+gene2.getOut_ID()+"\nWEIGHT: "+gene2.getWeight());
 
 		genome.addNodeGene(gene1);
@@ -54,14 +65,52 @@ public class Mutation {
 		
 		
 		high = genome.getNodeGeneSize()-1;
-		low = 1;
+		low = 0;
 		int sender_ID = genome.getNodeGeneElement(randomInteger(high, low)).getID();
 		int receive_ID = 0;
 		int isOverlap=0;
 		
 		 //overlapConnection = new boolean[genome.getNodeGeneSize()];
+        ArrayList<ConnectionGene> overlapConnections = new ArrayList<ConnectionGene>();
 
-		for(NodeGene nodeGene : genome.getNodeGeneList())
+        System.out.println("-------Connection Genes-------");
+        for(ConnectionGene connectionGene : genome.getConnectionGenes())
+        {
+            System.out.println("In: "+connectionGene.getIn_ID()+" Out: "+connectionGene.getOut_ID()+" Active: "+connectionGene.ifActive());
+            if(sender_ID == connectionGene.getOut_ID())
+            {
+                overlapConnections.add(connectionGene);
+            }
+        }
+
+        for(ConnectionGene connectionGene : overlapConnections)
+        {
+            System.out.println("Overlap:  In: "+connectionGene.getIn_ID()+" -- Out: "+connectionGene.getOut_ID());
+        }
+
+        for(NodeGene nodeGene: genome.getNodeGeneList())
+        {
+            boolean overlap = false;
+            for(ConnectionGene connectionGene : overlapConnections)
+            {
+                if(nodeGene.getID() == connectionGene.getIn_ID())
+                {
+                    overlap = true;
+                    break;
+                }
+            }
+            if(!overlap)
+            {
+                availableElement.add(nodeGene.getID());
+            }
+        }
+
+        for(int id : availableElement)
+        {
+            System.out.println("Available Element: "+id);
+        }
+
+		/*for(NodeGene nodeGene : genome.getNodeGeneList())
 		{
 			isOverlap = 0;
 			for(ConnectionGene connectionGene : genome.getConnectionGenes())
@@ -71,7 +120,7 @@ public class Mutation {
 					isOverlap++;
 				}
 
-				if(nodeGene.getID() == connectionGene.getIn_ID())
+				if(isOverlap > 0 && nodeGene.getID() == connectionGene.getIn_ID())
 				{
 					isOverlap++;
 					receive_ID = 0;
@@ -84,7 +133,7 @@ public class Mutation {
 				availableElement.add(receive_ID);
 			}
 
-		}
+		}*/
 
 		
 		high = availableElement.size()-1;
@@ -94,13 +143,17 @@ public class Mutation {
 		{
 			ConnectionGene gene = new ConnectionGene(availableElement.get(randomInteger(high, low)), sender_ID, randomDouble(1.0, -1.0), true, 0);
 			Genome.checkInnovationOverlaps(genome, gene);
-			genome.addConnectionGene(gene);
+			genome.checkConnectionOverlap(gene);
 			System.out.println("Added Connection\n\nIN: "+gene.getIn_ID()+"\nOUT: "+gene.getOut_ID()+"\nWEIGHT: "+gene.getWeight());
-			
+		    for(ConnectionGene connectionGene : genome.getConnectionGenes())
+            {
+                System.out.println("In: "+connectionGene.getIn_ID()+" Out: "+connectionGene.getOut_ID()+" Active: "+connectionGene.ifActive());
+            }
 		}else {
 			System.out.println("No Available Connection... Adding Node");
 			addNode(genome);
 		}
+		availableElement.removeAll(availableElement);
 	}
 	
 	/*public static void checkInnovationOverlaps(Genome genome, ConnectionGene gene_connection)

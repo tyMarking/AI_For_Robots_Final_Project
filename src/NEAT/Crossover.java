@@ -110,7 +110,7 @@ public class Crossover {
         }*/
 		while(genome_1.getConnectionGenesSize() > element_genome_1 || genome_2.getConnectionGenesSize() > element_genome_2)
 		{
-			System.out.println("Iteration");
+			//System.out.println("Iteration");
 			int index_1 = element_genome_1;
 			int index_2 = element_genome_2;
 			if(element_genome_1 >= genome_1.getConnectionGenesSize())
@@ -135,23 +135,23 @@ public class Crossover {
 			{
 				if(randomBoolean())
 				{
-					offspring.addConnectionGene(genome_1.getConnectionGeneElement(index_1));
+					offspring.checkConnectionOverlap(genome_1.getConnectionGeneElement(index_1));
 					element_genome_1++;
 				}else {
-					offspring.addConnectionGene(genome_2.getConnectionGeneElement(index_2));
+					offspring.checkConnectionOverlap(genome_2.getConnectionGeneElement(index_2));
 					element_genome_2++;
 				}
 			}else if(innovation_1 > innovation_2)
 			{
 				if(randomBoolean())
 				{
-					offspring.addConnectionGene(genome_2.getConnectionGeneElement(index_2));
+					offspring.checkConnectionOverlap(genome_2.getConnectionGeneElement(index_2));
 					element_genome_2++;
 				}
 			}else {
 				if(randomBoolean())
 				{
-					offspring.addConnectionGene(genome_1.getConnectionGeneElement(index_1));
+					offspring.checkConnectionOverlap(genome_1.getConnectionGeneElement(index_1));
 					element_genome_1++;
 				}
 			}
