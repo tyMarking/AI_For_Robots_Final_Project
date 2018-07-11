@@ -3,6 +3,7 @@ package NEATImplementation;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import javax.swing.Timer;
 class Agent extends JComponent{
 	
 	//Agent Parameters
+	int proxLength = 100;
 	double speed = 1;
 	double angle = 2* Math.PI;
 	int size = 100;
@@ -60,16 +62,16 @@ class Agent extends JComponent{
 	     x2 = 20*Math.sqrt(2) * Math.cos(a2) + x;
 	     x3 = 20*Math.sqrt(2) * Math.cos(a3) + x;       
 	     x4 = 20*Math.sqrt(2) * Math.cos(a4) + x;
-	     xp0 = 100 * Math.cos(angle) + x;
-	     xp1 = 100 * Math.cos(angle) + x1;
+	     xp0 = 100 * Math.cos(angle) + x1;
+	     xp1 = 100 * Math.cos(angle) + x4;
 	     
 	     y1 = 20*Math.sqrt(2) * Math.sin(a1) - y;
 	     y2 = 20*Math.sqrt(2) * Math.sin(a2) - y;
 	     y3 = 20*Math.sqrt(2) * Math.sin(a3) - y;
 	     y4 = 20*Math.sqrt(2) * Math.sin(a4) - y;
 
-	     yp0 = 100 * Math.sin(angle) - y1;
-	     yp1 = 100 * Math.sin(angle) - y;
+	     yp0 = 100 * Math.sin(angle) - -y1;
+	     yp1 = 100 * Math.sin(angle) - -y4;
 	     
 	     Polygon robot = new Polygon();
 	     
@@ -83,17 +85,37 @@ class Agent extends JComponent{
 	     
 	     g.setColor(Color.red);
 	     g2d.fillOval((int)x1-5, (int)y1-5, 10, 10);
+	     g.setColor(Color.cyan);
 	     g2d.fillOval((int)x4-5, (int)y4-5, 10, 10);
-	     
+
+	     g.setColor(Color.black);
 	     g.drawLine((int)x1, (int)y1, (int)xp0, (int)yp0);
 	     g.drawLine((int)x4, (int)y4, (int)xp1, (int)yp1);
 	     
-	     for(int i = 1; i < 10; i ++) {
-	     	g2d.fillOval((int)i*100,(int)i*100,10, 10);
-	     	g2d.fillOval((int)i*100,(int)i*100, 10, 10);
-	     }
+	    // for(int i = 1; i < 10; i ++) {
+	    // 	g2d.fillOval((int)i*100,(int)i*100,10, 10);
+	    // 	g2d.fillOval((int)i*100,(int)i*100, 10, 10);
+	    // }
 	     //System.out.println((int)((20*Math.sqrt(2)-2) * Math.sin(angle) + (int)((x1 + x3)/2.0)-5) + " - " + (int)((20*Math.sqrt(2)-2) * Math.cos(angle) - ((y1 + y3)/2.0)-5));
 		
+	}
+	public Point getProx(int side, double[][] obs){
+		Point p = new Point();
+		for(int i = 0; i < obs.length; i ++) {
+			for(int k = 0 ; k < proxLength; k += 1) {
+			     double checkP0X = k * Math.cos(angle) + x1;
+			     double checkP0Y = k * Math.sin(angle) + y1;
+			     
+			     if(checkP0X > obs[i][0] && checkP0X < obs[i][3] && checkP0Y < obs[i][2] && checkP0Y > obs[i][4]) {
+			    	
+			    	 p.setLocation(checkP0X,checkP0Y);
+			    	 return p;
+			     }
+			}
+		}
+		
+		
+		return p;
 	}
 	public void update(long time) {
 		double deltaT = currentTime/1000.0 - time/1000.0;
@@ -160,15 +182,15 @@ class Object extends JComponent{
 		y = yPos;
 
 		x1 = x;
-     x2 = x + size;
-     x3 = x - size/2.0;   
-     x4 = x + size/2.0;
-
-     y1 = y;
-     y2 = y + size;
-     
-     y3 = y - size/2.0;
-     y4 = y + size/2.0;
+	    x2 = x + size;
+	    x3 = x - size/2.0;   
+	    x4 = x + size/2.0;
+	
+	    y1 = y;
+	    y2 = y + size;
+	     
+	    y3 = y - size/2.0;
+	    y4 = y + size/2.0;
 	}
 	
 	public void paintComponent(Graphics g) {
