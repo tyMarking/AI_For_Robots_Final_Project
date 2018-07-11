@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="14724d5f-81d9-483d-b3bc-705e3c199b2b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NEATProgress.txt" beforeDir="false" afterPath="$PROJECT_DIR$/NEATProgress.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NEAT/Crossover.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NEAT/Crossover.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NEAT/Mutation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NEAT/Mutation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NEAT/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NEAT/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NEAT/NetworkJsonEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NEAT/NetworkJsonEncoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NEATImplementation/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NEATImplementation/Board.java" afterDir="false" />
-    </list>
+    <list default="true" id="14724d5f-81d9-483d-b3bc-705e3c199b2b" name="Default" comment="NEAT Algorithm evaluation complete.&#10;Fixed Crossover, Mutation, Population Node Generation, Node ID Conflict, Phenotype Encoder, Genome Ranker, and Speciation" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +14,8 @@
       <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/NEATImplementation/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="192" column="21" lean-forward="true" selection-start-line="192" selection-start-column="21" selection-end-line="192" selection-end-column="21" />
+            <state relative-caret-position="261">
+              <caret line="353" column="18" selection-start-line="353" selection-start-column="18" selection-end-line="353" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -407,6 +399,9 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -861,8 +856,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/NEATImplementation/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="192" column="21" lean-forward="true" selection-start-line="192" selection-start-column="21" selection-end-line="192" selection-end-column="21" />
+        <state relative-caret-position="261">
+          <caret line="353" column="18" selection-start-line="353" selection-start-column="18" selection-end-line="353" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
