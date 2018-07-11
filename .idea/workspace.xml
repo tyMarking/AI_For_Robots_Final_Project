@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="14724d5f-81d9-483d-b3bc-705e3c199b2b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NEATProgress.txt" beforeDir="false" afterPath="$PROJECT_DIR$/NEATProgress.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Network.json" beforeDir="false" afterPath="$PROJECT_DIR$/Network.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python Land/Network.json" beforeDir="false" afterPath="$PROJECT_DIR$/Python Land/Network.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python Land/exportTest1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python Land/graphGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python Land/graphGenerator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python Land/networkReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python Land/networkReader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python Land/networkReader2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NEAT/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NEAT/TestForwardProp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NEAT/TestForwardProp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NEATImplementation/.gitignore" beforeDir="false" />
-    </list>
+    <list default="true" id="14724d5f-81d9-483d-b3bc-705e3c199b2b" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
