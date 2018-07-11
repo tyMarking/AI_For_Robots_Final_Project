@@ -159,7 +159,7 @@ class Agent extends JComponent{
 	    for(int k = 0; k < voidList.size(); k ++) {
     		voidList.set(k, -10.0);
     	}
-	    for(int i = 0; i < obs.length; i++) {//for loop does not run
+	    for(int i = 0; i < obs.length; i++) {
 
 		    System.out.println("\n");
 	        double ox1 = obs[i][0];
