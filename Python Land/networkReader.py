@@ -4,11 +4,13 @@ import math
 
 class Network():
 	weightDict = None
+	reverseWeightDict = None
 	nodes = None
 
 	def __init__(self):
-		weightDict = {}
-		nodes = set()
+		self.weightDict = {}
+		self.reverseWeightDict = {}
+		self.nodes = set()
 
 	def getNetworkFromFile(self, file):
 		
@@ -32,37 +34,88 @@ class Network():
 
 		self.weightDict = weightDict
 		self.nodes = nodes
+		for node in nodes:
+			self.reverseWeightDict[node] = set()
+		for node1 in weightDict.keys():
+			for connect in weightDict[node1]:
+				self.reverseWeightDict[connect[0]].add(node1)
+
 
 	def propagate(self, inputs):
 		NUM_INPUTS = 3
 		nodeSum = {}
 		activations = {}
-		nodeDones = {}
+		nodeDones = set()
+		isWaiting = set()
 		for node in self.nodes:
-			nodeDones[node] = False
 			nodeSum[node] = 0
 		#nodes start at 1, Thanks Brian
 		for i in range(len(inputs)):
 			nodeSum[i+1] = inputs[i]
 			# print("Node " + str(i+1)+" is inputed: "+str(inputs[i]))
-		for node in self.nodes:
-			nodeDones[node] = True
-			a = sig(nodeSum[node])
-			nodeSum[node] = 0
 
-			activations[node] = a
-			# print("Node: " + str(node)+"\tSum: " +str(nodeSum[node])+"\tA: " + str(activations[node]))
-			# nodeSum[node] = 
 
-			if node not in self.weightDict.keys():
+		q = Q.Queue()
+		for i in range(len(inputs)):
+			q.put(i+1)
+
+		print(self.weightDict)
+
+
+		while not q.empty():
+			# print(q.qsize())
+			node = q.get()
+			# print("Got Node %s from Queue" % str(node))
+			if node in nodeDones:
+				# print("NODE IS IN NODES DONE")
+				# print("Node is done")
 				continue
+			if node in isWaiting:
+				# print("NODE WAS IN isWaiting")
+				# print("Node was in isWaiting")
+				isWaiting.remove(node)
+				# print("NODE WAS REMOVED FROM WAITING")
+			
+			# node = q.get()
+			# print()
+			waiting = False
+			for parent in self.reverseWeightDict[node]:
+				# print("Looking at parnt: " + str(parent))
+				if parent not in nodeDones and parent not in isWaiting:
+					waiting = True
+			if waiting:
+				# print("IS WAITING")
+				isWaiting.add(node)
+				q.put(node)
+				# nodeDones.remove(node)
+				continue
+			else:
+				nodeDones.add(node)
+			# print("Activating")
+			a = sig(nodeSum[node])
+			activations[node] = a
+			nodeSum[node] = 0
+			if node not in self.weightDict.keys():
+				# print("Node not in weightDict")
+				continue
+			print("EVALUATING NODE: " +str(node))
+			print("NODE ACTIVATION: " + str(a))
 			for edge in self.weightDict[node]:
+				print("Edge: "+str(edge)+", current sum: " + str(nodeSum[edge[0]]))
 
 				nodeSum[edge[0]] += a * edge[1]
-				if nodeDones[edge[0]]:
-					activations[edge[0]] = sig(nodeSum[edge[0]])
+				if edge[0] in nodeDones:
+					activations[edge[0]] = sig(nodeSum[edge[0]])	
+				else:
+					# print("PUT EDGE")
+					q.put(edge[0])
+
+				print("Edge: "+str(edge)+", after sum: " + str(nodeSum[edge[0]]))
+
+			
 
 
+		print("OUT OF WHILE LOOP")
 		# print(activations)
 		return activations[max(self.nodes)]*2-1
 
