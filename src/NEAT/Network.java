@@ -10,6 +10,7 @@ public class Network {
 	private int outputCount = 0;
 	private int inputCount = 0;
 	private double[] final_output_list = null;
+	private Node[] outputNode;
 	ArrayList<Node> computeOrder = new ArrayList<Node>();
 
 	public void addNode(int ID, int Layer)
@@ -26,13 +27,17 @@ public class Network {
 
 		inputCount = genome.getInputCount();
 		outputCount = genome.getOutputCount();
-
+        outputNode = new Node[outputCount];
+        int count = 0;
 		for(i=0;i<genome.getNodeGeneSize();i++)
 		{
 			this.addNode(genome.getNodeGeneElement(i).getID(), genome.getNodeGeneElement(i).getLayer());
-			if(i >= genome.getNodeGeneSize() - genome.getOutputCount())
+            if(genome.getNodeGeneElement(i).isOutput)
 			{
 				nodes.get(i).ifOutput = true;
+				System.out.println("Construct node "+nodes.get(i).ID);
+				outputNode[count] = nodes.get(i);
+				count++;
 			}
 		}
 		for(i=0;i<genome.getConnectionGenesSize();i++)
@@ -203,11 +208,12 @@ public class Network {
 			for(i=0;i<node.getOutputSize();i++)
 			{
 				node.getOutputElement(i).setSum(node.getOutputElement(i).getSum()+node.getNodeOutput()*node.getWeightElement(i));
-				System.out.println("Node "+node.ID+" has output "+node.getNodeOutput()+" passing value to Node "+node.getOutputElement(i).ID);
-				System.out.println("Node "+node.getOutputElement(i).ID+" sum: "+node.getOutputElement(i).getSum());
+				//System.out.println("Node "+node.ID+" has output "+node.getNodeOutput()+" passing value to Node "+node.getOutputElement(i).ID);
+				//System.out.println("Node "+node.getOutputElement(i).ID+" sum: "+node.getOutputElement(i).getSum());
 			}
-			System.out.println("Node "+node.ID+" output: "+node.getNodeOutput());
 		}
+
+		formatFinalOutputList(output());
 
   /*int i;
   double[] memoi = null;
@@ -341,11 +347,10 @@ public class Network {
 	{
 		double[] outputs = new double[outputCount];
 
-		for(i=nodes.size()-outputCount;i<nodes.size();i++)
-		{
-			outputs[nodes.size()-i-1] = nodes.get(i).getNodeOutput(); //We are filling outputs in backward order i.e. output[3] --> output[2] --> output[1]
-			System.out.println("Export Node "+nodes.get(i).ID+" Output: "+nodes.get(i).getNodeOutput());
-		}
+		for(int i = 0;i<outputCount;i++)
+        {
+            outputs[i] = nodes.get(i+inputCount).getNodeOutput();
+        }
 
 
 		//System.out.println(outputs[0]+","+outputs[1]);

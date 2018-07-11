@@ -65,6 +65,10 @@ public class NEAT_Toolchain {
 		{
 			NodeGene node = new NodeGene();
 			genome.addNodeGene(node);
+			if(i >= inputNum)
+			{
+				node.isOutput = true;
+			}
 		}
 		for(i=0;i<inputNum;i++)
 		{

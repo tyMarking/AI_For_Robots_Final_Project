@@ -3,6 +3,7 @@ package NEAT;
 public class NodeGene {
 	private int ID;
 	private int Layer;
+	public boolean isOutput=false;
 	
 	public int getID()
 	{

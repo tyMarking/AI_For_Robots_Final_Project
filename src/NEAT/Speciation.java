@@ -74,6 +74,14 @@ public class Speciation {
             if(innovation_subject == innovation_candidate) {
                 weightSum+=Math.abs(subject.getConnectionGeneElement(element_subject).getWeight() - candidate.getConnectionGeneElement(element_candidate).getWeight());
                 matchCount++;
+				if(element_subject < subject.getConnectionGenesSize()-1)
+				{
+					element_subject++;
+				}
+				if(element_candidate < candidate.getConnectionGenesSize()-1)
+				{
+					element_candidate++;
+				}
             }else if(innovation_subject > innovation_candidate){
                 disjointCount++;
                 if(element_candidate < candidate.getConnectionGenesSize()-1)
@@ -88,14 +96,7 @@ public class Speciation {
                 }
             }
 
-            if(element_subject < subject.getConnectionGenesSize()-1)
-            {
-                element_subject++;
-            }
-            if(element_candidate < candidate.getConnectionGenesSize()-1)
-            {
-                element_candidate++;
-            }
+
 
         }
 		
