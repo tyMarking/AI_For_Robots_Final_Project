@@ -129,7 +129,46 @@ class Agent extends JComponent{
 		return false;
 	}
 	public boolean isCollided(double[][] obs) {
-		return false;
+		boolean ret = false;
+		collisionLoop:
+		for (double[] object : obs) {
+			double minX = object[0];
+			double minY = object[1];
+			double maxX = object[2];
+			double maxY = object[3];
+			if (object[2] < object[0]) {
+				minX = object[2];
+				maxX = object[0];
+			}
+			if (object[3] < object[1]) {
+				minY = object[3];
+				maxY = object[1];
+			}
+			
+			double[][] points = new double[4][2];
+			points[0][0] = x1;
+			points[0][1] = y1;
+			points[1][0] = x2;
+			points[1][1] = y2;
+			points[2][0] = x3;
+			points[2][1] = y3;
+			points[3][0] = x4;
+			points[3][1] = y4;
+					
+			for (double[] point : points) {
+				if (point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY) {
+					ret = true;
+					break collisionLoop;
+				}
+			}
+			
+			
+			
+			
+		}
+		
+		
+		return ret;
 	}
 	public double calculateAngle(double x1, double y1, double x2, double y2)
 	{
