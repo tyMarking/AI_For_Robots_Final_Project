@@ -108,7 +108,12 @@ class Agent extends JComponent{
 		double newAngle = angle + (leftSpeed-rightSpeed)*deltaT/35;
 		double newX = x + newPos * Math.sin(angle) * 1.25;
 		double newY = y + newPos * Math.cos(angle) * 1.25;
-		
+		double[][] myObs = new double[1][4];
+		myObs[0][0] = 0;
+		myObs[0][1] = 0;
+		myObs[0][2] = 0;
+		myObs[0][3] = 0;
+		//if isCollided()
 		x = newX;
 		y = newY;
 		angle = newAngle;
@@ -130,6 +135,34 @@ class Agent extends JComponent{
 	}
 	public boolean isCollided(double[][] obs) {
 		boolean ret = false;
+		
+		int NUM_POINTS = 10;
+		double[][] fullPoints = new double[NUM_POINTS*4][2];
+		
+		double dx12 = (x1-x2)/(NUM_POINTS+1);
+		double dx23 = (x2-x3)/(NUM_POINTS+1);
+		double dx34 = (x3-x4)/(NUM_POINTS+1);
+		double dx41 = (x4-x1)/(NUM_POINTS+1);
+		double dy12 = (y1-y2)/(NUM_POINTS+1);
+		double dy23 = (y2-y3)/(NUM_POINTS+1);
+		double dy34 = (y3-y4)/(NUM_POINTS+1);
+		double dy41 = (y4-y1)/(NUM_POINTS+1);
+		
+		for (int i = 1; i < 11; i++) {
+			fullPoints[i][0] = dx12*i+x1;
+			fullPoints[i+NUM_POINTS][0] = dx23*i+x2;
+			fullPoints[i+2*NUM_POINTS][0] = dx34*i+x3;
+			fullPoints[i+3*NUM_POINTS][0] = dx41*i+x4;
+			
+			fullPoints[i][1] = dy12*i+y1;
+			fullPoints[i+NUM_POINTS][1] = dy23*i+y2;
+			fullPoints[i+2*NUM_POINTS][1] = dy34*i+y3;
+			fullPoints[i+3*NUM_POINTS][1] = dy41*i+y4;
+		}
+		
+		System.out.print(fullPoints);
+				
+				
 		collisionLoop:
 		for (double[] object : obs) {
 			double minX = object[0];
@@ -145,20 +178,33 @@ class Agent extends JComponent{
 				maxY = object[1];
 			}
 			
-			double[][] points = new double[4][2];
-			points[0][0] = x1;
-			points[0][1] = y1;
-			points[1][0] = x2;
-			points[1][1] = y2;
-			points[2][0] = x3;
-			points[2][1] = y3;
-			points[3][0] = x4;
-			points[3][1] = y4;
+			double dist = Math.pow((this.x - (minX+maxX)/2),2) + Math.pow((this.y - (minY+maxY)/2),2);
+			//Max dist to consider squared
+			if (dist < 2500) {
+				
+				double[][] points = new double[4][2];
+				points[0][0] = x1;
+				points[0][1] = y1;
+				points[1][0] = x2;
+				points[1][1] = y2;
+				points[2][0] = x3;
+				points[2][1] = y3;
+				points[3][0] = x4;
+				points[3][1] = y4;
+						
+				for (double[] point : points) {
 					
-			for (double[] point : points) {
-				if (point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY) {
-					ret = true;
-					break collisionLoop;
+					if (point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY) {
+						ret = true;
+						break collisionLoop;
+					}
+				}
+				
+				for (double[] point : fullPoints) {
+					if (point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY) {
+						ret = true;
+						break collisionLoop;
+					}
 				}
 			}
 			
