@@ -384,6 +384,7 @@ class EnvironmentTest extends JFrame {
  		a.update(System.currentTimeMillis());
  		m.update();
      	right(a);
+     	//left(a);
      	
 
 
