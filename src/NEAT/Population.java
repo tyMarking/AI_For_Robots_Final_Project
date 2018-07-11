@@ -244,7 +244,9 @@ public class Population {
 							NodeGene geneCopy = new NodeGene();
 							geneCopy.setID(organism.getGenome().getNodeGeneElement(k).getID());
 							geneCopy.setLayer(organism.getGenome().getNodeGeneElement(k).getLayer());
-							offspring.addNodeGene(geneCopy);
+							geneCopy.isOutput = organism.getGenome().getNodeGeneElement(k).isOutput;
+							geneCopy.isInput = organism.getGenome().getNodeGeneElement(k).isInput;
+							offspring.addNodeGene(geneCopy); //addNodeGene(NodeGene node)
 						}
 
 						if(randomBoolean())
@@ -278,7 +280,9 @@ public class Population {
 							NodeGene geneCopy = new NodeGene();
 							geneCopy.setID(organism.getGenome().getNodeGeneElement(k).getID());
 							geneCopy.setLayer(organism.getGenome().getNodeGeneElement(k).getLayer());
-							offspring.addNodeGene(geneCopy);
+							geneCopy.isOutput = organism.getGenome().getNodeGeneElement(k).isOutput;
+							geneCopy.isInput = organism.getGenome().getNodeGeneElement(k).isInput;
+							offspring.addNodeGene(geneCopy);//addNodeGene(NodeGene node)
 						}
 						offspring_list[counter].setGenome(offspring);
 						counter++;
@@ -346,7 +350,9 @@ public class Population {
 						NodeGene geneCopy = new NodeGene();
 						geneCopy.setID(organism.getGenome().getNodeGeneElement(k).getID());
 						geneCopy.setLayer(organism.getGenome().getNodeGeneElement(k).getLayer());
-						offspring.addNodeGene(geneCopy);
+						geneCopy.isOutput = organism.getGenome().getNodeGeneElement(k).isOutput;
+						geneCopy.isInput = organism.getGenome().getNodeGeneElement(k).isInput;
+						offspring.addNodeGene(geneCopy);//addNodeGene(NodeGene node)
 					}
 
 					if(randomBoolean())
@@ -380,7 +386,9 @@ public class Population {
 						NodeGene geneCopy = new NodeGene();
 						geneCopy.setID(organism.getGenome().getNodeGeneElement(k).getID());
 						geneCopy.setLayer(organism.getGenome().getNodeGeneElement(k).getLayer());
-						offspring.addNodeGene(geneCopy);
+						geneCopy.isOutput = organism.getGenome().getNodeGeneElement(k).isOutput;
+						geneCopy.isInput = organism.getGenome().getNodeGeneElement(k).isInput;
+						offspring.addNodeGene(geneCopy);//addNodeGene(NodeGene node)
 					}
 					offspring_list[counter].setGenome(offspring);
 					counter++;
@@ -465,6 +473,7 @@ public class Population {
 				}
 				while(leftPopulation > 0)
 				{
+				    System.out.println("Offspring "+counter);
 					offspring_list[counter] = new Organism();
 					double randomChoice = randomDouble(1.0, 0);
 					for(j=0;j<population.get(candidate).getSpeciesSize();j++)
@@ -519,7 +528,9 @@ public class Population {
 							NodeGene geneCopy = new NodeGene();
 							geneCopy.setID(population.get(candidate).getSpeciesElement(position).getGenome().getNodeGeneElement(k).getID());
 							geneCopy.setLayer(population.get(candidate).getSpeciesElement(position).getGenome().getNodeGeneElement(k).getLayer());
-							offspring.addNodeGene(geneCopy);
+							geneCopy.isOutput = population.get(candidate).getSpeciesElement(position).getGenome().getNodeGeneElement(k).isOutput;
+							geneCopy.isInput = population.get(candidate).getSpeciesElement(position).getGenome().getNodeGeneElement(k).isInput;
+							offspring.addNodeGene(geneCopy);//addNodeGene(NodeGene node)
 						}
 
 						if(randomBoolean())
@@ -553,8 +564,13 @@ public class Population {
 							NodeGene geneCopy = new NodeGene();
 							geneCopy.setID(population.get(candidate).getSpeciesElement(position).getGenome().getNodeGeneElement(k).getID());
 							geneCopy.setLayer(population.get(candidate).getSpeciesElement(position).getGenome().getNodeGeneElement(k).getLayer());
-							offspring.addNodeGene(geneCopy);
+							geneCopy.isOutput = population.get(candidate).getSpeciesElement(position).getGenome().getNodeGeneElement(k).isOutput;
+							geneCopy.isInput = population.get(candidate).getSpeciesElement(position).getGenome().getNodeGeneElement(k).isInput;
+							offspring.addNodeGene(geneCopy);//addNodeGene(NodeGene node)
 						}
+						System.out.println("ConnectionGenes Size: "+offspring.getConnectionGenesSize());
+                        System.out.println("NodeGenes Size: "+offspring.getNodeGeneSize());
+						System.out.println("------------------------------");
 						offspring_list[counter].setGenome(offspring);
 						counter++;
 
@@ -566,6 +582,7 @@ public class Population {
 
 			while(producePopulation > 0)
 			{
+                System.out.println("Offspring "+counter);
 				offspring_list[counter] = new Organism();
 				double randomChoice = randomDouble(1.0, 0);
 				for(j=0;j<population.get(i).getSpeciesSize();j++)
@@ -595,6 +612,9 @@ public class Population {
 
 					Crossover cross = new Crossover();
 					offspring_list[counter].setGenome(cross.CrossOver(population.get(i).getSpeciesElement(position), population.get(i).getSpeciesElement(position_2)));
+                    System.out.println("Crossover ConnectionGenes Size: "+offspring_list[counter].getGenome().getConnectionGenesSize());
+                    System.out.println("Crossover NodeGenes Size: "+offspring_list[counter].getGenome().getNodeGeneSize());
+                    System.out.println("------------------------------");
 					counter++;
 
 				}
@@ -620,7 +640,9 @@ public class Population {
 						NodeGene geneCopy = new NodeGene();
 						geneCopy.setID(population.get(i).getSpeciesElement(position).getGenome().getNodeGeneElement(k).getID());
 						geneCopy.setLayer(population.get(i).getSpeciesElement(position).getGenome().getNodeGeneElement(k).getLayer());
-						offspring.addNodeGene(geneCopy);
+						geneCopy.isOutput = population.get(i).getSpeciesElement(position).getGenome().getNodeGeneElement(k).isOutput;
+						geneCopy.isInput = population.get(i).getSpeciesElement(position).getGenome().getNodeGeneElement(k).isInput;
+						offspring.addNodeGene(geneCopy);//addNodeGene(NodeGene node)
 					}
 
 					if(randomBoolean())
@@ -633,6 +655,9 @@ public class Population {
 						offspring_list[counter].setGenome(offspring);
 						counter++;
 					}
+                    System.out.println("Mutation ConnectionGenes Size: "+offspring.getConnectionGenesSize());
+                    System.out.println("Mutation NodeGenes Size: "+offspring.getNodeGeneSize());
+                    System.out.println("------------------------------");
 				}
 				else {
 					Genome offspring = new Genome();
@@ -654,9 +679,15 @@ public class Population {
 						NodeGene geneCopy = new NodeGene();
 						geneCopy.setID(population.get(i).getSpeciesElement(position).getGenome().getNodeGeneElement(k).getID());
 						geneCopy.setLayer(population.get(i).getSpeciesElement(position).getGenome().getNodeGeneElement(k).getLayer());
-						offspring.addNodeGene(geneCopy);
+						geneCopy.isOutput = population.get(i).getSpeciesElement(position).getGenome().getNodeGeneElement(k).isOutput;
+						geneCopy.isInput = population.get(i).getSpeciesElement(position).getGenome().getNodeGeneElement(k).isInput;
+
+						offspring.addNodeGene(geneCopy);//addNodeGene(NodeGene node)
 					}
 					offspring_list[counter].setGenome(offspring);
+                    System.out.println("Normal ConnectionGenes Size: "+offspring.getConnectionGenesSize());
+                    System.out.println("Normal NodeGenes Size: "+offspring.getNodeGeneSize());
+                    System.out.println("------------------------------");
 					counter++;
 
 				}

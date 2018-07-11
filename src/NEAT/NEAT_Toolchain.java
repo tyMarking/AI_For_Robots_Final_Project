@@ -61,18 +61,15 @@ public class NEAT_Toolchain {
 		genome.setInputCount(inputNum);
 		genome.setOutputCount(outputNum);
 
-		for(i=0;i<(inputNum+outputNum);i++)
-		{
-			NodeGene node = new NodeGene();
-			genome.addNodeGene(node);
-		}
+
 		for(i=0;i<inputNum;i++)
 		{
 			for(j=0;j<outputNum;j++)
 			{
 				ConnectionGene connect = new ConnectionGene(j+inputNum+1, i+1, mutation.randomDouble(1.0, -1.0), true, 0);
-				Mutation.checkInnovationOverlaps(genome, connect);
+				Genome.checkInnovationOverlaps(genome, connect);
 				genome.checkConnectionOverlap(connect);
+				genome.addNodeGene(connect);
 			}
 		}
 

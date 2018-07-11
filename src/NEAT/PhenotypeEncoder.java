@@ -15,7 +15,7 @@ public class PhenotypeEncoder {
 		
 		for(i=0;i<genome.getNodeGeneSize();i++)
 		{
-			network.addNode(genome.getNodeGeneElement(i).getID(), genome.getNodeGeneElement(i).getLayer());
+			network.addNode(genome.getNodeGeneElement(i).getID());
 		}
 		
 		for(i=0;i<genome.getConnectionGenesSize();i++)
