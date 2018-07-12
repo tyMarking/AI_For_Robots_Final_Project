@@ -134,7 +134,7 @@ class Agent extends JComponent{
 			xPos = x2;
 			yPos = y2;
 		}
-		double newAngle = ((angle) % (2*Math.PI));
+		double newAngle = ((angle+2*Math.PI) % (2*Math.PI));
 		//Get equation of line
 		//y = m*(x-xPos)+yPos
 		//x =(y-yPos)/m + xPos
@@ -146,22 +146,30 @@ class Agent extends JComponent{
 		if (newAngle >= 0 && newAngle < Math.PI/2) {
 			//3rd Quadrant
 //			System.out.println("IN QUADRENT 3");
-			m = 1/Math.tan(newAngle);
+			m = -1/Math.tan(newAngle);
 //			System.out.println("M: " + String.valueOf(m));
 
 			for (Object obs : obsList ) {
+				//if in 1st quad flip slope
+				double nm;
+				if (obs.maxY <= yPos && obs.minX >= xPos){
+					nm = -m;
+				} else {
+					nm = m;
+				}
+
 				//Sides: Bottom and Left
 				//Right
-				double possY = m * (obs.maxX - xPos) + yPos;
+				double possY = nm * (obs.maxX - xPos) + yPos;
 				if (possY >= obs.minY && possY <= obs.maxY) {
-//					System.out.print("INTERSECTING RIGHT");
+					System.out.print("INTERSECTING RIGHT 1 "); //Here
 					return new Point((int) obs.maxX, (int) possY);
 
 				}
 				//Top side
-				double possX = ((obs.minY - yPos) / m) + xPos;
+				double possX = ((obs.minY - yPos) / nm) + xPos;
 				if (possX >= obs.minX && possX <= obs.maxX) {
-//					System.out.print("INTERSECTING TOP");
+					System.out.print("INTERSECTING TOP 2 "); //Here
 					return new Point((int) possX, (int) obs.minY);
 				}
 			}
@@ -170,20 +178,28 @@ class Agent extends JComponent{
 		} else if (newAngle >= Math.PI/2 && newAngle < Math.PI) {
 			//2nd Quadrant
 //			System.out.println("IN QUADRENT 2");
-			m = 1/Math.tan(newAngle);
+			m = -1/Math.tan(newAngle);
 //			System.out.println("M: " + String.valueOf(m));
 			for (Object obs : obsList ) {
 				//Sides: Bottom and Left
+				//if in 4th quad flip slope
+				double nm;
+				if (obs.minY >= yPos && obs.minX >= xPos){
+					nm = -m;
+				} else {
+					nm = m;
+				}
+
 				//Right
-				double possY = m * (obs.maxX - xPos) + yPos;
+				double possY = nm * (obs.maxX - xPos) + yPos;
 				if (possY >= obs.minY && possY <= obs.maxY) {
-//					System.out.print("INTERSECTING RIGHT");
+					System.out.print("INTERSECTING RIGHT 3 ");
 					return new Point((int) obs.maxX, (int) possY);
 				}
 				//Bottom side
-				double possX = ((obs.maxY - yPos) / m) + xPos;
+				double possX = ((obs.maxY - yPos) / nm) + xPos;
 				if (possX >= obs.minX && possX <= obs.maxX) {
-//					System.out.print("INTERSECTING BOTTOM");
+					System.out.print("INTERSECTING BOTTOM 4 ");
 					return new Point((int) possX, (int) obs.maxY);
 				}
 			}
@@ -191,20 +207,28 @@ class Agent extends JComponent{
 		} else if (newAngle >= Math.PI && newAngle < 3*Math.PI/2) {
 			//1st Quadrant
 //			System.out.println("IN QUADRENT 1");
-			m = 1/Math.tan(newAngle);
+			m = -1/Math.tan(newAngle);
 //			System.out.println("M: " + String.valueOf(m));
 			for (Object obs : obsList ) {
 				//Sides: Bottom and Left
+				//if in 3rd quad flip slope
+				double nm;
+				if (obs.minY >= yPos && obs.maxX <= xPos){
+					nm = -m;
+				} else {
+					nm = m;
+				}
+
 				//Left side
-				double possY = m*(obs.minX-xPos) + yPos;
+				double possY = nm*(obs.minX-xPos) + yPos;
 				if (possY >= obs.minY && possY <= obs.maxY) {
-//					System.out.print("INTERSECTING LEFT");
+					System.out.print("INTERSECTING LEFT 5 "); //HERE
 					return new Point((int)obs.minX, (int)possY);
 				}
 				//Bottom side
-				double possX = ((obs.maxY-yPos)/m) + xPos;
+				double possX = ((obs.maxY-yPos)/nm) + xPos;
 				if (possX >= obs.minX && possX <= obs.maxX) {
-//					System.out.print("INTERSECTING BOTTOM");
+					System.out.print("INTERSECTING BOTTOM 6 ");
 					return new Point((int)possX, (int)obs.maxY);
 				}
 			}
@@ -212,26 +236,35 @@ class Agent extends JComponent{
 		} else if (3*newAngle >= Math.PI/2 && newAngle <= 2*Math.PI) {
 			//4th Quadrant
 //			System.out.println("IN QUADRENT 4");
-			m = 1/Math.tan(newAngle);
+			m = -1/Math.tan(newAngle);
 //			System.out.println("M: " + String.valueOf(m));
 			for (Object obs : obsList ) {
 				//Sides: Top and Left
+				//if in 2nd quadrent
+				double nm;
+				if (obs.maxY <= yPos && obs.maxX <= xPos){
+					nm = -m;
+				} else {
+					nm = m;
+				}
+
 				//Left side
-				double possY = m*(obs.minX-xPos) + yPos;
+				double possY = nm*(obs.minX-xPos) + yPos;
 				if (possY >= obs.minY && possY <= obs.maxY) {
-//					System.out.print("INTERSECTING LEFT");
+					System.out.print("INTERSECTING LEFT 7 ");
 					return new Point((int)obs.minX, (int)possY);
 				}
 				//Top side
-				double possX = ((obs.minY-yPos)/m) + xPos;
+				double possX = ((obs.minY-yPos)/nm) + xPos;
 				if (possX >= obs.minX && possX <= obs.maxX) {
-//					System.out.print("INTERSECTING TOP");
+					System.out.print("INTERSECTING TOP 8 ");
 					return new Point((int)possX, (int)obs.minY);
 				}
 			}
 
 		} else {
 			System.out.println("ERROR: ANGLE NOT IN RANGE FOR PROX???");
+			System.out.println("THE ANGLE IS " + String.valueOf(newAngle));
 		}
 		xPos = (x1+x3)/2;
 		yPos = (y1+y3)/2;
@@ -239,38 +272,6 @@ class Agent extends JComponent{
 
 
 
-		/*
-		Point p = new Point();
-		if(side == 0) {
-			for(int i =0; i < obs.length; i ++) {
-				if(distance((x1 + x2)/2,(y1+y3)/2,(obs[i][0]+obs[i][2]/2),(obs[i][1] + obs[i][3])/2)< proxLength + size*2) {
-					for(int k = 0; k < proxLength; k ++) {
-					     double cx0 = k * Math.cos(angle + Math.PI/2.0) + x1;
-					     double cy0 = k * Math.sin(angle + Math.PI/2.0) + y1;
-					     if(cx0 > obs[i][0] && cx0 < obs[i][2] && cy0 > obs[i][1] && cy0 < obs[i][3]) {
-					    	 p.setLocation(cx0, cy0);
-					    	 return p;
-					     }
-					}
-				}
-			}
-		}
-		else {
-			for(int i =0; i < obs.length; i ++) {
-				if(distance((x1 + x2)/2,(y1+y3)/2,(obs[i][0]+obs[i][2]/2),(obs[i][1] + obs[i][3])/2)< proxLength + size*2) {
-					for(int k = 0; k < proxLength; k ++) {
-					     double cx1 = k * Math.cos(angle + Math.PI/2.0) + x4;
-					     double cy1 = k * Math.sin(angle + Math.PI/2.0) + y4;
-					     if(cx1 > obs[i][0] && cx1 < obs[i][2] && cy1 > obs[i][1] && cy1 < obs[i][3]) {
-					    	 p.setLocation(cx1, cy1);
-					    	 return p;
-					     }
-					}
-				}
-			}
-		}
-		return p;
-		*/
 	}
 	public double distance(double x1, double y1, double x2, double y2) {
 		return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
@@ -524,20 +525,35 @@ class EnvironmentTest extends JFrame {
 // 	Agent a2 = new Agent(500,500);
 //
  	Maze m = new Maze(5,5);
- 	Object o = new Object(100,100);
+ 	Object o1 = new Object(100,100);
+ 	Object o2 = new Object(100,500);
+ 	Object o3 = new Object(500,100);
+ 	Object o4 = new Object(500,500);
+
+// 	Object o = o1;
  	envi.add(a0);
  	
 // 	a0.add(a1);
 // 	a0.add(a2);
  	a0.add(m);
- 	a0.add(o);
- 	
+ 	a0.add(o1);
+ 	a0.add(o2);
+ 	a0.add(o3);
+ 	a0.add(o4);
+
+ 	Object[] oList = new Object[4];
+ 	oList[0] = o1;
+ 	oList[1] = o2;
+ 	oList[2] = o3;
+ 	oList[3] = o4;
+
  	int counter = 0;
  	double obs[][] = new double[1][4];
  	for(int i = 0; i < obs.length; i ++) {
- 		obs[i] = o.getPos();
+ 		obs[i] = o1.getPos();
  		System.out.println(obs[i][0] + " - " + obs[i][3]);//does print
  	}
+
  	
  	while(true) {
  		//Repaints GUI, triggering refresh of all jComp's
@@ -554,8 +570,7 @@ class EnvironmentTest extends JFrame {
  		
  		Point intersect = new Point();
 
- 		Object[] oList = new Object[1];
- 		oList[0] = o;
+
  		intersect = a0.getProx(0, oList);
  		double prox0 = a0.distance((int)(a0.x1 + a0.x2)/2.0,(int)(a0.y1+a0.y3)/2.0,(int)intersect.getX(), (int)intersect.getY());
  		if(intersect.getX() > 0 && intersect.getY() > 0) {
