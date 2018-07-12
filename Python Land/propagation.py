@@ -68,8 +68,9 @@ class Network():
 			a = sig(nodeSum[node])
 			activations[node] = a
 
-			for edge in self.weightDict[node]:
-				nodeSum[edge[0]] += a*edge[1]
+			if node in self.weightDict.keys():
+				for edge in self.weightDict[node]:
+					nodeSum[edge[0]] += a*edge[1]
 
 		return (activations[max(self.nodes)]*2-1,activations[max(self.nodes)]*2-2)
 					

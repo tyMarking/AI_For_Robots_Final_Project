@@ -1,4 +1,4 @@
-package src.NEATImplementation;
+package NEATImplementation;
 //package NEATImplementation;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -26,6 +26,7 @@ class Agent extends JComponent{
 	int size = 100;
 	double x = 100, y = 100;
 	double x1, x2, x3, x4, y1, y2, y3, y4, xp0, xp1, yp0, yp1;
+	double xPos, yPos;
 	double p0=0,p1=0;
 	long currentTime =  System.currentTimeMillis();
 	double shortest = -1;
@@ -117,9 +118,128 @@ class Agent extends JComponent{
 		y = newY;
 		angle = newAngle;
 		currentTime = time;
+
 		//System.out.println(x + " - " + y);
 	}
-	public Point getProx(int side, double obs [][]) {
+	public Point getProx(int side, Object obsList []) {
+		//ANGLE 0 is DOWN
+
+
+
+		//Left
+		if (side == 0) {
+			xPos = x1;
+			yPos = y1;
+		} else {
+			xPos = x2;
+			yPos = y2;
+		}
+		double newAngle = ((angle) % (2*Math.PI));
+		//Get equation of line
+		//y = m*(x-xPos)+yPos
+		//x =(y-yPos)/m + xPos
+
+//		System.out.println("ANGLE: " + String.valueOf(newAngle));
+
+		double m;
+		//Four quadrants
+		if (newAngle >= 0 && newAngle < Math.PI/2) {
+			//3rd Quadrant
+//			System.out.println("IN QUADRENT 3");
+			m = 1/Math.tan(newAngle);
+//			System.out.println("M: " + String.valueOf(m));
+
+			for (Object obs : obsList ) {
+				//Sides: Bottom and Left
+				//Right
+				double possY = m * (obs.maxX - xPos) + yPos;
+				if (possY >= obs.minY && possY <= obs.maxY) {
+//					System.out.print("INTERSECTING RIGHT");
+					return new Point((int) obs.maxX, (int) possY);
+
+				}
+				//Top side
+				double possX = ((obs.minY - yPos) / m) + xPos;
+				if (possX >= obs.minX && possX <= obs.maxX) {
+//					System.out.print("INTERSECTING TOP");
+					return new Point((int) possX, (int) obs.minY);
+				}
+			}
+
+
+		} else if (newAngle >= Math.PI/2 && newAngle < Math.PI) {
+			//2nd Quadrant
+//			System.out.println("IN QUADRENT 2");
+			m = 1/Math.tan(newAngle);
+//			System.out.println("M: " + String.valueOf(m));
+			for (Object obs : obsList ) {
+				//Sides: Bottom and Left
+				//Right
+				double possY = m * (obs.maxX - xPos) + yPos;
+				if (possY >= obs.minY && possY <= obs.maxY) {
+//					System.out.print("INTERSECTING RIGHT");
+					return new Point((int) obs.maxX, (int) possY);
+				}
+				//Bottom side
+				double possX = ((obs.maxY - yPos) / m) + xPos;
+				if (possX >= obs.minX && possX <= obs.maxX) {
+//					System.out.print("INTERSECTING BOTTOM");
+					return new Point((int) possX, (int) obs.maxY);
+				}
+			}
+
+		} else if (newAngle >= Math.PI && newAngle < 3*Math.PI/2) {
+			//1st Quadrant
+//			System.out.println("IN QUADRENT 1");
+			m = 1/Math.tan(newAngle);
+//			System.out.println("M: " + String.valueOf(m));
+			for (Object obs : obsList ) {
+				//Sides: Bottom and Left
+				//Left side
+				double possY = m*(obs.minX-xPos) + yPos;
+				if (possY >= obs.minY && possY <= obs.maxY) {
+//					System.out.print("INTERSECTING LEFT");
+					return new Point((int)obs.minX, (int)possY);
+				}
+				//Bottom side
+				double possX = ((obs.maxY-yPos)/m) + xPos;
+				if (possX >= obs.minX && possX <= obs.maxX) {
+//					System.out.print("INTERSECTING BOTTOM");
+					return new Point((int)possX, (int)obs.maxY);
+				}
+			}
+
+		} else if (3*newAngle >= Math.PI/2 && newAngle <= 2*Math.PI) {
+			//4th Quadrant
+//			System.out.println("IN QUADRENT 4");
+			m = 1/Math.tan(newAngle);
+//			System.out.println("M: " + String.valueOf(m));
+			for (Object obs : obsList ) {
+				//Sides: Top and Left
+				//Left side
+				double possY = m*(obs.minX-xPos) + yPos;
+				if (possY >= obs.minY && possY <= obs.maxY) {
+//					System.out.print("INTERSECTING LEFT");
+					return new Point((int)obs.minX, (int)possY);
+				}
+				//Top side
+				double possX = ((obs.minY-yPos)/m) + xPos;
+				if (possX >= obs.minX && possX <= obs.maxX) {
+//					System.out.print("INTERSECTING TOP");
+					return new Point((int)possX, (int)obs.minY);
+				}
+			}
+
+		} else {
+			System.out.println("ERROR: ANGLE NOT IN RANGE FOR PROX???");
+		}
+		xPos = (x1+x3)/2;
+		yPos = (y1+y3)/2;
+		return new Point();
+
+
+
+		/*
 		Point p = new Point();
 		if(side == 0) {
 			for(int i =0; i < obs.length; i ++) {
@@ -150,6 +270,7 @@ class Agent extends JComponent{
 			}
 		}
 		return p;
+		*/
 	}
 	public double distance(double x1, double y1, double x2, double y2) {
 		return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
@@ -267,6 +388,8 @@ class Object extends JComponent{
 	
 	int width = 1600;
 	int height = 900;
+
+	double minX, maxX, minY, maxY;
 	
 	Color c = new Color((int)(Math.random()*200),(int)(Math.random()*200),(int)(Math.random()*200));
 	public Object(int xPos, int yPos) {//does work
@@ -281,6 +404,11 @@ class Object extends JComponent{
 	     
 	     y1 = y;
 	     y2 = y + size;
+
+	     minX = x1;
+	     maxX = x2;
+	     minY = y1;
+	     maxY = y2;
 	     
 	}
 	
@@ -391,16 +519,16 @@ class EnvironmentTest extends JFrame {
  	
  	Agent a0 = new Agent(300,300);
 
- 	Agent a1 = new Agent(400,400);
-
- 	Agent a2 = new Agent(500,500);
- 	
+// 	Agent a1 = new Agent(400,400);
+//
+// 	Agent a2 = new Agent(500,500);
+//
  	Maze m = new Maze(5,5);
  	Object o = new Object(100,100);
  	envi.add(a0);
  	
- 	a0.add(a1);
- 	a0.add(a2);
+// 	a0.add(a1);
+// 	a0.add(a2);
  	a0.add(m);
  	a0.add(o);
  	
@@ -420,28 +548,30 @@ class EnvironmentTest extends JFrame {
  		
  		a0.update(System.currentTimeMillis());
 
- 		a1.update(System.currentTimeMillis());
+ 		//a1.update(System.currentTimeMillis());
 
- 		a2.update(System.currentTimeMillis());
+ 		//a2.update(System.currentTimeMillis());
  		
  		Point intersect = new Point();
- 		
- 		intersect = a0.getProx(0, obs);
+
+ 		Object[] oList = new Object[1];
+ 		oList[0] = o;
+ 		intersect = a0.getProx(0, oList);
  		double prox0 = a0.distance((int)(a0.x1 + a0.x2)/2.0,(int)(a0.y1+a0.y3)/2.0,(int)intersect.getX(), (int)intersect.getY());
  		if(intersect.getX() > 0 && intersect.getY() > 0) {
  			System.out.println(prox0);
  		}
- 		intersect = a1.getProx(0, obs);
+// 		intersect = a1.getProx(0, oList);
  		
- 		intersect = a2.getProx(0, obs);
+// 		intersect = a2.getProx(0, oList);
  		
  		m.update();
  		
      	right(a0);
 
-     	right(a1);
-
-     	right(a2);
+//     	right(a1);
+//
+//     	right(a2);
      	//left(a);
      	
 
@@ -451,7 +581,7 @@ class EnvironmentTest extends JFrame {
  		//System.out.println(counter);
  		
  		try {
-			Thread.sleep(1);
+			Thread.sleep(10);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
