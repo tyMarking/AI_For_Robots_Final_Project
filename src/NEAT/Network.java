@@ -41,6 +41,7 @@ public class Network {
 			{
 				for(Node node : nodes)
 				{
+
 					if(node.ID == genome.getNodeGeneElement(i).getID())
 					{
 						node.ifOutput = true;
@@ -257,7 +258,17 @@ public class Network {
 		{
 			for(i=0;i<inputs.length;i++)
 			{
-				nodes.get(i).setSum(inputs[i]);
+				for(Node node : nodes)
+				{
+					if(node.ifInput && i < inputs.length)
+					{
+						node.setSum(inputs[i]);
+						//System.out.println("Node ID to input: "+node.ID+" Sum: "+node.getSum());
+						i++;
+					}
+				}
+
+
 				//nodes.get(i).activate();
 			}
 
@@ -271,9 +282,10 @@ public class Network {
 			node.activate();
 			for(i=0;i<node.getOutputSize();i++)
 			{
+				//System.out.println("Node "+node.getOutputElement(i).ID+" Sum: "+node.getOutputElement(i).getSum()+"\n");
 				node.getOutputElement(i).setSum(node.getOutputElement(i).getSum()+node.getNodeOutput()*node.getWeightElement(i));
-				//System.out.println("Node "+node.ID+" has output "+node.getNodeOutput()+" passing value to Node "+node.getOutputElement(i).ID);
-				//System.out.println("Node "+node.getOutputElement(i).ID+" sum: "+node.getOutputElement(i).getSum());
+				//System.out.println("Node "+node.ID+" has output "+node.getNodeOutput()+" passing value to Node "+node.getOutputElement(i).ID+"\n");
+				//System.out.println("Node "+node.getOutputElement(i).ID+" computed sum: "+node.getOutputElement(i).getSum()+"\n");
 			}
 		}
 
@@ -413,7 +425,16 @@ public class Network {
 
 		for(int i = 0;i<outputCount;i++)
         {
-            outputs[i] = nodes.get(i+inputCount).getNodeOutput();
+        	for(Node node : nodes)
+			{
+				if(node.ifOutput && i<outputCount)
+				{
+					outputs[i] = node.getNodeOutput();
+					//System.out.println("Output Node"+node.ID+" Output: "+node.getNodeOutput());
+					i++;
+				}
+			}
+
         }
 
 

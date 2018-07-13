@@ -1,6 +1,10 @@
 package NEAT;
 
 import java.io.*;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import java.util.ArrayList;
+
 public class TestForwardProp {
     Genome testGenome = new Genome();
 
@@ -22,10 +26,10 @@ public class TestForwardProp {
     {
         int i;
         TestForwardProp test = new TestForwardProp();
-        test.testGenome.setInputCount(3);
+        test.testGenome.setInputCount(2);
         test.testGenome.setOutputCount(2);
 
-        for(i=0;i<test.testGenome.getInputCount()+test.testGenome.getOutputCount();i++)
+        /*for(i=0;i<test.testGenome.getInputCount()+test.testGenome.getOutputCount();i++)
         {
             test.testGenome.addNodeGene(new NodeGene());
         }
@@ -33,10 +37,11 @@ public class TestForwardProp {
         for(i=0;i<3;i++)
         {
             test.testGenome.addNodeGene(new NodeGene());
-        }
+        }*/
 
+        test.readJson();
 
-        test.addConnection(4,1,1,true,test);
+        /*test.addConnection(4,1,1,true,test);
         test.addConnection(5,1,1,true,test);
         test.addConnection(4,2,1,true,test);
         test.addConnection(5,2,1,true,test);
@@ -46,7 +51,9 @@ public class TestForwardProp {
         test.addConnection(6,4,1,true,test);
         test.addConnection(7,6,1,true,test);
         test.addConnection(8,6,1,true,test);
-        test.addConnection(7,8,1,true,test);
+        test.addConnection(7,8,1,true,test);*/
+
+
 
 		/*test.addConnection(5, 1, 0.1, true, test);
 		test.addConnection(1, 5, 0.1, true, test);
@@ -72,6 +79,11 @@ public class TestForwardProp {
 		test.addConnection(4, 9, 0.1, true, test);*/
 
 
+
+        for(ConnectionGene connectionGene : test.testGenome.getConnectionGenes())
+        {
+            test.testGenome.addNodeGene(connectionGene);
+        }
 
 
 		/*
@@ -112,7 +124,7 @@ public class TestForwardProp {
         Network network1 = new Network();
         network1.constructNetwork(test.testGenome);
 
-        double[] inputs = {4.0,4.0,3.0};
+        double[] inputs = {4.0,4.0};
 
         int counter = 0;
         for(double o : inputs)
@@ -128,10 +140,10 @@ public class TestForwardProp {
         }
 
 
-        network1.ForwardProp(4.0,4.0,3.0);
+        network1.ForwardProp(4.0,4.0);
 
         counter = 0;
-        for(double o : network1.output())
+        /*for(double o : network1.output())
         {
             System.out.println("Output: "+o);
             counter++;
@@ -142,7 +154,7 @@ public class TestForwardProp {
             {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         NetworkJsonEncoder netJson = new NetworkJsonEncoder();
         netJson.exportNetwork(test.testGenome);
@@ -163,6 +175,26 @@ public class TestForwardProp {
         //System.out.println(network1.getFinalOutputListElement(0));
 
 
+    }
+
+    public void readJson()
+    {
+        Gson gson = new Gson();
+
+        JsonObject jsonObject = new JsonObject();
+        JsonArray jarr;
+        try {
+            JsonReader reader = new JsonReader(new FileReader("Network.json"));
+            ArrayList<ArrayList<Double>> conObject = gson.fromJson(reader,ArrayList.class);
+
+            for(ArrayList<Double> list : conObject){
+                addConnection(list.get(1).intValue(),list.get(0).intValue(), list.get(2), true, this);
+            }
+
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void addConnection(int in, int out, double weight, boolean flag, TestForwardProp test)

@@ -41,7 +41,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
     int y = 400;
     int timeSpeed = 1;
 
-    public boolean crunchMode = true;
+    public boolean crunchMode = false;
     public double starvationAmount = 3.0;
 
     double InitTime;
@@ -51,8 +51,8 @@ public class Board extends JComponent implements ActionListener, KeyListener{
     long tp;
     long eatC = 0;
     long eatF = 0;
-    Cheese[] cheese = new Cheese[10];
-    Fire[] fire = new Fire[10];
+    Cheese[] cheese = new Cheese[40];
+    Fire[] fire = new Fire[80];
     Sprite[] sprite = new Sprite[0];
     int fitness;
     File file = new File("NEATProgress.txt");
@@ -190,6 +190,8 @@ public class Board extends JComponent implements ActionListener, KeyListener{
                     bord.writer.close();
                     bord.writer1.flush();
                     bord.writer1.close();
+                    bord.jsonEncode.exportNetwork(bord.bestFitOrganism.getGenome());
+                    bord.jsonEncode.encodeWriter.flush();
                     bord.jsonEncode.endProcess();
                     //bord.writerNetwork.flush();
                     //bord.writerNetwork.close();
@@ -311,7 +313,7 @@ public class Board extends JComponent implements ActionListener, KeyListener{
             iteration = 1;
         }else {
             iteration = 100;
-            generationT = 3;
+            generationT = 10;
             foodTime = 1/(iteration);
         }
         /*if(nTool.getGeneration() > generationCap)

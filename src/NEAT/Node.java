@@ -107,12 +107,13 @@ public class Node {
 
 	public double activate ()
 	{
-		if(ifOutput)
+		/*if(ifOutput)
 		{
 			output = negSigmoid(sum);
 		}else {
 			output = sigmoid(sum);
-		}
+		}*/
+		output = negSigmoid(sum);
 		sum = 0;
 		return output;
 	}

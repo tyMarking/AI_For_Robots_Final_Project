@@ -23,7 +23,7 @@ public class Mutation {
 		
 		//genome.getNodeGeneElement(nodeID_in).incrementLayer();
 		//pushLayers(nodeID_in, genome); //in is receiver, and searches for connection where in is the sender
-		genome.getConnectionGeneElement(connectionIndex).setActive(false);
+		genome.getConnectionGenes().remove(genome.getConnectionGeneElement(connectionIndex));
 		
 		//NodeGene node = new NodeGene();
 		//node.setID(genome.getNodeGeneElement(genome.getNodeGeneSize()-1).getID()+1); //(+1) for consecutive nodeID

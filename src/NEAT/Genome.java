@@ -70,6 +70,7 @@ public class Genome {
 
         if(submitNode.getID() <= inputCount)
         {
+        	System.out.println("Submit Node is input: "+submitNode.getID());
             submitNode.isInput = true;
         }
 
@@ -80,11 +81,13 @@ public class Genome {
 
         if(receiveNode.getID() <= inputCount)
         {
+			System.out.println("Receive Node is input: "+receiveNode.getID());
             receiveNode.isInput = true;
         }
 
         if(receiveNode.getID() > inputCount && receiveNode.getID() <= inputCount+outputCount)
         {
+			System.out.println("Receive Node is output: "+receiveNode.getID());
             receiveNode.isOutput = true;
         }
 

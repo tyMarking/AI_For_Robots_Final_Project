@@ -67,7 +67,6 @@ public class Speciation {
         excessCount = Math.abs(subject.getConnectionGenesSize() - candidate.getConnectionGenesSize());
         while(subject.getConnectionGenesSize()-1 != element_subject && candidate.getConnectionGenesSize()-1 != element_candidate)
         {
-            System.out.println("Evaluating");
             innovation_subject = subject.getConnectionGeneElement(element_subject).getInnovation();
             innovation_candidate = candidate.getConnectionGeneElement(element_candidate).getInnovation();
 
